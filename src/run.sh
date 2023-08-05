@@ -9,7 +9,9 @@ WORK=$(pwd)/izuku
 
 function looper () {
 	while true
+	do
 		python3 $WORK/src/main.py $@
+	done
 }
 
 function slayer () {
