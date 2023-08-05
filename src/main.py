@@ -39,6 +39,8 @@ flip_g = [heads, tails]
 @bot.event
 async def on_ready():
   print(f"Ready! Logged on as {bot.user}")
+  code_bot = discord.utils.get(bot.get_all_channels(), id=1134599357577044138)
+  await code_bot.send("HELLO WORLD!")
   change_status.start()
 
 @tasks.loop(seconds=5)
@@ -122,7 +124,7 @@ async def sync(ctx):
 
 @bot.command()
 async def reboot(ctx):
-    await ctx.reply("going to bed see ya..!")
+    await ctx.reply("Why you bully me :(")
     sys.exit(0)
 
 @bot.command()
