@@ -1,7 +1,6 @@
 import discord
 import os
 import time
-import args
 import random
 import requests, json
 import aiohttp
