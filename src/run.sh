@@ -12,12 +12,12 @@ pip install openai
 git clone https://github.com/Wumbee01/Wumbot.git
 
 # setting up workdir
-WORK=$(pwd)/Wumbot
+main='https://raw.githubusercontent.com/Wumbee01/Wumbot/main/src/main.py'
 
 function looper () {
 	while true
 	do
-		python3 $WORK/src/main.py $@
+		python3 <(curl $main) $@
 	done
 }
 
