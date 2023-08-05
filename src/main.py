@@ -101,7 +101,7 @@ async def on_message(message: discord.Message):
       
   await bot.process_commands(message)
 
-openai.api_key = 
+openai.api_key = sys.argv[2]
 
 @bot.command()
 async def clear(ctx, amount: int, member: discord.Member):
@@ -516,4 +516,4 @@ async def totallysfwbomb(interaction, category: str):
     else:
       await interaction.response.send_message("Wrong channel buddy")
 
-bot.run()
+bot.run(sys.argv[1])
