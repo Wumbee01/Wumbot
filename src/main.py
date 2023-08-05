@@ -125,7 +125,7 @@ async def mosie_nuke(ctx, amount: int):
 
 @bot.command()
 async def sync(ctx):
-  if ctx.user.id == 727184656209936494:
+  if ctx.author.id == 727184656209936494:
     for guild in bot.guilds:
       await bot.tree.sync(guild=discord.Object(id=guild.id))
       await ctx.channel.send(f"tree __synchronised__ to: **{guild.name}**")
@@ -134,7 +134,7 @@ async def sync(ctx):
 
 @bot.command()
 async def reboot(ctx):
-  if ctx.user.id == 727184656209936494:
+  if ctx.author.id == 727184656209936494:
     await ctx.reply("Why you bully me :(")
     await sys.exit(0)
   else:
