@@ -10,7 +10,6 @@ from discord import Option
 from datetime import timedelta
 from discord.ext import commands
 from discord.ext.commands import MissingPermissions
-from keep_alive import keep_alive
 from discord.ext import commands, tasks
 from itertools import cycle
 import openai
@@ -102,7 +101,7 @@ async def on_message(message: discord.Message):
       
   await bot.process_commands(message)
 
-openai.api_key = f"{os.environ['OpenAI']}"
+openai.api_key = 
 
 @bot.command()
 async def clear(ctx, amount: int, member: discord.Member):
@@ -517,5 +516,4 @@ async def totallysfwbomb(interaction, category: str):
     else:
       await interaction.response.send_message("Wrong channel buddy")
 
-keep_alive()
-bot.run(token)
+bot.run()
