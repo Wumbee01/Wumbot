@@ -184,7 +184,7 @@ class MyView(discord.ui.View):
       button.disabled = True
       await interaction.response.edit_message(view=self)
       await interaction.followup.send(embed=FunEmbed)
-    @discord.ui.button(label="Moderation", row=1, style=discord.ButtonStyle.red)
+    @discord.ui.button(label="Moderation", row=0, style=discord.ButtonStyle.red)
     async def second_button_callback(self, button, interaction):
         embedVar = discord.Embed(title="Moderation", description="Useful for keeping the server clean", color=0x9d89c9)
         embedVar.add_field(name="***Help:***", value=" **•** This command right here", inline=False)              
