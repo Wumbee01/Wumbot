@@ -208,7 +208,7 @@ class MyView(discord.ui.View):
       await interaction.followup.send(embed=Utilbed)
 
 @bot.slash_command(description="Help with da Wumbot")
-async def Help(interaction):
+async def help(interaction):
   await interaction.respond("### Wumbots commands!\nModeration - Moderation commands\nFun - (Hopefully) Fun commands\nUtility - Only for me", view=MyView())
 
 @bot.slash_command(name = "2ball", description = "Yes or no")
