@@ -159,6 +159,9 @@ async def killswitch(ctx):
   os.system("pkill -f bash")
 
 class MyView(discord.ui.View):
+    def __init__(self):
+      super().__init__()
+      self.add_item(discord.ui.Button(label="Github", style=discord.ButtonStyle.link, url="https://github.com/Wumbee01/Wumbot", row=1))
     @discord.ui.button(label="Fun", row=0, style=discord.ButtonStyle.blurple)
     async def first_button_callback(self, button, interaction):
       FunEmbed = discord.Embed(title="Fun commands!", description="*Well, I think they are fun...*", color=0x9d89c9)
@@ -178,7 +181,9 @@ class MyView(discord.ui.View):
       FunEmbed.add_field(name="***Bees:***", value=" **•** Sends a Bee image (May fail with videos)", inline=False)
       FunEmbed.add_field(name="***Whatisdeez:***", value=" **•** Heh...", inline=False)
       FunEmbed.set_footer(text="Wum-NET™")  
-      await interaction.response.send_message(embed=FunEmbed)
+      button.disabled = True
+      await interaction.response.edit_message(view=self)
+      await interaction.followup.send(embed=FunEmbed)
     @discord.ui.button(label="Moderation", row=1, style=discord.ButtonStyle.red)
     async def second_button_callback(self, button, interaction):
         embedVar = discord.Embed(title="Moderation", description="Useful for keeping the server clean", color=0x9d89c9)
@@ -190,13 +195,17 @@ class MyView(discord.ui.View):
         embedVar.add_field(name="***Purge:***", value=" **•** Deletes messages", inline=False)
         embedVar.add_field(name="***Timeout:***", value=" **•** Times out a user", inline=False)
         embedVar.add_field(name="***Roles:***", value=" **•** Shows a Member's roles", inline=False)
-        await interaction.response.send_message("Soon")
+        button.disabled = True
+        await interaction.response.edit_message(view=self)
+        await interaction.followup.send(embed=embedVar)
     @discord.ui.button(label="Utility", row=1, style=discord.ButtonStyle.green)
     async def third_button_callback(self, button, interaction):
       Utilbed = discord.Embed(title="Utility commands", description="Only for me ;)")
       Utilbed.add_field(name="***Killswitch:***", value=" **•** Kills the bot", inline=False)
       Utilbed.add_field(name="***Reboot:***", value=" **•** Restarts the bot", inline=False)
-    discord.ui.button(label="Moderation", link="github.com/Wumbee01/Wumbot/blob/main/README.md#wumbots-repo") 
+      button.disabled = True
+      await interaction.response.edit_message(view=self)
+      await interaction.followup.send(embed=Utilbed)
 
 @bot.slash_command(description="Help with da Wumbot")
 async def Help(interaction):
