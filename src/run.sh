@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 # installing dependencies
-pip install discord.py
-git clone https://github.com/hakureii/izuku.git
+pip install pycord
+git clone https://github.com/Wumbee01/Wumbot.git
 
 # setting up workdir
 WORK=$(pwd)/Wumbot
