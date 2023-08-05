@@ -5,7 +5,7 @@ pip install discord.py
 git clone https://github.com/hakureii/izuku.git
 
 # setting up workdir
-WORK=$(pwd)/izuku
+WORK=$(pwd)/Wumbot
 
 function looper () {
 	while true
