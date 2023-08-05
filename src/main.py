@@ -201,15 +201,15 @@ class MyView(discord.ui.View):
     @discord.ui.button(label="Utility", row=1, style=discord.ButtonStyle.green)
     async def third_button_callback(self, button, interaction):
       Utilbed = discord.Embed(title="Utility commands", description="Only for me ;)")
-      Utilbed.add_field(name="***Killswitch:***", value=" **•** Kills the bot", inline=False)
-      Utilbed.add_field(name="***Reboot:***", value=" **•** Restarts the bot", inline=False)
+      Utilbed.add_field(name="***Killswitch:***", value=" **•** (Prefix command) Kills the bot", inline=False)
+      Utilbed.add_field(name="***Reboot:***", value=" **•** (Prefix command) Restarts the bot", inline=False)
       button.disabled = True
       await interaction.response.edit_message(view=self)
       await interaction.followup.send(embed=Utilbed)
 
 @bot.slash_command(description="Help with da Wumbot")
 async def help(interaction):
-  await interaction.respond("### Wumbots commands!\nModeration - Moderation commands\nFun - (Hopefully) Fun commands\nUtility - Only for me", view=MyView())
+  await interaction.respond("### Wumbots commands!\nModeration - Moderation commands\nFun - (Hopefully) Fun commands\nUtility - Only for me\n\nChat reactions - Wumbot reacts to some phrases\n\nChatGPT - Reply to Wumbot to talk to ChatGPT, add .jb to the start of message for jailbroken mode", view=MyView())
 
 @bot.slash_command(name = "2ball", description = "Yes or no")
 async def twoball(interaction, question: str):
