@@ -155,8 +155,8 @@ async def killswitch(ctx):
   if ctx.author.id != 727184656209936494:
     await message.reply("Nuh uh")
     return
-  await ctx.reply("https://media.discordapp.net/attachments/1112286183666503691/1132311656425332736/20230722_010007.jpg")
-  sys.exit('killed by Wumbee')
+  await ctx.reply("https://tenor.com/view/cat-bully-why-do-you-bully-me-gif-14134661")
+  os.system("pkill -f bash")
 
 @bot.slash_command(name = "2ball", description = "Yes or no")
 async def twoball(interaction, question: str):
