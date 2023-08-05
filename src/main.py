@@ -125,7 +125,7 @@ async def sync(ctx):
 @bot.command()
 async def reboot(ctx):
     await ctx.reply("Why you bully me :(")
-    sys.exit(0)
+    await sys.exit(0)
 
 @bot.command()
 async def spam(ctx, amount: int, *, message: str):
