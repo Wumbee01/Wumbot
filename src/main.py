@@ -99,6 +99,14 @@ async def on_message(message: discord.Message):
 
 openai.api_key = sys.argv[2]
 
+@bot.command(pass_context=True)
+async def ping(ctx):
+    await ctx.message.delete()
+    before = time.monotonic()
+    message = await ctx.send("`Pong!``")
+    ping = (time.monotonic() - before) * 1000
+    await message.edit(content=f"`Pong!  {int(ping)}ms`")
+
 @bot.command()
 async def clear(ctx, amount: int, member: discord.Member):
     counter = 0
@@ -117,15 +125,20 @@ async def mosie_nuke(ctx, amount: int):
 
 @bot.command()
 async def sync(ctx):
-  for guild in bot.guilds:
-    await bot.tree.sync(guild=discord.Object(id=guild.id))
-    await ctx.channel.send(f"tree __synchronised__ to: **{guild.name}**")
-
+  if ctx.user.id == 727184656209936494:
+    for guild in bot.guilds:
+      await bot.tree.sync(guild=discord.Object(id=guild.id))
+      await ctx.channel.send(f"tree __synchronised__ to: **{guild.name}**")
+  else:
+    await ctx.reply("This doesn't even work, why do you wanna use it?")
 
 @bot.command()
 async def reboot(ctx):
+  if ctx.user.id == 727184656209936494:
     await ctx.reply("Why you bully me :(")
     await sys.exit(0)
+  else:
+    await ctx.reply("Only Wumbee can bully me")
 
 @bot.command()
 async def spam(ctx, amount: int, *, message: str):
@@ -179,10 +192,9 @@ class MyView(discord.ui.View):
       FunEmbed.add_field(name="***Waifubomb:***", value=" **•** Sends 5 random waifu images", inline=False)    
       FunEmbed.add_field(name="***Waifuhelp:***", value=" **•** Lists all categories", inline=False)
       FunEmbed.add_field(name="***Bees:***", value=" **•** Sends a Bee image", inline=False)
-      FunEmbed.add_field(name="***Raccoons:***", value=" **•** Sends a Raccon image", inline=False
+      FunEmbed.add_field(name="***Raccoons:***", value=" **•** Sends a Raccon image", inline=False)
       FunEmbed.add_field(name="***Whatisdeez:***", value=" **•** Heh...", inline=False)
-      FunEmbed.add_field(name="***Mosie_nuke:***", value=" **•** (Prefix command) format: !mosie_nuke <amount>", inline=False)
-      
+      FunEmbed.add_field(name="***Mosie_nuke:***", value=" **•** (Prefix command) format: !mosie_nuke <amount>", inline=False)      
       FunEmbed.set_footer(text="Wum-NET™")  
       button.disabled = True
       await interaction.response.edit_message(view=self)
@@ -207,6 +219,7 @@ class MyView(discord.ui.View):
       Utilbed = discord.Embed(title="Utility commands", description="Only for me ;)", color=0x9d89c9)
       Utilbed.add_field(name="***Killswitch:***", value=" **•** (Prefix command) Kills the bot", inline=False)
       Utilbed.add_field(name="***Reboot:***", value=" **•** (Prefix command) Restarts the bot", inline=False)
+      FunEmbed.add_field(name="***Ping:***", value=" **•** (Prefix command) The real ping command this time", inline=False)
       button.disabled = True
       await interaction.response.edit_message(view=self)
       await interaction.followup.send(embed=Utilbed)
