@@ -229,7 +229,7 @@ async def help(interaction):
   if interaction.author.id == 727184656209936494:
     await interaction.channel.send("Why tf do you ned help?")
     pass
-  await interaction.respond("### Wumbots commands!\nModeration - Moderation commands\nFun - (Hopefully) Fun commands\nUtility - Only for me\n\nChat reactions - Wumbot reacts to some phrases\n\nChatGPT - Reply to Wumbot to talk to ChatGPT, add .jb to the start of message for jailbroken mode (Gone until further notice)", view=MyView())
+  await interaction.respond("### My commands!\nMy prefix is !\n\nModeration - Moderation commands\nFun - (Hopefully) Fun commands\nUtility - Only for me\n\nChat reactions - Wumbot reacts to some phrases\n\nChatGPT - Reply to Wumbot to talk to ChatGPT, add .jb to the start of message for jailbroken mode (Gone until further notice)", view=MyView())
 
 @bot.slash_command(name = "2ball", description = "Yes or no")
 async def twoball(interaction, question: str):
