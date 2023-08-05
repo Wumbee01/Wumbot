@@ -20,11 +20,6 @@ intents.members = True
 intents.message_content = True
 bot = commands.Bot(prefix, intents=intents)
 
-strato = os.environ['strato']
-remu = os.environ['remu']
-hive = os.environ['hive']
-token = os.environ['TOKEN']
-
 beestatus = str("H.I.V.E tech: Online - Use /Help")
 rock = discord.Embed(title="I choose...", description="***ROCK!***", color=0x9d89c9)
 
