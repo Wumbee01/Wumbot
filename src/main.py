@@ -196,7 +196,7 @@ class MyView(discord.ui.View):
       Utilbed = discord.Embed(title="Utility commands", description="Only for me ;)")
       Utilbed.add_field(name="***Killswitch:***", value=" **•** Kills the bot", inline=False)
       Utilbed.add_field(name="***Reboot:***", value=" **•** Restarts the bot", inline=False)
-    @discord.ui.button(label="Moderation", link="github.com/Wumbee01/Wumbot/blob/main/README.md#wumbots-repo") 
+    discord.ui.button(label="Moderation", link="github.com/Wumbee01/Wumbot/blob/main/README.md#wumbots-repo") 
 
 @bot.slash_command(description="Help with da Wumbot")
 async def Help(interaction):
