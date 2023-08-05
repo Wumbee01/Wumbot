@@ -2,6 +2,12 @@
 
 # installing dependencies
 pip install py-cord
+pip install urllib3
+pip install args
+pip install tasks
+pip install option
+pip install numpy
+pip install python-dotenv
 git clone https://github.com/Wumbee01/Wumbot.git
 
 # setting up workdir
