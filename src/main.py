@@ -40,7 +40,7 @@ flip_g = [heads, tails]
 async def on_ready():
   print(f"Ready! Logged on as {bot.user}")
   code_bot = discord.utils.get(bot.get_all_channels(), id=1134599357577044138)
-  await code_bot.send("HELLO WORLD!")
+  await code_bot.send("HELLO WORLD! Hey <@727184656209936494>, im back")
   change_status.start()
 
 @tasks.loop(seconds=5)
@@ -165,8 +165,8 @@ class MyView(discord.ui.View):
     @discord.ui.button(label="Fun", row=0, style=discord.ButtonStyle.blurple)
     async def first_button_callback(self, button, interaction):
       FunEmbed = discord.Embed(title="Fun commands!", description="*Well, I think they are fun...*", color=0x9d89c9)
-      FunEmbed.add_field(name="***Echo:***", value=" **•** Makes the bot say something", inline=False)        
-      FunEmbed.add_field(name="***Spam:***", value=" **•** (prefix: !, format: !spam <amount> <sentence>) Sends a message repeatedly", inline=False)
+      FunEmbed.add_field(name="***Echo:***", value=" **•** (prefix command) Makes the bot say something", inline=False)        
+      FunEmbed.add_field(name="***Spam:***", value=" **•** (prefix command) format: !spam <amount> <message>) Sends a message repeatedly", inline=False)
       FunEmbed.add_field(name="***2ball:***", value=" **•** Yes or no", inline=False)
       FunEmbed.add_field(name="***8ball:***", value=" **•** Classic 8ball", inline=False)
       FunEmbed.add_field(name="***Ping:***", value=" **•** Pings Bee", inline=True)
@@ -178,8 +178,11 @@ class MyView(discord.ui.View):
       FunEmbed.add_field(name="***Waifuimg:***", value=" **•** Sends a Waifu image (Use /waifuhelp)", inline=False)
       FunEmbed.add_field(name="***Waifubomb:***", value=" **•** Sends 5 random waifu images", inline=False)    
       FunEmbed.add_field(name="***Waifuhelp:***", value=" **•** Lists all categories", inline=False)
-      FunEmbed.add_field(name="***Bees:***", value=" **•** Sends a Bee image (May fail with videos)", inline=False)
+      FunEmbed.add_field(name="***Bees:***", value=" **•** Sends a Bee image", inline=False)
+      FunEmbed.add_field(name="***Raccoons:***", value=" **•** Sends a Raccon image", inline=False
       FunEmbed.add_field(name="***Whatisdeez:***", value=" **•** Heh...", inline=False)
+      FunEmbed.add_field(name="***Mosie_nuke:***", value=" **•** (Prefix command) format: !mosie_nuke <amount>", inline=False)
+      
       FunEmbed.set_footer(text="Wum-NET™")  
       button.disabled = True
       await interaction.response.edit_message(view=self)
@@ -193,6 +196,7 @@ class MyView(discord.ui.View):
         embedVar.add_field(name="***Roleadd:***", value=" **•** Adds a role", inline=False)
         embedVar.add_field(name="***Roleremove:***", value=" **•** Removes a role", inline=False)
         embedVar.add_field(name="***Purge:***", value=" **•** Deletes messages", inline=False)
+        embedVar.add_field(name="***Clear:***", value=" **•** (Prefix command) format: !clear <amount> <user>", inline=False)
         embedVar.add_field(name="***Timeout:***", value=" **•** Times out a user", inline=False)
         embedVar.add_field(name="***Roles:***", value=" **•** Shows a Member's roles", inline=False)
         button.disabled = True
@@ -200,7 +204,7 @@ class MyView(discord.ui.View):
         await interaction.followup.send(embed=embedVar)
     @discord.ui.button(label="Utility", row=1, style=discord.ButtonStyle.green)
     async def third_button_callback(self, button, interaction):
-      Utilbed = discord.Embed(title="Utility commands", description="Only for me ;)")
+      Utilbed = discord.Embed(title="Utility commands", description="Only for me ;)", color=0x9d89c9)
       Utilbed.add_field(name="***Killswitch:***", value=" **•** (Prefix command) Kills the bot", inline=False)
       Utilbed.add_field(name="***Reboot:***", value=" **•** (Prefix command) Restarts the bot", inline=False)
       button.disabled = True
@@ -209,6 +213,9 @@ class MyView(discord.ui.View):
 
 @bot.slash_command(description="Help with da Wumbot")
 async def help(interaction):
+  if interaction.author.id == 727184656209936494:
+    await interaction.channel.send("Why tf do you ned help?")
+    pass
   await interaction.respond("### Wumbots commands!\nModeration - Moderation commands\nFun - (Hopefully) Fun commands\nUtility - Only for me\n\nChat reactions - Wumbot reacts to some phrases\n\nChatGPT - Reply to Wumbot to talk to ChatGPT, add .jb to the start of message for jailbroken mode", view=MyView())
 
 @bot.slash_command(name = "2ball", description = "Yes or no")
