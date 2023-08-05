@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # installing dependencies
-pip install pycord
+pip install py-cord
 git clone https://github.com/Wumbee01/Wumbot.git
 
 # setting up workdir
