@@ -28,7 +28,7 @@ async def sync(ctx):
 async def reboot(ctx):
   if ctx.author.id == 1098141251209023538:
     await ctx.reply("going to bed see ya..!")
-    os.system("pkill -f python3 && python3 <(curl https://raw.githubusercontent.com/hakureii/code-bots/main/Izu/main.py)")
+    sys.exit(0)
   else:
     await ctx.reply("can't sleep atm!")
 
