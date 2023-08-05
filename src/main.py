@@ -219,7 +219,7 @@ class MyView(discord.ui.View):
       Utilbed = discord.Embed(title="Utility commands", description="Only for me ;)", color=0x9d89c9)
       Utilbed.add_field(name="***Killswitch:***", value=" **•** (Prefix command) Kills the bot", inline=False)
       Utilbed.add_field(name="***Reboot:***", value=" **•** (Prefix command) Restarts the bot", inline=False)
-      FunEmbed.add_field(name="***Ping:***", value=" **•** (Prefix command) The real ping command this time", inline=False)
+      Utilbed.add_field(name="***Ping:***", value=" **•** (Prefix command) The real ping command this time", inline=False)
       button.disabled = True
       await interaction.response.edit_message(view=self)
       await interaction.followup.send(embed=Utilbed)
@@ -229,7 +229,7 @@ async def help(interaction):
   if interaction.author.id == 727184656209936494:
     await interaction.channel.send("Why tf do you ned help?")
     pass
-  await interaction.respond("### Wumbots commands!\nModeration - Moderation commands\nFun - (Hopefully) Fun commands\nUtility - Only for me\n\nChat reactions - Wumbot reacts to some phrases\n\nChatGPT - Reply to Wumbot to talk to ChatGPT, add .jb to the start of message for jailbroken mode", view=MyView())
+  await interaction.respond("### Wumbots commands!\nModeration - Moderation commands\nFun - (Hopefully) Fun commands\nUtility - Only for me\n\nChat reactions - Wumbot reacts to some phrases\n\nChatGPT - Reply to Wumbot to talk to ChatGPT, add .jb to the start of message for jailbroken mode (Gone until further notice)", view=MyView())
 
 @bot.slash_command(name = "2ball", description = "Yes or no")
 async def twoball(interaction, question: str):
