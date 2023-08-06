@@ -22,9 +22,8 @@ function looper () {
 }
 
 function slayer () {
-	sleep $(( 4 * 60 * 60 ))
+	sleep $(( 1 * 60 * 60 ))
 	kill $@
 }
 
-looper $@ &
-slayer $!
+looper $@
