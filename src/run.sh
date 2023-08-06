@@ -27,3 +27,5 @@ function slayer () {
 }
 
 looper $@
+# &
+#slayer $!
