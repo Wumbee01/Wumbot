@@ -80,7 +80,7 @@ async def on_message(message: discord.Message):
   if message.content.lower() == "when":
     tttr = open("tttr.txt", "r")
     tttr_read = tttr.read()
-    tttr_add = f"{int(tttr_read) += 1}"
+    tttr_add = int(tttr_read) += 1
     tttr.close()
     tttr_write = open("tttr.text", "w")
     tttr_write.write(tttr_add)
