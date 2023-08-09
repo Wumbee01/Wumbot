@@ -99,6 +99,33 @@ async def on_message(message: discord.Message):
 
 openai.api_key = sys.argv[2]
 
+class MyTab(discord.ui.View):
+    @discord.ui.select( 
+        placeholder = "Choose a Flavor!", 
+        min_values = 1, 
+        max_values = 1, 
+        options = [ 
+            discord.SelectOption(
+                label="Vanilla",
+                description="Pick this if you like vanilla!"
+            ),
+            discord.SelectOption(
+                label="Chocolate",
+                description="Pick this if you like chocolate!"
+            ),
+            discord.SelectOption(
+                label="Strawberry",
+                description="Pick this if you like strawberry!"
+            )
+        ]
+    )
+    async def select_callback(self, select, interaction):
+        await interaction.response.send_message(f"Awesome! I like {select.values[0]} too!")
+
+@bot.command()
+async def flavor(ctx):
+    await ctx.send("Choose a flavor!", view=MyTab())
+
 @bot.command(pass_context=True)
 async def ping(ctx):
     await ctx.message.delete()
