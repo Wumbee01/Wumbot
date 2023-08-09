@@ -13,6 +13,7 @@ git clone https://github.com/Wumbee01/Wumbot.git
 
 # setting up workdir
 main='https://raw.githubusercontent.com/Wumbee01/Wumbot/main/src/main.py'
+touch tttk.txt
 
 function looper () {
 	while true
