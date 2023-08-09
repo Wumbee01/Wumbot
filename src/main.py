@@ -77,15 +77,6 @@ async def on_message(message: discord.Message):
   if "hsr" in msg:
     await message.reply(f"{message.author.mention} should play genshin")
     
-  if message.content.lower() == "when":
-    tttr = open("tttr.txt", "r")
-    tttr_read = tttr.read()
-    tttr_add = int(tttr_read) += 1
-    tttr.close()
-    tttr_write = open("tttr.text", "w")
-    tttr_write.write(tttr_add)
-    await message.channel.send(embed=discord.Embed(title="Congratulations...", description=f"{message.author.mention} added another hour to the amount of time till Stratos release. The total is now {tttr_add}"))
-  
   if "bumblin" in msg:
     await message.channel.send('https://tenor.com/view/bumblin-lmfao-bee-bumblebee-gif-22508972') 
 
