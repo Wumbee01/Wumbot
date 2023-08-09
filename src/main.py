@@ -93,7 +93,7 @@ async def on_message(message: discord.Message):
       pass
 
   if message.content.lower() == "when":
-    tttr_create = open("tttr.txt", "x")
+    tttr_create = open("tttr.txt", "w")
     tttr_create.write("1000")
     tttr = open("tttr.txt", "r")
     tttr_read = tttr.read()
