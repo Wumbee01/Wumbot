@@ -91,6 +91,17 @@ async def on_message(message: discord.Message):
       response = openai.Completion.create(engine="text-davinci-003", prompt=f"This is being sent through a discord bot (the bots/your name is Wumbot and you were made using pycord by Wumbee), please generate an answer according to the following: this was YOUR previous message: '{referenced_message.content}' and this is the reply to YOUR message: '{message.content}' and the reply was sent by '{message.author.name}', now generate a reply according to the above and send it without quotes/quotaion marks or extra text like 'my reply is this:'", max_tokens=max)
       await message.reply(response.choices[0].text)
       pass
+
+  if message.content.lower() == "when":
+    tttr = open("tttr.txt", "r")
+    tttr_read = tttr.read()
+    tttr_int = int(tttr_read)
+    tttr_int += 1
+    tttr.close()
+    tttr_str = str(tttr_int)
+    tttr_write = open("tttr.text", "w")
+    tttr_write.write(tttr_str)
+    await message.channel.send(embed=discord.Embed(title="Congratulations...", description=f"{message.author.mention} added another hour to the amount of time till Stratos release. The total is now {tttr_int}"))
       
   await bot.process_commands(message)
 
