@@ -39,8 +39,8 @@ flip_g = [heads, tails]
 @bot.event
 async def on_ready():
   print(f"Ready! Logged on as {bot.user}")
-  code_bot = discord.utils.get(bot.get_all_channels(), id=1134599357577044138)
-  await code_bot.send("HELLO WORLD! Im back ;)")
+  bee_log = discord.utils.get(bot.get_all_channels(), id=1139677852875362314)
+  await bee_log.send("HELLO WORLD! Im back ;)")
   change_status.start()
 
 @tasks.loop(seconds=5)
