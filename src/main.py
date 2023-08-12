@@ -191,7 +191,7 @@ async def spam(ctx, amount: int, *, message: str):
     for i in range(amount): 
       await ctx.send(message)
   if len(message) >= 10:
-		await ctx.reply("Too many characters")
+    await ctx.reply("Too many characters")
   else:
     await ctx.reply("TOO MUCH")
     return
