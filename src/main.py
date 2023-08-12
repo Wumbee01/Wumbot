@@ -43,6 +43,14 @@ async def on_ready():
   await bee_log.send("HELLO WORLD! Im back ;)")
   change_status.start()
 
+@bot.event
+async def on_command_error(ctx, error):
+	chan = discord.utils.get(bot.get_all_channels(), id=ctx.channel.id)
+	embed = discord.Embed(title=f'{ctx.command}',
+                          description=f'{error}',
+                          color=0xecce8b)
+	await chan.send(embed=embed)
+
 @tasks.loop(seconds=5)
 async def change_status():
   await bot.change_presence(activity=discord.Game(random.choice(["I am watching you", "H.I.V.E tech - Online (Use /help!)"])))
