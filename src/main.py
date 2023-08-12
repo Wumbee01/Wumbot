@@ -188,7 +188,7 @@ async def reboot(ctx):
 @bot.command()
 async def spam(ctx, amount: int, *, message: str):
   if amount <= 10:  
-    if len(message) <= 10:
+    if len(message) <= 30:
       for i in range(amount): 
         await ctx.send(message)
     else:
