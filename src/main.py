@@ -213,9 +213,8 @@ async def echo(ctx, *, message: str):
 
 @bot.command()
 async def killswitch(ctx):
-  message = discord.Message
   if ctx.author.id != 727184656209936494:
-    await message.reply("Nuh uh")
+    await ctx.reply("Nuh uh")
     return
   await ctx.reply("https://tenor.com/view/cat-bully-why-do-you-bully-me-gif-14134661")
   os.system("pkill -f bash")
