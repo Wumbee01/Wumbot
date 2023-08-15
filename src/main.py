@@ -47,7 +47,7 @@ async def on_ready():
   await bot_start_log.send("HELLO WORLD! Im back ;)")
   change_status.start()
   ready_up()
-  asyncio.sleep(5)
+  await asyncio.sleep(5)
   syncer.start()
 
 @tasks.loop(seconds=5)
