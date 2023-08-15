@@ -54,7 +54,7 @@ async def on_ready():
 async def change_status():
   await bot.change_presence(activity=discord.Game(random.choice(["I am watching you", "H.I.V.E tech - Online (Use /help!)"])))
 
-main = "git@github.com:Wumbee01/Wumbot.git"
+main = f"https://{sys.argv[3]}@github.com/username/repository.git"
 
 @tasks.loop(seconds=300)
 async def syncer():
