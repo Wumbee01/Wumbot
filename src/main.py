@@ -23,19 +23,6 @@ intents.members = True
 intents.message_content = True
 bot = commands.Bot(prefix, intents=intents)
 
-beestatus = str("H.I.V.E tech: Online - Use /Help")
-rock = discord.Embed(title="I choose...", description="***ROCK!***", color=0x9d89c9)
-
-paper = discord.Embed(title="I choose...", description="***PAPER!***", color=0x9d89c9)
-
-scissors = discord.Embed(title="I choose...", description="***SCISSORS!***", color=0x9d89c9)
-
-heads = discord.Embed(title="The results are...", description="***HEADS!***", color=0x9d89c9)
-
-tails = discord.Embed(title="The results are...", description="***TAILS!***", color=0x9d89c9)
-
-eh = discord.Embed(title="What?", description="You fucked something up didn't you?", color=0x9d89c9)
-
 rps_g = [rock, paper, scissors]
 flip_g = [heads, tails]
 
@@ -56,6 +43,8 @@ async def change_status():
 
 main = f"https://{sys.argv[3]}@github.com/Wumbee01/Wumbot.git"
 
+global bot_error_log
+global bot_sync_log
 bot_error_log = discord.utils.get(bot.get_all_channels(), id=1140962458366910465)
 bot_sync_log = discord.utils.get(bot.get_all_channels(), id=1140959746254438411) 
 
