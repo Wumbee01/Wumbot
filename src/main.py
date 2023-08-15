@@ -54,6 +54,8 @@ async def on_ready():
 async def change_status():
   await bot.change_presence(activity=discord.Game(random.choice(["I am watching you", "H.I.V.E tech - Online (Use /help!)"])))
 
+main = "git@github.com:Wumbee01/Wumbot.git"
+
 @tasks.loop(seconds=300)
 async def syncer():
     try:
@@ -61,7 +63,7 @@ async def syncer():
         subprocess.run(["git", "config", "--global", "user.email", "nuh.uh.aint.putting.a.real.email@gmail.com"])
         subprocess.run(["git", "add", "censor.json", "tttr"])
         subprocess.run(["git", "commit", "-m", "Synced files"]) 
-        subprocess.run(["git", "push", "--push", "origin", "main"]) 
+        subprocess.run(["git", "push", "--push", "origin", f"{main}"]) 
         print("Git push successful.")
     except Exception as e:
         print("Failed to perform git push:", str(e))
