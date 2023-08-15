@@ -7,6 +7,7 @@ import aiohttp
 import asyncio
 import sys
 import subprocess
+import urllib.request
 from keep_alive import keep_alive
 from discord import Option
 from datetime import timedelta
@@ -46,6 +47,8 @@ async def on_ready():
   code_bot = discord.utils.get(bot.get_all_channels(), id=1139677852875362314)
   await code_bot.send("HELLO WORLD! Im back ;)")
   change_status.start()
+  ready_up()
+  asyncio.sleep(5)
   syncer.start()
 
 @tasks.loop(seconds=5)
@@ -68,7 +71,19 @@ async def pinger():
   url = "http://hive-netbase-pycord.wumbee01.repl.co"
   response = requests.get(url)
   print(response)
-  await code_bot.send("Pinged")   
+  await code_bot.send("Pinged")
+
+def ready_up():
+  url = "https://raw.githubusercontent.com/Wumbee01/Wumbot/main/src/censor.json"
+  url2 = "https://raw.githubusercontent.com/Wumbee01/Wumbot/main/src/tttr"
+  filename = "censor.json"
+  filename2 = "tttr"
+  try:
+    urllib.request.urlretrieve(url, filename)
+    urllib.request.urlretrieve(url2, filename2)
+    print("File downloaded successfully.")
+  except Exception as e:
+    print("Failed to download the file:", str(e))
 
 @bot.event
 async def on_message(message: discord.Message):
