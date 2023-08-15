@@ -43,8 +43,8 @@ flip_g = [heads, tails]
 async def on_ready():
   print(f"Ready! Logged on as {bot.user}")
   global code_bot
-  code_bot = discord.utils.get(bot.get_all_channels(), id=1139677852875362314)
-  await code_bot.send("HELLO WORLD! Im back ;)")
+  bot_start_log = discord.utils.get(bot.get_all_channels(), id=1140959682727522304)
+  await bot_start_log.send("HELLO WORLD! Im back ;)")
   change_status.start()
   ready_up()
   asyncio.sleep(5)
@@ -56,6 +56,9 @@ async def change_status():
 
 main = f"https://{sys.argv[3]}@github.com/Wumbee01/Wumbot.git"
 
+bot_error_log = discord.utils.get(bot.get_all_channels(), id=1140962458366910465)
+bot_sync_log = discord.utils.get(bot.get_all_channels(), id=1140959746254438411) 
+
 @tasks.loop(seconds=300)
 async def syncer():
     try:
@@ -64,9 +67,9 @@ async def syncer():
         subprocess.run(["git", "add", "censor.json", "tttr"])
         subprocess.run(["git", "commit", "-m", "Synced files"]) 
         subprocess.run(["git", "push", "--push", "origin", f"{main}"]) 
-        print("Git push successful.")
+        bot_sync_log.send("Git push successful.")
     except Exception as e:
-        print("Failed to perform git push:", str(e))
+        bot_error_log.send(f"Failed to perform git push: {str(e)}")
 
 @tasks.loop(seconds=30)
 async def pinger():
@@ -83,9 +86,9 @@ def ready_up():
   try:
     urllib.request.urlretrieve(url, filename)
     urllib.request.urlretrieve(url2, filename2)
-    print("File downloaded successfully.")
+    bot_sync_log.send("Files downloaded successfully.")
   except Exception as e:
-    print("Failed to download the file:", str(e))
+    bot_error_log.send(f"Failed to download the file: {str(e)}")
 
 @bot.event
 async def on_message(message: discord.Message):
@@ -99,7 +102,7 @@ async def on_message(message: discord.Message):
       embed = embed.to_dict()
       if "Guess the pokémon" in embed['description']:
         await message.channel.send("<@&1140652186574000199>, a wild Pokémon appears!")
-  
+	
   if "cool cool very epic" in msg:
     await message.channel.send('<:stretchreaction:1140646501157183489>:thumbsup:')
 
