@@ -23,9 +23,6 @@ intents.members = True
 intents.message_content = True
 bot = commands.Bot(prefix, intents=intents)
 
-rps_g = [rock, paper, scissors]
-flip_g = [heads, tails]
-
 @bot.event
 async def on_ready():
   print(f"Ready! Logged on as {bot.user}")
