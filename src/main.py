@@ -76,8 +76,8 @@ async def pinger():
   await code_bot.send("Pinged")
 	
 def ready_up():
-  url = "https://raw.githubusercontent.com/Wumbee01/Wumbot/main/src/censor.json"
-  url2 = "https://raw.githubusercontent.com/Wumbee01/Wumbot/main/src/tttr"
+  url = "https://raw.githubusercontent.com/Wumbee01/Wumbot/main/censor.json"
+  url2 = "https://raw.githubusercontent.com/Wumbee01/Wumbot/main/tttr"
   filename = "censor.json"
   filename2 = "tttr"
   try:
