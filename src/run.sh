@@ -15,10 +15,10 @@ git clone https://github.com/Wumbee01/Wumbot.git
 main='https://raw.githubusercontent.com/Wumbee01/Wumbot/main/src/main.py'
 
 function looper () {
-	while true
-	do
-		python3 <(curl $main) $@
-	done
+    while true
+    do
+        python3 Wumbot/main/src/main.py $@
+    done
 }
 
 function slayer () {
