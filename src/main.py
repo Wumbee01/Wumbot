@@ -56,16 +56,16 @@ async def change_status():
 
 @tasks.loop(seconds=300)
 async def syncer():
-  token =  sys.argv[3]
-  try:
-    subprocess.run(["git", "config", "--global", "user.name", "Wumbee01"])
-    subprocess.run(["git", "config", "--global", "user.email", "nuh.uh.aint.putting.a.real.email@gmail.com"])
-    subprocess.run(["git", "add", "censor.json", "tttr"])
-    subprocess.run(["git", "commit", "-m", "Synced files"]) 
-    subprocess.run(["git", "push", f"https://{token}@github.com/Wumbee01/Wumbot.git"]) 
-    print("Git push successful.")
-  except Exception as e:
-    print("Failed to perform git push:", str(e))
+    token = sys.argv[3]
+    try:
+        subprocess.run(["git", "config", "--global", "user.name", "Wumbee01"])
+        subprocess.run(["git", "config", "--global", "user.email", "nuh.uh.aint.putting.a.real.email@gmail.com"])
+        subprocess.run(["git", "add", "censor.json", "tttr"])
+        subprocess.run(["git", "commit", "-m", "Synced files"]) 
+        subprocess.run(["git", "push", "--push", "origin", "master"]) 
+        print("Git push successful.")
+    except Exception as e:
+        print("Failed to perform git push:", str(e))
 
 @tasks.loop(seconds=30)
 async def pinger():
@@ -73,7 +73,7 @@ async def pinger():
   response = requests.get(url)
   print(response)
   await code_bot.send("Pinged")
-
+	
 def ready_up():
   url = "https://raw.githubusercontent.com/Wumbee01/Wumbot/main/src/censor.json"
   url2 = "https://raw.githubusercontent.com/Wumbee01/Wumbot/main/src/tttr"
