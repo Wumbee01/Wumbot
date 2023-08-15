@@ -30,7 +30,16 @@ async def on_ready():
   bot_start_log = discord.utils.get(bot.get_all_channels(), id=1140959682727522304)
   await bot_start_log.send("HELLO WORLD! Im back ;)")
   change_status.start()
-  ready_up()
+  def downloader(url, filename):
+    try:
+      urllib.request.urlretrieve(url, filename)
+      await bot_sync_log.send("Files downloaded successfully.")
+    except Exception as e:
+      await bot_error_log.send(f"Failed to download the file: {str(e)}") 
+  url = "https://raw.githubusercontent.com/Wumbee01/Wumbot/main/censor.json"
+  url2 = "https://raw.githubusercontent.com/Wumbee01/Wumbot/main/tttr"
+  downloader("https://raw.githubusercontent.com/Wumbee01/Wumbot/main/censor.json", "censor.json")
+  downloader("https://raw.githubusercontent.com/Wumbee01/Wumbot/main/tttr", "tttr")
   await asyncio.sleep(5)
   syncer.start()
 
@@ -53,9 +62,9 @@ async def syncer():
         subprocess.run(["git", "add", "censor.json", "tttr"])
         subprocess.run(["git", "commit", "-m", "Synced files"]) 
         subprocess.run(["git", "push", "--push", "origin", f"{main}"]) 
-        bot_start_log.send("Git push successful.")
+        await bot_sync_log.send("Git push successful.")
     except Exception as e:
-        bot_start_log.send(f"Failed to perform git push: {str(e)}")
+        await bot_error_log.send(f"Failed to perform git push: {str(e)}")
 
 @tasks.loop(seconds=30)
 async def pinger():
@@ -64,18 +73,6 @@ async def pinger():
   print(response)
   await bot_start_log.send("Pong")
 	
-def ready_up():
-  url = "https://raw.githubusercontent.com/Wumbee01/Wumbot/main/censor.json"
-  url2 = "https://raw.githubusercontent.com/Wumbee01/Wumbot/main/tttr"
-  filename = "censor.json"
-  filename2 = "tttr"
-  try:
-    urllib.request.urlretrieve(url, filename)
-    urllib.request.urlretrieve(url2, filename2)
-    bot_start_log.send("Files downloaded successfully.")
-  except Exception as e:
-    bot_start_log.send(f"Failed to download the file: {str(e)}")
-
 @bot.event
 async def on_message(message: discord.Message):
   if message.author == bot.user:
