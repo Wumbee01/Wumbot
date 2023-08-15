@@ -26,6 +26,7 @@ bot = commands.Bot(prefix, intents=intents)
 @bot.event
 async def on_ready():
   print(f"Ready! Logged on as {bot.user}")
+  global bot_start_log
   bot_start_log = discord.utils.get(bot.get_all_channels(), id=1140959682727522304)
   await bot_start_log.send("HELLO WORLD! Im back ;)")
   change_status.start()
@@ -52,16 +53,16 @@ async def syncer():
         subprocess.run(["git", "add", "censor.json", "tttr"])
         subprocess.run(["git", "commit", "-m", "Synced files"]) 
         subprocess.run(["git", "push", "--push", "origin", f"{main}"]) 
-        bot_sync_log.send("Git push successful.")
+        bot_start_log.send("Git push successful.")
     except Exception as e:
-        bot_error_log.send(f"Failed to perform git push: {str(e)}")
+        bot_start_log.send(f"Failed to perform git push: {str(e)}")
 
 @tasks.loop(seconds=30)
 async def pinger():
   url = "http://hive-netbase-pycord.wumbee01.repl.co"
   response = requests.get(url)
   print(response)
-  await code_bot.send("Pinged")
+  await bot_start_log.send("Pong")
 	
 def ready_up():
   url = "https://raw.githubusercontent.com/Wumbee01/Wumbot/main/censor.json"
@@ -71,9 +72,9 @@ def ready_up():
   try:
     urllib.request.urlretrieve(url, filename)
     urllib.request.urlretrieve(url2, filename2)
-    bot_sync_log.send("Files downloaded successfully.")
+    bot_start_log.send("Files downloaded successfully.")
   except Exception as e:
-    bot_error_log.send(f"Failed to download the file: {str(e)}")
+    bot_start_log.send(f"Failed to download the file: {str(e)}")
 
 @bot.event
 async def on_message(message: discord.Message):
