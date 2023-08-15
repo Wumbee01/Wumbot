@@ -26,7 +26,6 @@ bot = commands.Bot(prefix, intents=intents)
 @bot.event
 async def on_ready():
   print(f"Ready! Logged on as {bot.user}")
-  global code_bot
   bot_start_log = discord.utils.get(bot.get_all_channels(), id=1140959682727522304)
   await bot_start_log.send("HELLO WORLD! Im back ;)")
   change_status.start()
