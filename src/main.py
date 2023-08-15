@@ -6,6 +6,7 @@ import requests, json
 import aiohttp
 import asyncio
 import sys
+import subprocess
 from keep_alive import keep_alive
 from discord import Option
 from datetime import timedelta
@@ -45,11 +46,22 @@ async def on_ready():
   code_bot = discord.utils.get(bot.get_all_channels(), id=1139677852875362314)
   await code_bot.send("HELLO WORLD! Im back ;)")
   change_status.start()
-  pinger.start()
+  syncer.start()
 
 @tasks.loop(seconds=5)
 async def change_status():
   await bot.change_presence(activity=discord.Game(random.choice(["I am watching you", "H.I.V.E tech - Online (Use /help!)"])))
+
+@tasks.loop(seconds=300)
+async def syncer():
+  token =  sys.argv[3]
+  try:
+    subprocess.run(["git", "add", "censor.json", "tttr", "main.py"])
+    subprocess.run(["git", "commit", "-m", "Synced files"]) 
+    subprocess.run(["git", "push", f"https://Wumbee01:{token}@github.com/Wumbee01/Wumbot.git"]) 
+    print("Git push successful.")
+  except Exception as e:
+    print("Failed to perform git push:", str(e))
 
 @tasks.loop(seconds=30)
 async def pinger():
