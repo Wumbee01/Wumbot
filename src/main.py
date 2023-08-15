@@ -8,7 +8,6 @@ import asyncio
 import sys
 import subprocess
 import urllib.request
-from keep_alive import keep_alive
 from discord import Option
 from datetime import timedelta
 from discord.ext import commands
