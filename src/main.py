@@ -4,7 +4,9 @@ import time
 import random
 import requests, json
 import aiohttp
+import asyncio
 import sys
+from keep_alive import keep_alive
 from discord import Option
 from datetime import timedelta
 from discord.ext import commands
@@ -39,30 +41,38 @@ flip_g = [heads, tails]
 @bot.event
 async def on_ready():
   print(f"Ready! Logged on as {bot.user}")
-  bee_log = discord.utils.get(bot.get_all_channels(), id=1139677852875362314)
-  await bee_log.send("HELLO WORLD! Im back ;)")
+  global code_bot
+  code_bot = discord.utils.get(bot.get_all_channels(), id=1139677852875362314)
+  await code_bot.send("HELLO WORLD! Im back ;)")
   change_status.start()
-
-@bot.event
-async def on_command_error(ctx, error):
-	chan = discord.utils.get(bot.get_all_channels(), id=ctx.channel.id)
-	embed = discord.Embed(title=f'{ctx.command}',
-                          description=f'{error}',
-                          color=0xecce8b)
-	await chan.send(embed=embed)
+  pinger.start()
 
 @tasks.loop(seconds=5)
 async def change_status():
   await bot.change_presence(activity=discord.Game(random.choice(["I am watching you", "H.I.V.E tech - Online (Use /help!)"])))
+
+@tasks.loop(seconds=30)
+async def pinger():
+  url = "http://hive-netbase-pycord.wumbee01.repl.co"
+  response = requests.get(url)
+  print(response)
+  await code_bot.send("Pinged")   
 
 @bot.event
 async def on_message(message: discord.Message):
   if message.author == bot.user:
     return
   msg = message.content.lower()
+
+  if message.author.id == 716390085896962058:
+    embeds = message.embeds 
+    for embed in embeds:
+      embed = embed.to_dict()
+      if "Guess the pokémon" in embed['description']:
+        await message.channel.send("<@&1140652186574000199>, a wild Pokémon appears!")
   
   if "cool cool very epic" in msg:
-    await message.channel.send('<:smoothreaction:1114449175296360519>:thumbsup:')
+    await message.channel.send('<:stretchreaction:1140646501157183489>:thumbsup:')
 
   if "bee" == message.content.lower():
     await message.channel.send('buzz buzz mfer')
@@ -99,23 +109,44 @@ async def on_message(message: discord.Message):
       response = openai.Completion.create(engine="text-davinci-003", prompt=f"This is being sent through a discord bot (the bots/your name is Wumbot and you were made using pycord by Wumbee), please generate an answer according to the following: this was YOUR previous message: '{referenced_message.content}' and this is the reply to YOUR message: '{message.content}' and the reply was sent by '{message.author.name}', now generate a reply according to the above and send it without quotes/quotaion marks or extra text like 'my reply is this:'", max_tokens=max)
       await message.reply(response.choices[0].text)
       pass
-
+  
   if message.content.lower() == "when":
-    tttr_create = open("tttr.txt", "w")
-    tttr_create.write("1000")
-    tttr = open("tttr.txt", "r")
-    tttr_read = tttr.read()
-    tttr_int = int(tttr_read)
-    tttr_int += 1
-    tttr.close()
-    tttr_str = str(tttr_int)
-    tttr_write = open("tttr.text", "w")
-    tttr_write.write(tttr_str)
-    await message.channel.send(embed=discord.Embed(title="Congratulations...", description=f"{message.author.mention} added another hour to the amount of time till Stratos release. The total is now {tttr_int}"))
-      
+    def file_handler(filename, strings = None):
+      if strings:
+        file = open(filename, "w")
+        file.write(str(strings))
+      else:
+        file = open(filename, "r")
+        return file.read()
+    tttr = int(file_handler("tttr"))
+    tttr += 1
+    file_handler("tttr", tttr)
+    await message.channel.send(embed=discord.Embed(title="Congratulations...", description=f"{message.author.mention} added another hour to the amount of time till Stratos release. The total is now {file_handler('tttr')}"))
+
+  def json_handler(filename):
+    with open(filename, "r") as read_file:
+      data = json.load(read_file)
+    return data
+  censors = json_handler("censor.json")  
+  if message:
+    for v in censors.values():
+      if v != None:
+        if v in msg:
+          await message.delete()
+          await message.channel.send(f"{message.author.mention} said a censored word")
+
+  if message.content.isdigit() and number != None:
+    if int(message.content) == number:
+      await message.reply("Epic!")
+      return
+    if int(message.content) >= number:
+      await message.reply("Lower!")
+    if int(message.content) <= number:
+      await message.reply("Higher!")
+  
   await bot.process_commands(message)
 
-openai.api_key = sys.argv[2]
+openai.api_key = " "
 
 class MyTab(discord.ui.View):
     @discord.ui.select( 
@@ -139,6 +170,25 @@ class MyTab(discord.ui.View):
     )
     async def select_callback(self, select, interaction):
         await interaction.response.send_message(f"Awesome! I like {select.values[0]} too!")
+
+@bot.event
+async def on_command_error(ctx, error):
+	chan = discord.utils.get(bot.get_all_channels(), id=ctx.channel.id)
+	embed = discord.Embed(title=f'{ctx.command}', description=f'{error}', color=0x9d89c9)
+	await chan.send(embed=embed)
+
+def randnum():
+  num = random.randint(1, 10) 
+  return num
+
+@bot.slash_command(name="guess", description="Guess a number between 1 and 10")
+async def insanity(interaction):
+  global number
+  number = randnum()
+  await interaction.respond("Choose a number between 1 and 10")
+  await asyncio.sleep(10)
+  number = None
+  await interaction.followup.send("Time's up!")
 
 @bot.command()
 async def flavor(ctx):
@@ -164,9 +214,6 @@ async def clear(ctx, amount: int, member: discord.Member):
 
 @bot.command()
 async def mosie_nuke(ctx, amount: int):
-  if ctx.author.id != 727184656209936494:
-    await ctx.reply("Nuh uh")
-    return
   for i in range(amount):
     nuke = "MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE"
     await ctx.channel.send(nuke)
@@ -191,12 +238,8 @@ async def reboot(ctx):
 @bot.command()
 async def spam(ctx, amount: int, *, message: str):
   if amount <= 10:  
-    if len(message) <= 50:
-      for i in range(amount): 
-        await ctx.send(message)
-    else:
-      await ctx.reply("Too many characters")
-      return
+    for i in range(amount): 
+      await ctx.send(message)
   else:
     await ctx.reply("TOO MUCH")
     return
@@ -216,8 +259,9 @@ async def echo(ctx, *, message: str):
 
 @bot.command()
 async def killswitch(ctx):
+  message = discord.Message
   if ctx.author.id != 727184656209936494:
-    await ctx.reply("Nuh uh")
+    await message.reply("Nuh uh")
     return
   await ctx.reply("https://tenor.com/view/cat-bully-why-do-you-bully-me-gif-14134661")
   os.system("pkill -f bash")
@@ -281,6 +325,16 @@ async def help(interaction):
     await interaction.channel.send("Why tf do you ned help?")
     pass
   await interaction.respond("### My commands!\nMy prefix is !\n\nModeration - Moderation commands\nFun - (Hopefully) Fun commands\nUtility - Only for me\n\nChat reactions - Wumbot reacts to some phrases\n\nChatGPT - Reply to Wumbot to talk to ChatGPT, add .jb to the start of message for jailbroken mode (Gone until further notice)", view=MyView())
+
+@bot.slash_command(name = "censor", description = "Leave empty to remove censors")
+async def censor(interaction, word: str = None, word2: str = None):
+  cdata = {
+    "Word": word,
+    "Word2": word2
+  }
+  with open("censor.json", "w") as write_file:
+    json.dump(cdata, write_file)
+  await interaction.respond(f"Censor list:\n- {word}\n- {word2}", ephemeral = True)
 
 @bot.slash_command(name = "2ball", description = "Yes or no")
 async def twoball(interaction, question: str):
@@ -451,24 +505,7 @@ async def raccoons(ctx):
     new_url = ""
     api = requests.get(url="https://www.reddit.com/r/Raccoons/random.json",headers={'User-agent': 'Wumbee'}).json()
     try:
-      url = api[0]['data']['children'][0]['data']['preview']['images'][0][
-        'source']['url']
-      new_url = urlDec(url)
-    except:
-      await getUrl()
-    await ctx.respond(new_url)
-    os.system("clear")
-    return
-  await getUrl()
-
-@bot.slash_command(name = "dolphins", description = "Sends a dolphin")
-async def dolphins(ctx):
-  async def getUrl():
-    new_url = ""
-    api = requests.get(url="https://www.reddit.com/r/Dolphins/random.json",headers={'User-agent': 'Wumbee'}).json()
-    try:
-      url = api[0]['data']['children'][0]['data']['preview']['images'][0][
-        'source']['url']
+      url = api[0]['data']['children'][0]['data']['preview']['images'][0]['source']['url']
       new_url = urlDec(url)
     except:
       await getUrl()
