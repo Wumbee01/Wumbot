@@ -30,14 +30,16 @@ async def on_ready():
   bot_start_log = discord.utils.get(bot.get_all_channels(), id=1140959682727522304)
   await bot_start_log.send("HELLO WORLD! Im back ;)")
   change_status.start()
-  def downloader(url, filename):
-    try:
-      urllib.request.urlretrieve(url, filename)
-      await bot_sync_log.send("Files downloaded successfully.")
-    except Exception as e:
-      await bot_error_log.send(f"Failed to download the file: {str(e)}") 
-  downloader("https://raw.githubusercontent.com/Wumbee01/Wumbot/main/censor.json", "censor.json")
-  downloader("https://raw.githubusercontent.com/Wumbee01/Wumbot/main/tttr", "tttr")
+  try:
+    url="https://raw.githubusercontent.com/Wumbee01/Wumbot/main/censor.json"
+    url2="https://raw.githubusercontent.com/Wumbee01/Wumbot/main/tttr"
+    filename = "censor.json"
+    filename2 = "tttr"
+    urllib.request.urlretrieve(url, filename)
+    urllib.request.urlretrieve(url2, filename2)
+    await bot_sync_log.send("Files downloaded successfully.")
+  except Exception as e:
+    await bot_error_log.send(f"Failed to download the file: {str(e)}")
   await asyncio.sleep(5)
   syncer.start()
 
