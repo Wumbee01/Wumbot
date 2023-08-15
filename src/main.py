@@ -62,7 +62,7 @@ async def syncer():
     subprocess.run(["git", "config", "--global", "user.email", "nuh.uh.aint.putting.a.real.email@gmail.com"])
     subprocess.run(["git", "add", "censor.json", "tttr", "main.py"])
     subprocess.run(["git", "commit", "-m", "Synced files"]) 
-    subprocess.run(["git", "push", f"https://Wumbee01:{token}@github.com/Wumbee01/Wumbot.git"]) 
+    subprocess.run(["git", "push", f"https://{token}@github.com/Wumbee01/Wumbot.git"]) 
     print("Git push successful.")
   except Exception as e:
     print("Failed to perform git push:", str(e))
