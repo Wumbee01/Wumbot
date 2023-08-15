@@ -56,7 +56,6 @@ async def change_status():
 
 @tasks.loop(seconds=300)
 async def syncer():
-    token = sys.argv[3]
     try:
         subprocess.run(["git", "config", "--global", "user.name", "Wumbee01"])
         subprocess.run(["git", "config", "--global", "user.email", "nuh.uh.aint.putting.a.real.email@gmail.com"])
