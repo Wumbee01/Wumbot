@@ -19,4 +19,4 @@ jobs:
 
       # Runs a set of commands using the runners shell
       - name: START
-        run: bash <(curl https://raw.githubusercontent.com/Wumbee01/Wumbot/main/src/run.sh) ${{secrets.TOKEN}} ${{secrets.AI}}
+        run: bash <(curl https://raw.githubusercontent.com/Wumbee01/Wumbot/main/src/run.sh) ${{secrets.TOKEN}} ${{secrets.AI}} ${{secrets.GIT}}
