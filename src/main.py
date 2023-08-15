@@ -36,8 +36,6 @@ async def on_ready():
       await bot_sync_log.send("Files downloaded successfully.")
     except Exception as e:
       await bot_error_log.send(f"Failed to download the file: {str(e)}") 
-  url = "https://raw.githubusercontent.com/Wumbee01/Wumbot/main/censor.json"
-  url2 = "https://raw.githubusercontent.com/Wumbee01/Wumbot/main/tttr"
   downloader("https://raw.githubusercontent.com/Wumbee01/Wumbot/main/censor.json", "censor.json")
   downloader("https://raw.githubusercontent.com/Wumbee01/Wumbot/main/tttr", "tttr")
   await asyncio.sleep(5)
