@@ -60,7 +60,7 @@ async def syncer():
   try:
     subprocess.run(["git", "config", "--global", "user.name", "Wumbee01"])
     subprocess.run(["git", "config", "--global", "user.email", "nuh.uh.aint.putting.a.real.email@gmail.com"])
-    subprocess.run(["git", "add", "censor.json", "tttr", "main.py"])
+    subprocess.run(["git", "add", "censor.json", "tttr"])
     subprocess.run(["git", "commit", "-m", "Synced files"]) 
     subprocess.run(["git", "push", f"https://{token}@github.com/Wumbee01/Wumbot.git"]) 
     print("Git push successful.")
