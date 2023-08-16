@@ -653,26 +653,26 @@ async def unmuteerror(ctx, error):
 @bot.slash_command(name = "waifubomb", description = "Powered by waifu API")
 async def totallysfwbomb(interaction, category: str):
   waifu_category = (category.lower())
+  await interaction.respond(f"Bombed by {interaction.user.mention}")
   if waifu_category == "sfw":
     for i in range(5):
       waifu_type = ["waifu", "neko", "shinobu", "megumin", "bully", "cuddle", "cry", "hug", "awoo", "kiss", "lick", "pat", "smug", "bonk", "yeet", "blush", "smile", "wave", "highfive", "handhold", "nom", "bite", "glomp", "slap", "kill", "kick", "happy", "wink", "poke", "dance", "cringe"]
       def get_waifu_random_bomb_s():
         return requests.get(f"https://api.waifu.pics/{waifu_category}/{random.choice(waifu_type)}")
       url_json = json.loads(str(get_waifu_random_bomb_s().text))
-      await interaction.channel.send(url_json["url"])
-    await interaction.response.send_message("Bombed", ephemeral = True)
-    return
+      await interaction.followup.send(url_json["url"])
+  return
   if waifu_category == "nsfw":
     if interaction.channel.is_nsfw():
+      await interaction.respond(f"Bombed by {interaction.user.mention}")
       for i in range(5):
         waifu_type = ["waifu", "neko", "trap", "blowjob"]
         def get_waifu_random_bomb_n():
           return requests.get(f"https://api.waifu.pics/{waifu_category}/{random.choice(waifu_type)}")
         url_json = json.loads(str(get_waifu_random_bomb_n().text))        
-        await interaction.channel.send(url_json["url"])
-      await interaction.response.send_message("Bombed", ephemeral = True)
+        await interaction.followup.send(url_json["url"])
       return
     else:
-      await interaction.response.send_message("Wrong channel buddy")
+      await interaction.respond("Wrong channel buddy")
 
 bot.run(sys.argv[1])
