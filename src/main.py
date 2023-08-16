@@ -660,7 +660,7 @@ async def totallysfwbomb(interaction, category: str):
       def get_waifu_random_bomb_s():
         return requests.get(f"https://api.waifu.pics/{waifu_category}/{random.choice(waifu_type)}")
       url_json = json.loads(str(get_waifu_random_bomb_s().text))
-      await interaction.followup.send(url_json["url"])
+      await interaction.channel.send(url_json["url"])
   return
   if waifu_category == "nsfw":
     if interaction.channel.is_nsfw():
@@ -670,7 +670,7 @@ async def totallysfwbomb(interaction, category: str):
         def get_waifu_random_bomb_n():
           return requests.get(f"https://api.waifu.pics/{waifu_category}/{random.choice(waifu_type)}")
         url_json = json.loads(str(get_waifu_random_bomb_n().text))        
-        await interaction.followup.send(url_json["url"])
+        await interaction.channel.send(url_json["url"])
       return
     else:
       await interaction.respond("Wrong channel buddy")
