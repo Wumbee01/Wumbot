@@ -37,9 +37,9 @@ async def on_ready():
     filename2 = "tttr"
     urllib.request.urlretrieve(url, filename)
     urllib.request.urlretrieve(url2, filename2)
-    await bot_sync_log.send("Files downloaded successfully.")
+    await bot_start_log.send("Files downloaded successfully.")
   except Exception as e:
-    await bot_error_log.send(f"Failed to download the file: {str(e)}")
+    await bot_start_log.send(f"Failed to download the file: {str(e)}")
   await asyncio.sleep(5)
   syncer.start()
 
@@ -59,12 +59,13 @@ async def syncer():
     try:
         subprocess.run(["git", "config", "--global", "user.name", "Wumbee01"])
         subprocess.run(["git", "config", "--global", "user.email", "nuh.uh.aint.putting.a.real.email@gmail.com"])
-        subprocess.run(["git", "add", "censor.json", "tttr"])
+        subprocess.run(["git", "add", "censor.json"])
+        subprocess.run(["git", "add", "tttr"])
         subprocess.run(["git", "commit", "-m", "Synced files"]) 
         subprocess.run(["git", "push", "--push", "origin", f"{main}"]) 
-        await bot_sync_log.send("Git push successful.")
+        await bot_start_log.send("Git push successful.")
     except Exception as e:
-        await bot_error_log.send(f"Failed to perform git push: {str(e)}")
+        await bot_start_log.send(f"Failed to perform git push: {str(e)}")
 
 @tasks.loop(seconds=30)
 async def pinger():
