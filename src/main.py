@@ -675,6 +675,6 @@ async def totallysfwbomb(interaction, category: str):
         await interaction.channel.send(url_json["url"])
       return
     else:
-      await interaction.respond("Wrong channel buddy")
+      await interaction.followup.send("Nvm wrong channel buddy")
 
 bot.run(sys.argv[1])
