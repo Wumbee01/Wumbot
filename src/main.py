@@ -587,10 +587,12 @@ async def deez(interaction):
 
 @bot.slash_command(name = 'echo', description = "Makes the bot say stuff")
 async def echo_slash(interaction, message: str):
-  if interaction.user.id != 727184656209936494:
-    await interaction.response.send_message("Nuh uh")
-    return
   await interaction.channel.send(message)
+  await interaction.response.send_message("Hehehe", ephemeral=True)
+
+@bot.slash_command(name = 'lag', description = "Makes the bot lag you (spam)")
+async def echo_slash(interaction):
+  await interaction.channel.send("<a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800>")
   await interaction.response.send_message("Hehehe", ephemeral=True)
 
 @bot.slash_command(name = 'roles', description = "Shows the roles of a user")
