@@ -158,7 +158,7 @@ async def on_message(message: discord.Message):
       await message.reply("Lower!")
     if int(message.content) <= number:
       await message.reply("Higher!")
-  
+    
   await bot.process_commands(message)
 
 openai.api_key = " "
@@ -676,5 +676,9 @@ async def totallysfwbomb(interaction, category: str):
       return
     else:
       await interaction.followup.send("Nvm wrong channel buddy")
+
+@bot.slash_command(name="test", description="test")
+async def vscode(ctx):
+  ctx.respond("This was made in vs code!")
 
 bot.run(sys.argv[1])
