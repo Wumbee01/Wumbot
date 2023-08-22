@@ -682,17 +682,4 @@ async def totallysfwbomb(interaction, category: str):
 async def vscode(ctx):
   ctx.respond("This was made in vs code!")
 
-global player_list
-player_list = []
-
-@bot.slash_command(name="uno_start")
-async def start_uno(ctx):
-	await ctx.respond(f"List: {player_list}")
-	
-@bot.slash_command(name="uno_join")
-async def join_uno(ctx):
-	player_list.append(ctx.author.id)
-	await ctx.respond("Joined!")
-	
-
 bot.run(sys.argv[1])
