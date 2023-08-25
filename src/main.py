@@ -610,13 +610,13 @@ async def rolelist(ctx, user: discord.Member):
   await ctx.response.send_message(embed=role_embed)
 
 @bot.slash_command(name = 'timeout', description = "mutes/timeouts a member")
-@commands.has_permissions(administrator = True)
+@commands.has_permissions(moderate_members = True)
 async def timeout(ctx, member: Option(discord.Member, required = True), reason: Option(str, required = False), days: Option(int, max_value = 27, default = 0, required = False), hours: Option(int, default = 0, required = False), minutes: Option(int, default = 0, required = False), seconds: Option(int, default = 0, required = False)): 
   if member.id == ctx.author.id:
     await ctx.respond("You can't timeout yourself!")
     return
-  if member.guild_permissions.moderate_members:
-    await ctx.respond("You can't do this, this person is a moderator!")
+  if member.guild_permissions.administrator:
+    await ctx.respond("You can't do this, this person is a admin!")
     return
   duration = timedelta(days = days, hours = hours, minutes = minutes, seconds = seconds)
   if duration >= timedelta(days = 28): 
