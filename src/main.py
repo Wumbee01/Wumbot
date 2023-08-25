@@ -716,6 +716,7 @@ async def ping(ctx, userid: str, *, message: str):
 @bot.command()
 async def test(ctx):
   await ctx.reply(f'These are the players {players}')
+
 @bot.command()
 async def uno(ctx, func):
   global players
