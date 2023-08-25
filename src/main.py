@@ -682,4 +682,144 @@ async def totallysfwbomb(interaction, category: str):
 async def vscode(ctx):
   ctx.respond("This was made in vs code!")
 
+global turn
+global players
+global game_state
+game_state = False
+turn = -1
+players = None
+
+global current_number
+global current_colour
+current_number = None
+current_colour = None
+
+@bot.event
+async def on_command_error(ctx, error):
+	chan = discord.utils.get(bot.get_all_channels(), id=ctx.channel.id)
+	embed = discord.Embed(title=f'{ctx.command}', description=f'{error}', color=0x9d89c9)
+	await chan.send(embed=embed)
+
+@bot.command()
+async def idfinder(ctx):
+  await ctx.reply(f"This is the channel id: {ctx.channel.id}")
+
+@bot.command()
+async def ping(ctx, userid: str, *, message: str):
+  try:
+    user = await bot.fetch_user(int(userid))
+    await user.send(message)
+    await ctx.reply("Worked!")
+  except Exception as e:
+    await ctx.reply(e)
+
+@bot.command()
+async def test(ctx):
+  await ctx.reply(f'These are the players {players}')
+@bot.command()
+async def uno(ctx, func):
+  global players
+  global game_state
+  global uno_colours
+  global current_number
+  global current_colour
+  match func:
+    case "start":
+      if game_state == False:
+        if players == None:
+          await ctx.reply("Get some friends to join... if you have any that is (`!uno join`)")
+          return
+        mention_list = ""
+        for p in players:
+          mention_list += f"<@{p}>"
+        await ctx.reply(f"Starting a game with: {mention_list}")
+        game_state = True
+        class gamerunner:
+          def deck_gen(self):
+            for ids in players:
+              empty_dict = {}
+              gen = f"""
+        global deck{ids}
+        deck{ids} = {empty_dict}
+        uno_colors = ["Red", "Green", "Blue", "Yellow"]
+        for i in range(11):
+          append_dict = {{random.randint(0, 9): random.choice(uno_colors)}}
+          deck{ids}.update(append_dict)
+        """
+              exec(gen)
+              list_name = "deck" + f"{ids}"
+              global current_number
+              global current_colour
+              current_number = random.randint(0, 9)
+              current_colour = random.choice(uno_colours)
+          def play_turn(self):
+            uno_turns = 0
+            for i in players:
+              uno_turns += 1
+            if uno_turns == 0:
+              await ctx.reply("No players joined")
+            uno_turns - 1
+            def play():
+              global turn
+              if turn == input:
+                turn = -1
+              while turn != input:
+                turn += 1
+                return turn
+            global current_player
+            uno_game = gamerunner()
+            current_player = uno_game.play()
+            player = players[current_player]
+            player_msg = await bot.fetch_user(player)
+            await ctx.reply(f"Its now <@{player}>'s turn')
+            class MyTab(): # unfinished
+            await player_message.send("Hey its your turn, pick a card", view=)
+          def match_card(self, number, colour):
+            if number == current_number or colour == current_colour:
+          def play():
+            global turn
+            if turn == input:
+              turn = -1
+            while turn != input:
+              turn += 1
+            return turn
+              return True
+            else:
+              return False
+        uno_game = gamerunner()   
+        uno_game.deck_gen()
+        uno_game.play_turn()       
+      else:
+        await ctx.reply('A game is already ongoing, use !uno stop')
+        return
+    case "stop":
+      if game_state == False:
+        await ctx.reply("Start a a game with `!uno start` first")
+        return
+      if game_state == True:
+        def del_list():
+          global players
+          players = None
+        game_state = False
+        del_list()
+        await ctx.reply("Stopped")
+        return
+    case "join":
+      class MyView(discord.ui.View):
+        @discord.ui.button(label='Join')
+        async def joinbutton(self, button, interaction):
+          def initialise_list():
+            global players
+            players = []
+          if players == None:
+            initialise_list()
+          if interaction.user.id in players:
+            await interaction.response.send_message("Cant join twice")
+            return
+          players.append(interaction.user.id)
+          await interaction.response.send_message(f"{interaction.user.mention} has joined!")
+      await ctx.reply("Click the button to join!", view=MyView())
+    case _:
+      await ctx.reply("You can only use join, start and stop")
+		    
 bot.run(sys.argv[1])
