@@ -158,10 +158,34 @@ async def on_message(message: discord.Message):
       await message.reply("Lower!")
     if int(message.content) <= number:
       await message.reply("Higher!")
-    
+
+  global chatmode
+  global chat_user
+  global chatter
+  if message.channel == discord.DMChannel and chatmode != None:
+    await bot_start_log.send(f"{message.author}: {message}")
+  if message and chatmode != None and message.author == chatter:
+    await chat_user.send(message)
+	
   await bot.process_commands(message)
 
 openai.api_key = " "
+
+@bot.command()
+async def chatmode(ctx, user: int = None):
+  global chatmode
+  global chat_user
+  global chatter
+  if chatmode == None:
+    chatmode = "Active"
+    chat_user = user
+    chatter = ctx.author
+    await ctx.reply("Chatmode is now active")
+  if user == None:
+    if chatmode != None:
+      chatmode = None
+    else:
+      await ctx.reply("Chatmode is not active")
 
 class MyTab(discord.ui.View):
     @discord.ui.select( 
