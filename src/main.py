@@ -162,10 +162,13 @@ async def on_message(message: discord.Message):
   global chatmode
   global chat_user
   global chatter
-  if message.channel == discord.DMChannel and chatmode != None:
-    await bot_start_log.send(f"{message.author}: {message}")
-  if message and chatmode != None and message.author == chatter:
-    await chat_user.send(message)
+  if chatter and chatmode and chat_user:
+    if message.channel == discord.DMChannel and chatmode != None:
+      await bot_start_log.send(f"{message.author}: {message}")
+    if message and chatmode != None and message.author == chatter:
+      await chat_user.send(message)
+  else:
+    pass
 	
   await bot.process_commands(message)
 
