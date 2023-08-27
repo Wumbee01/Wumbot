@@ -175,13 +175,13 @@ async def on_message(message: discord.Message):
 openai.api_key = " "
 
 @bot.slash_command(name="chatmode")
-async def chatmode(ctx, user: int = None):
+async def chatmode(ctx, user: str = None):
   global chatmode
   global chat_user
   global chatter
   if chatmode == None:
     chatmode = "Active"
-    chat_user = user
+    chat_user = int(user)
     chatter = ctx.author
     await ctx.reply("Chatmode is now active")
   if user == None:
