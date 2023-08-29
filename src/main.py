@@ -16,12 +16,14 @@ from discord.ext import commands, tasks
 from itertools import cycle
 import openai
 
+global ch_channel
 global chatter
 global chat_user
 global chatmode
 chatter = None
 chat_user = None
 chatmode = None
+ch_channel = None
 
 prefix = "!"
 intents = discord.Intents.default()
@@ -171,9 +173,8 @@ async def on_message(message: discord.Message):
   global chatter
   if chatter != None and chatmode != None and chat_user != None:
     if message.channel == discord.DMChannel and chatmode != None:
-      
       await bot_start_log.send(f"{message.author}: {message}")
-    if message and chatmode != None and message.author == chatter:
+    if message and chatmode != None and message.author.id == chatter:
       await chat_user.send(message)
   else:
     pass
@@ -187,16 +188,18 @@ async def chatmode(ctx, user: str = None):
   global chatmode
   global chat_user
   global chatter
+	global ch_channel
   if chatmode == None:
     chatmode = "Active"
     chat_user = int(user)
-    chatter = ctx.author
-    await ctx.reply("Chatmode is now active")
+    chatter = ctx.author.id
+    ch_channel = ctx.channel.id
+    await ctx.respond("Chatmode is now active")
   if user == None:
     if chatmode != None:
       chatmode = None
     else:
-      await ctx.reply("Chatmode is not active")
+      await ctx.respond("Chatmode is not active")
 
 class MyTab(discord.ui.View):
     @discord.ui.select( 
