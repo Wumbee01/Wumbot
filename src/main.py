@@ -188,7 +188,7 @@ async def chatmode(ctx, user: str = None):
   global chatmode
   global chat_user
   global chatter
-	global ch_channel
+  global ch_channel
   if chatmode == None:
     chatmode = "Active"
     chat_user = int(user)
