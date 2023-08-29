@@ -187,6 +187,10 @@ async def on_message(message: discord.Message):
 
 openai.api_key = " "
 
+@bot.command()
+async def dice(ctx, num: int):
+  await ctx.reply(f"You rolled: {random.randint(1, num)} from a d{num}")
+
 @bot.slash_command(name="chatmode", description="Dm someone with the bot")
 async def chatmode_slash(ctx, user: str = None):
   global chatmode
