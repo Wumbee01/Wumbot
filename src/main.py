@@ -191,7 +191,7 @@ async def chatmode_cmd(ctx, user: str = None):
   global ch_channel
   if chatmode == None:
     chatmode = "Active"
-    chat_user = int(user)
+    chat_user = bot.fetch_user(id=user)
     chatter = ctx.author.id
     ch_channel = ctx.channel.id
     await ctx.respond("Chatmode is now active")
