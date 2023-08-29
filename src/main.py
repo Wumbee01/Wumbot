@@ -184,7 +184,7 @@ async def on_message(message: discord.Message):
 openai.api_key = " "
 
 @bot.slash_command(name="chatmode")
-async def chatmode(ctx, user: str = None):
+async def chatmode_cmd(ctx, user: str = None):
   global chatmode
   global chat_user
   global chatter
