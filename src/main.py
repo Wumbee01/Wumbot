@@ -191,15 +191,13 @@ async def chatmode_cmd(ctx, user: str = None):
   global ch_channel
   if chatmode == None:
     chatmode = "Active"
-    chat_user = bot.fetch_user(id=user)
+    chat_user = bot.fetch_user(int(user))
     chatter = ctx.author.id
     ch_channel = ctx.channel.id
     await ctx.respond("Chatmode is now active")
-  if user == None:
-    if chatmode != None:
-      chatmode = None
-    else:
-      await ctx.respond("Chatmode is not active")
+  if chatmode != None:
+    chatmode = None
+    await ctx.respond("Chatmode is now ded")
 
 class MyTab(discord.ui.View):
     @discord.ui.select( 
