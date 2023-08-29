@@ -195,6 +195,7 @@ async def chatmode_cmd(ctx, user: str = None):
     chatter = ctx.author.id
     ch_channel = ctx.channel.id
     await ctx.respond("Chatmode is now active")
+	  return
   if chatmode != None:
     chatmode = None
     await ctx.respond("Chatmode is now ded")
