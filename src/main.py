@@ -38,6 +38,10 @@ bot = commands.Bot(prefix, intents=intents)
 async def on_ready():
   print(f"Ready! Logged on as {bot.user}")
   global bot_start_log
+  global bot_error_log
+  global bot_sync_log
+  bot_error_log = discord.utils.get(bot.get_all_channels(), id=1140962458366910465)
+  bot_sync_log = discord.utils.get(bot.get_all_channels(), id=1140959746254438411) 
   bot_start_log = discord.utils.get(bot.get_all_channels(), id=1140959682727522304)
   await bot_start_log.send("HELLO WORLD! Im back ;)")
   change_status.start()
@@ -48,9 +52,9 @@ async def on_ready():
     filename2 = "tttr"
     urllib.request.urlretrieve(url, filename)
     urllib.request.urlretrieve(url2, filename2)
-    await bot_start_log.send("Files downloaded successfully.")
+    await bot_sync_log.send("Files downloaded successfully.")
   except Exception as e:
-    await bot_start_log.send(f"Failed to download the file: {str(e)}")
+    await bot_error_log.send(f"Failed to download the file: {str(e)}")
   await asyncio.sleep(5)
   syncer.start()
 
@@ -60,11 +64,6 @@ async def change_status():
 
 main = f"https://{sys.argv[3]}@github.com/Wumbee01/Wumbot.git"
 
-global bot_error_log
-global bot_sync_log
-bot_error_log = discord.utils.get(bot.get_all_channels(), id=1140962458366910465)
-bot_sync_log = discord.utils.get(bot.get_all_channels(), id=1140959746254438411) 
-
 @tasks.loop(seconds=30)
 async def syncer():
     try:
@@ -73,9 +72,9 @@ async def syncer():
         subprocess.run(["git", "add", "censor.json", "tttr"])
         subprocess.run(["git", "commit", "-m", "Synced files"]) 
         subprocess.run(["git", "push", "--push", "origin", f"{main}"]) 
-        await bot_start_log.send("Git push successful.")
+        await bot_sync_log.send("Git push successful.")
     except Exception as e:
-        await bot_start_log.send(f"Failed to perform git push: {str(e)}")
+        await bot_error_log.send(f"Failed to perform git push: {str(e)}")
 
 @tasks.loop(seconds=30)
 async def pinger():
@@ -280,6 +279,9 @@ async def clear(ctx, amount: int, member: discord.Member):
 
 @bot.command()
 async def mosie_nuke(ctx, amount: int):
+  if ctx.author.id != 727184656209936494:
+    await ctx.reply("nuh uh")
+    return
   for i in range(amount):
     nuke = "MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE"
     await ctx.channel.send(nuke)
@@ -303,7 +305,7 @@ async def reboot(ctx):
 
 @bot.command()
 async def spam(ctx, amount: int, *, message: str):
-  if amount <= 10:  
+  if amount <= 5 and len(message) <= 20:  
     for i in range(amount): 
       await ctx.send(message)
   else:
