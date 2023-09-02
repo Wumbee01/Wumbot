@@ -182,9 +182,12 @@ async def on_message(message: discord.Message):
       await ch_channel.send(message.content)
       return
     if isinstance(message.channel, discord.TextChannel) and message.channel.id == chat_user_id:
-      await ch_channel.send(message.content)
+      await ch_channel.send(f"{message.author.name}: {message.content}")
       return
     if message and message.channel.id == channel_id:
+      if isinstance(chat_user, discord.TextChannel):
+        await chat_user.send(f"{message.author.name}: {message.content}")
+        return
       await chat_user.send(message.content)
   else:
     pass
