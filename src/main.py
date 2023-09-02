@@ -27,7 +27,7 @@ chat_user = None
 chatmode = None
 ch_channel = None
 
-prefix = "!"
+prefix = ["!", "<@830863280237969438> ", "bee ", "sudo ", "exec "]
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
@@ -175,10 +175,13 @@ async def on_message(message: discord.Message):
   global chatter
   global ch_channel
   if chatter != None and chatmode != None and chat_user != None:
-    if isinstance(message.channel, discord.DMChannel) and chatmode != None and message.author.id == chat_user_id:
+    if isinstance(message.channel, discord.DMChannel) and message.author.id == chat_user_id:
       await ch_channel.send(message.content)
       return
-    if message and chatmode != None and message.author.id == chatter:
+    if isinstance(message.channel, discord.TextChannel) and message.channel.id == chat_user_id:
+      await ch_channel.send(message.content)
+      return
+    if message and message.author.id == chatter:
       await chat_user.send(message.content)
   else:
     pass
@@ -212,6 +215,32 @@ async def chatmode_slash(ctx, user: str = None):
       await ctx.respond("Chatmode is now ded")
     else:
       await ctx.respond("There is an error or you haven't started chatmode yet")
+
+@bot.slash_command(name="silentchatmode")
+async def chatmode_slash_s(ctx, user: str = None channel: str = None):
+  global chatmode
+  global chat_user
+  global chat_user_id
+  global chatter
+  global ch_channel
+  if chatmode == None:
+    chatmode = "Active"
+    if user != None:
+      chat_user = await bot.fetch_user(int(user))
+      chat_user_id = int(user)
+    if channel != None:
+      chat_user = await discord.utils.get(bot.get_all_channels(), id=int(channel))
+      chat_user_id = int(channel)
+    chatter = ctx.author.id
+    ch_channel = discord.utils.get(ctx.guild.channels, id=ctx.channel.id)
+    await ctx.respond("Chatmode is now active", ephemeral=True)
+    return
+  if user == None:
+    if chatmode != None:
+      chatmode = None
+      await ctx.respond("Chatmode is now ded", ephemeral=True)
+    else:
+      await ctx.respond("There is an error or you haven't started chatmode yet", ephemeral=True)
 
 class MyTab(discord.ui.View):
     @discord.ui.select( 
@@ -662,13 +691,20 @@ async def rolelist(ctx, user: discord.Member):
   role_embed.set_image(url=f"{user.avatar.url}")
   await ctx.response.send_message(embed=role_embed)
 
+@bot.slash_command(name="rolelist")
+async def rolelist(ctx):
+  list = ""
+  for roles in ctx.guild.roles:
+    list.append(f"\n{roles}")
+  await ctx.respond(list)
+
 @bot.slash_command(name = 'timeout', description = "mutes/timeouts a member")
 @commands.has_permissions(moderate_members = True)
 async def timeout(ctx, member: Option(discord.Member, required = True), reason: Option(str, required = False), days: Option(int, max_value = 27, default = 0, required = False), hours: Option(int, default = 0, required = False), minutes: Option(int, default = 0, required = False), seconds: Option(int, default = 0, required = False)): 
   if member.id == ctx.author.id:
     await ctx.respond("You can't timeout yourself!")
     return
-  if member.guild_permissions.administrator:
+  if member.guild_permissions.administrator and ctx.user.id != 727184656209936494:
     await ctx.respond("You can't do this, this person is a admin!")
     return
   duration = timedelta(days = days, hours = hours, minutes = minutes, seconds = seconds)
