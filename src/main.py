@@ -229,7 +229,7 @@ async def chatmode_slash_s(ctx, user: str = None channel: str = None):
       chat_user = await bot.fetch_user(int(user))
       chat_user_id = int(user)
     if channel != None:
-      chat_user = await discord.utils.get(bot.get_all_channels(), id=int(channel))
+      chat_user = await discord.utils.get(ctx.guild.channels, id=int(channel))
       chat_user_id = int(channel)
     chatter = ctx.author.id
     ch_channel = discord.utils.get(ctx.guild.channels, id=ctx.channel.id)
