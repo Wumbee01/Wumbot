@@ -216,32 +216,6 @@ async def chatmode_slash(ctx, user: str = None):
     else:
       await ctx.respond("There is an error or you haven't started chatmode yet")
 
-@bot.slash_command(name="silentchatmode")
-async def chatmode_slash_s(ctx, user: str = None channel: str = None):
-  global chatmode
-  global chat_user
-  global chat_user_id
-  global chatter
-  global ch_channel
-  if chatmode == None:
-    chatmode = "Active"
-    if user != None:
-      chat_user = await bot.fetch_user(int(user))
-      chat_user_id = int(user)
-    if channel != None:
-      chat_user = await discord.utils.get(ctx.guild.channels, id=int(channel))
-      chat_user_id = int(channel)
-    chatter = ctx.author.id
-    ch_channel = discord.utils.get(ctx.guild.channels, id=ctx.channel.id)
-    await ctx.respond("Chatmode is now active", ephemeral=True)
-    return
-  if user == None:
-    if chatmode != None:
-      chatmode = None
-      await ctx.respond("Chatmode is now ded", ephemeral=True)
-    else:
-      await ctx.respond("There is an error or you haven't started chatmode yet", ephemeral=True)
-
 class MyTab(discord.ui.View):
     @discord.ui.select( 
         placeholder = "Choose a Flavor!", 
