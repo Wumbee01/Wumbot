@@ -20,12 +20,14 @@ global ch_channel
 global chatter
 global chat_user
 global chatmode
+global channel_id
 global chat_user_id
 chat_user_id = None
 chatter = None
 chat_user = None
 chatmode = None
 ch_channel = None
+channel_id = None
 
 prefix = ["!", "<@830863280237969438> ", "bee ", "sudo ", "exec "]
 intents = discord.Intents.default()
@@ -194,27 +196,32 @@ async def dice(ctx, num: int):
   await ctx.reply(f"You rolled: {random.randint(1, num)} from a d{num}")
 
 @bot.slash_command(name="chatmode", description="Dm someone with the bot")
-async def chatmode_slash(ctx, user: str = None):
+async def chatmode_slash(ctx, user: str = None, silence: str = None):
   global chatmode
   global chat_user
   global chat_user_id
   global chatter
   global ch_channel
+  global channel_id
   if chatmode == None:
     chatmode = "Active"
+    channel_id = ctx.channel.id
     if user != None:
       chat_user = await bot.fetch_user(int(user))
       chat_user_id = int(user)
     chatter = ctx.author.id
     ch_channel = discord.utils.get(ctx.guild.channels, id=ctx.channel.id)
-    await ctx.respond("Chatmode is now active")
+    if silence == None:
+      await ctx.respond("Chatmode is now active")
     return
   if user == None:
     if chatmode != None:
       chatmode = None
-      await ctx.respond("Chatmode is now ded")
+      if silence == None:
+        await ctx.respond("Chatmode is now ded")
     else:
-      await ctx.respond("There is an error or you haven't started chatmode yet")
+      if silence == None:
+        await ctx.respond("There is an error or you haven't started chatmode yet")
 
 class MyTab(discord.ui.View):
     @discord.ui.select( 
@@ -239,6 +246,39 @@ class MyTab(discord.ui.View):
     async def select_callback(self, select, interaction):
         await interaction.response.send_message(f"Awesome! I like {select.values[0]} too!")
 
+@bot.slash_command(name="bridge", description="nothing")
+async def bridge(ctx, channel: str = None, silence: str = None):
+  global chatmode
+  global chat_user
+  global chat_user_id
+  global chatter
+  global ch_channel
+  global channel_id
+  if chatmode == None:
+    chatmode = "Active"
+    channel_id = ctx.channel.id
+    if channel != None:
+      chat_user = discord.utils.get(bot.get_all_channels(), id=int(channel))
+      chat_user_id = int(channel)
+    chatter = ctx.author.id
+    ch_channel = discord.utils.get(ctx.guild.channels, id=ctx.channel.id)
+    if silence != None:
+      await ctx.respond("Bridge is now active", ephemeral=True)
+      return
+    await ctx.respond("Bridge is now active")
+    return
+  if chatmode != None:
+    chatmode = None
+    if silence != None:
+      await ctx.respond("Bridge is now ded", ephemeral=True)
+      return
+    await ctx.respond("Bridge is now ded")
+  else:
+    if silence != None:
+      await ctx.respond("There is an error or you haven't started a bridge yet", ephemeral=True)
+      return
+    await ctx.respond("There is an error or you haven't started a bridge yet")
+    
 @bot.event
 async def on_command_error(ctx, error):
 	chan = discord.utils.get(bot.get_all_channels(), id=ctx.channel.id)
