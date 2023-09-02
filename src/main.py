@@ -184,7 +184,7 @@ async def on_message(message: discord.Message):
     if isinstance(message.channel, discord.TextChannel) and message.channel.id == chat_user_id:
       await ch_channel.send(message.content)
       return
-    if message and message.author.id == chatter and message.channel.id == channel_id:
+    if message and message.channel.id == channel_id:
       await chat_user.send(message.content)
   else:
     pass
