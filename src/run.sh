@@ -2,6 +2,7 @@
 
 # installing dependencies
 pip install py-cord
+pip install PyNaCl
 pip install urllib3
 pip install args
 pip install tasks
