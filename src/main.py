@@ -63,6 +63,7 @@ async def on_ready():
     await bot_error_log.send(f"Failed to download the file: {str(e)}")
   await asyncio.sleep(5)
   syncer.start()
+  discord.opus.load_opus()
 
 @tasks.loop(seconds=5)
 async def change_status():
