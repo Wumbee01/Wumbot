@@ -844,14 +844,13 @@ async def play(ctx, url: str):
       subprocess.run(["chmod", "+x", "youtube-dl"])
     subprocess.run(['./youtube-dl', '--extract-audio', '--audio-format', 'mp3', f"{string}"])
   downloader(url)
+  asyncio.sleep(5)
   for file in os.listdir("./"):
     if file.endswith(".mp3"):
       name = file
       print(f"Renamed File: {file}\n")
   os.rename(file, "song.mp3")
   voice.play(discord.FFmpegPCMAudio(source="song.mp3", options="-b:a 256k"), after=lambda e: print("Song done!"))
-  voice.source = discord.PCMVolumeTransformer(voice.source)
-  voice.source.volume = 0.07
   nname = name.rsplit("-", 2)
   await ctx.send(f"Playing: {nname[0]}")
   print("playing\n")
