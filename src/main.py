@@ -794,16 +794,16 @@ async def vscode(ctx):
 async def join(ctx):
   channel = ctx.message.author.voice.channel
   voice = get(bot.voice_clients, guild=ctx.guild)
-    if voice and voice.is_connected():
-      await voice.move_to(channel)
-    else:
-      voice = await channel.connect()
-    await voice.disconnect()
-    if voice and voice.is_connected():
-      await voice.move_to(channel)
-    else:
-      voice = await channel.connect()
-      print(f"The bot has connected to {channel}\n")
+  if voice and voice.is_connected():
+    await voice.move_to(channel)  
+  else:
+    voice = await channel.connect()
+  await voice.disconnect()
+  if voice and voice.is_connected():
+    await voice.move_to(channel)
+  else:
+    voice = await channel.connect()
+    print(f"The bot has connected to {channel}\n")
     await ctx.send(f"Joined {channel}")
 
 
