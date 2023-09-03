@@ -13,6 +13,8 @@ pip install openai
 pip install youtube_dl
 git clone https://github.com/Wumbee01/Wumbot.git
 
+apt install ffmpeg
+
 # setting up workdir
 main='https://raw.githubusercontent.com/Wumbee01/Wumbot/main/src/main.py'
 
