@@ -793,7 +793,7 @@ async def vscode(ctx):
 @bot.command(pass_context=True, aliases=['j', 'joi', 'connect'])
 async def join(ctx):
   channel = ctx.message.author.voice.channel
-  voice = get(bot.voice_clients, guild=ctx.guild)
+  voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
   if voice and voice.is_connected():
     await voice.move_to(channel)  
   else:
@@ -810,7 +810,7 @@ async def join(ctx):
 @bot.command(pass_context=True, aliases=['l', 'lea','disconnect'])
 async def leave(ctx):
   channel = ctx.message.author.voice.channel
-  voice = get(bot.voice_clients, guild=ctx.guild)
+  voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
   if voice and voice.is_connected():
     await voice.disconnect()
     print(f"The bot has left {channel}")
@@ -831,7 +831,7 @@ async def play(ctx, url: str):
     await ctx.send("ERROR: Music playing")
     return
   await ctx.send("Getting everything ready now")
-  voice = get(bot.voice_clients, guild=ctx.guild)
+  voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
   ydl_opts = {
     'format': 'bestaudio/best',
     'postprocessors': [{
