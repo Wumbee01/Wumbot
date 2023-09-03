@@ -825,15 +825,6 @@ async def leave(ctx):
 
 @bot.command(pass_context=True, aliases=['p', 'pla', 'start'])
 async def play(ctx, url: str):
-  song_there = os.path.isfile("song.mp3")
-  try:
-    files = [f for f in os.listdir() if os.path.isfile(f) and f.endswith(".mp3")]
-    if files != None:
-      os.remove(files[0])
-  except PermissionError:
-    print("Trying to delete song file, but it's being played")
-    await ctx.send("ERROR: Music playing")
-    return
   await ctx.send("Getting everything ready now")
   voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
   def downloader(string):
@@ -852,5 +843,10 @@ async def play(ctx, url: str):
   voice.is_playing()
   await ctx.send(f"Playing: {name}")
   print("playing\n")
+
+@bot.command()
+async def terminate(ctx):
+  os.remove("song.mp3")
+  await ctx.respond("Cleared(?)")
 
 bot.run(sys.argv[1])
