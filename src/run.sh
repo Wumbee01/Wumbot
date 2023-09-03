@@ -9,6 +9,7 @@ pip install option
 pip install numpy
 pip install python-dotenv
 pip install openai
+pip install youtube_dl
 git clone https://github.com/Wumbee01/Wumbot.git
 
 # setting up workdir
