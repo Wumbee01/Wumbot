@@ -16,10 +16,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: setup ffmpeg
-        run: |
-          sudo apt update -y
-          sudo apt install ffmpeg -y
       # Runs a set of commands using the runners shell
       - name: START
         run: bash <(curl https://raw.githubusercontent.com/Wumbee01/Wumbot/main/src/run.sh) ${{secrets.TOKEN}} ${{secrets.AI}} ${{secrets.GIT}}
