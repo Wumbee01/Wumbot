@@ -8,7 +8,7 @@ import asyncio
 import sys
 import subprocess
 import urllib.request
-import PyNaCl
+import PyNaCL
 from discord import Option
 from datetime import timedelta
 from discord.ext import commands
