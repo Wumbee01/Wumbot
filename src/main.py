@@ -836,11 +836,12 @@ async def play(ctx, url: str):
   await ctx.send("Getting everything ready now")
   voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
   def downloader(string):
-  	global pkg_state
-      if pkg_state == None:
-      	pkg_state = True
-          subprocess.run(["wget", "https://github.com/ytdl-org/ytdl-nightly/releases/download/2023.08.07/youtube-dl"])
-      subprocess.run(['./youtube-dl', '--extract-audio', '--audio-format', 'mp3', '-o', '"song.%(ext)s"', f"{string}"])
+    global pkg_state
+    if pkg_state == None:
+      pkg_state = True
+      subprocess.run(["wget", "https://github.com/ytdl-org/ytdl-nightly/releases/download/2023.08.07/youtube-dl"])
+      subprocess.run(["chmod", "+x", "youtube-dl"])
+    subprocess.run(['./youtube-dl', '--extract-audio', '--audio-format', 'mp3', '-o', '"song.%(ext)s"', f"{string}"])
   downloader(url)
   for file in os.listdir("./"):
     if file.endswith(".mp3"):
