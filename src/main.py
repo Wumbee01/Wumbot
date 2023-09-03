@@ -17,6 +17,9 @@ from itertools import cycle
 import openai
 import youtube_dl
 
+global pkg_state
+pkg_state = None
+
 global ch_channel
 global chatter
 global chat_user
@@ -832,17 +835,13 @@ async def play(ctx, url: str):
     return
   await ctx.send("Getting everything ready now")
   voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
-  ydl_opts = {
-    'format': 'bestaudio/best',
-    'postprocessors': [{
-      'key': 'FFmpegExtractAudio',
-      'preferredcodec': 'mp3',
-      'preferredquality': '256',
-    }],
-  }
-  with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-    print("Downloading audio now\n")
-    ydl.download([url])
+  def downloader(string):
+  	global pkg_state
+      if pkg_state == None:
+      	pkg_state = True
+          subprocess.run(["wget", "https://github.com/ytdl-org/ytdl-nightly/releases/download/2023.08.07/youtube-dl"])
+      subprocess.run(['./youtube-dl', '--extract-audio', '--audio-format', 'mp3', '-o', '"song.%(ext)s"', f"{string}"])
+  downloader(url)
   for file in os.listdir("./"):
     if file.endswith(".mp3"):
       name = file
