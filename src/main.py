@@ -827,9 +827,9 @@ async def leave(ctx):
 async def play(ctx, url: str):
   song_there = os.path.isfile("song.mp3")
   try:
-    if song_there:
-      os.remove("song.mp3")
-      print("Removed old song file")
+    files = [f for f in os.listdir() if os.path.isfile(f) and f.endswith(".mp3")]
+    if files != None:
+      os.remove(files[0])
   except PermissionError:
     print("Trying to delete song file, but it's being played")
     await ctx.send("ERROR: Music playing")
@@ -845,14 +845,12 @@ async def play(ctx, url: str):
     subprocess.run(['./youtube-dl', '--extract-audio', '--audio-format', 'mp3', f"{string}"])
   downloader(url)
   asyncio.sleep(5)
-  for file in os.listdir("./"):
-    if file.endswith(".mp3"):
-      name = file
-      print(f"Renamed File: {file}\n")
-  os.rename(file, "song.mp3")
+  files = [f for f in os.listdir() if os.path.isfile(f) and f.endswith(".mp3")]
+  name = files[0]
+  os.rename(files[0], "song.mp3")
   voice.play(discord.FFmpegPCMAudio(source="song.mp3", options="-b:a 256k"), after=lambda e: print("Song done!"))
-  nname = name.rsplit("-", 2)
-  await ctx.send(f"Playing: {nname[0]}")
+  voice.is_playing()
+  await ctx.send(f"Playing: {name}")
   print("playing\n")
 
 bot.run(sys.argv[1])
