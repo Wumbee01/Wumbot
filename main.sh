@@ -5,12 +5,12 @@ git_sync () {
 	git checkout sub
 	git branch --set-upstream-to=origin/sub
 	git add --all
-	git config --global user.email "hakurei@asia.com"
-	git config --global user.name "hakureii"
+	git config --global user.email "not.real@fake-email.com"
+	git config --global user.name "Wumbee"
 	git commit -am 'remote sync'
 	git config pull.rebase false
 	git pull origin main
-	git push https://hakureii:${GIT}@github.com/${REPO}.git sub
+	git push https://Wumbee01:${GIT}@github.com/${REPO}.git sub
 }
 
 touch BOTCONDITION
