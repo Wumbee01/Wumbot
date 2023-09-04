@@ -15,7 +15,6 @@ from discord.ext.commands import MissingPermissions
 from discord.ext import commands, tasks
 from itertools import cycle
 import openai
-import youtube_dl
 
 global pkg_state
 pkg_state = None
