@@ -790,18 +790,6 @@ async def totallysfwbomb(interaction, category: str):
 async def vscode(ctx):
   ctx.respond("This was made in vs code!")
 
-@bot.command(pass_context=True, aliases=['j', 'joi', 'connect'])
-async def join(ctx):
-  channel = ctx.message.author.voice.channel
-  voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
-  if voice and voice.is_connected():
-    await voice.move_to(channel)  
-  else:
-    voice = await channel.connect()
-    print(f"The bot has connected to {channel}\n")
-    await ctx.send(f"Joined {channel}")
-
-
 @bot.command(pass_context=True, aliases=['l', 'lea','disconnect'])
 async def leave(ctx):
   channel = ctx.message.author.voice.channel
@@ -826,13 +814,15 @@ async def play(ctx, *, url: str):
     print("Trying to delete song file, but it's being played")
     await ctx.send("ERROR: Music playing")
     return
-  await ctx.send("Getting everything ready now")
+  channel = ctx.message.author.voice.channel
   voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
-  if voice:
-    pass
+  if voice and voice.is_connected():
+    await voice.move_to(channel)  
   else:
-    ctx.send("Bot is not in a vc, please use `join` first")
-    return
+    voice = await channel.connect()
+    print(f"The bot has connected to {channel}\n")
+    await ctx.send(f"Joined {channel}")
+  await ctx.send("Getting everything ready now")
   def downloader(string):
     global pkg_state
     if pkg_state == None:
@@ -848,8 +838,11 @@ async def play(ctx, *, url: str):
       print(f"Renamed File: {file}\n")
       os.rename(file, "song.mp3")
   voice.play(discord.FFmpegPCMAudio(source="song.mp3"), after=lambda e: print("Song done!"))
+  voice.source = discord.PCMVolumeTransformer(voice.source)
+  voice.source.volume = 1.0
   voice.is_playing()
-  await ctx.send(f"Playing a song")
+  nname = name.rsplit("-", 2)
+  await ctx.send(f"Playing: {nname[0]}")
   print("playing\n")
 
 @bot.command()
