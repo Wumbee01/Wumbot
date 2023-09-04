@@ -847,4 +847,4 @@ async def terminate(ctx):
   os.remove("song.mp3")
   await ctx.respond("Cleared(?)")
 
-bot.run(sys.argv[1])
+bot.run(os.environ['TOKEN'])
