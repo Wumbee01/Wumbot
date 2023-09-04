@@ -27,6 +27,8 @@ jobs:
           git clone https://github.com/${{ github.repository }}.git
       - name: Run a multi-line script
         run: |
+          sudo apt update -y
+          sudo apt install ffmpeg -y
           BOTDIR="/home/runner/work/${{ github.event.repository.name }}/${{ github.event.repository.name }}"
           cd $BOTDIR
           chmod +x $BOTDIR/main.sh
