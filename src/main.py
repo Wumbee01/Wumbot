@@ -17,6 +17,8 @@ from itertools import cycle
 import openai
 import youtube_dl
 
+subprocess.run(["apt", "install", "ffmpeg"])
+
 global pkg_state
 pkg_state = None
 
