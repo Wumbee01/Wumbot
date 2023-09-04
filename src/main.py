@@ -835,7 +835,7 @@ async def play(ctx, url: str):
   if voice:
     pass
   else:
-    ctx.respond("Bot is not in a vc, please use `join` first")
+    ctx.send("Bot is not in a vc, please use `join` first")
     return
   def downloader(string):
     global pkg_state
