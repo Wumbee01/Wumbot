@@ -823,6 +823,7 @@ async def play(ctx, *, url: str):
     print(f"The bot has connected to {channel}\n")
     await ctx.send(f"Joined {channel}")
   if voice.is_playing():
+    voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
     await voice.disconnect()
     await channel.connect()
   await ctx.send("Getting everything ready now")
@@ -843,7 +844,7 @@ async def play(ctx, *, url: str):
   voice.play(discord.FFmpegPCMAudio(source="song.mp3"), after=lambda e: print("Song done!"))
   voice.source = discord.PCMVolumeTransformer(voice.source)
   voice.source.volume = 1.0
-  await voice.is_playing()
+  voice.is_playing()
   nname = name.rsplit("-", 2)
   await ctx.send(f"Playing: {nname[0]}")
   print("playing\n")
