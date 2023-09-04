@@ -1,1 +1,9 @@
-
+py-cord
+PyNaCl
+urllib3
+args
+tasks
+option
+numpy
+python-dotenv
+openai
