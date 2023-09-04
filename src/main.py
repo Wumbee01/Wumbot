@@ -848,8 +848,6 @@ async def play(ctx, url: str):
       print(f"Renamed File: {file}\n")
       os.rename(file, "song.mp3")
   voice.play(discord.FFmpegPCMAudio(source="song.mp3"), after=lambda e: print("Song done!"))
-  voice.source = discord.PCMVolumeTransformer(voice.source)
-  voice.source.volume = 1.0
   voice.is_playing()
   await ctx.send(f"Playing a song")
   print("playing\n")
