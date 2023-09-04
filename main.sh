@@ -5,6 +5,7 @@ git_sync () {
 	git checkout sub
 	git branch --set-upstream-to=origin/sub
 	git add --all
+        git remove youtube-dl
 	git config --global user.email "not.real@fake-email.com"
 	git config --global user.name "Wumbee"
 	git commit -am 'remote sync'
