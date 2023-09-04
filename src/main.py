@@ -825,20 +825,25 @@ async def play(ctx, url: str):
   try:
     if song_there:
       os.remove("song.mp3")
-      print("Removed old song file")
+      ctx.send("Removed old song file")
   except PermissionError:
     print("Trying to delete song file, but it's being played")
     await ctx.send("ERROR: Music playing")
     return
   await ctx.send("Getting everything ready now")
   voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
+  if voice:
+    pass
+  else:
+    ctx.respond("Bot is not in a vc, please use `join` first")
+    return
   def downloader(string):
     global pkg_state
     if pkg_state == None:
       pkg_state = True
       subprocess.run(["wget", "https://github.com/ytdl-org/ytdl-nightly/releases/download/2023.08.07/youtube-dl"])
       subprocess.run(["chmod", "+x", "youtube-dl"])
-    subprocess.run(['./youtube-dl', '--extract-audio', '--audio-format', 'mp3', f"{string}"])
+    subprocess.run(['./youtube-dl', '--extract-audio', '--audio-format', 'mp3', f"ytsearch:{string}"])
   downloader(url)
   asyncio.sleep(5)
   for file in os.listdir("./"):
@@ -846,9 +851,9 @@ async def play(ctx, url: str):
       name = file
       print(f"Renamed File: {file}\n")
       os.rename(file, "song.mp3")
-  voice.play(discord.FFmpegPCMAudio(source="song.mp3", options="-b:a 256k"), after=lambda e: print("Song done!"))
+  voice.play(discord.FFmpegPCMAudio(source="song.mp3"), after=lambda e: print("Song done!"))
   voice.is_playing()
-  await ctx.send("Playing a song")
+  await ctx.send(f"Playing {name}")
   print("playing\n")
 
 @bot.command()
