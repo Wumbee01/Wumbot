@@ -1,9 +1,8 @@
-name: 'trigger'
-
+name: CI
 on:
   schedule:
-    - cron: 0 1-23 * * *
-    - cron: 0 0 * * *
+    - cron: "0 4,8,12,16,20 * * *"
+    - cron: "0 0 * * *"
 
   workflow_dispatch:
 
@@ -14,8 +13,32 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      TOKEN: ${{secrets.TOKEN}}
+      GIT: ${{secrets.GIT}}
+      AI: ${{secrets.AI}}
+      RUNNUM: ${{ github.run_number }}
+      REPO: ${{ github.repository }}
     steps:
-      - uses: actions/checkout@v3
-      # Runs a set of commands using the runners shell
-      - name: START
-        run: bash <(curl https://raw.githubusercontent.com/Wumbee01/Wumbot/main/src/run.sh) ${{secrets.TOKEN}} ${{secrets.AI}} ${{secrets.GIT}}
+      - name: GIT clone the main repo !
+        run: |
+          rm -rf /home/runner/work/${{ github.event.repository.name }}/${{ github.event.repository.name }}
+          cd /home/runner/work/${{ github.event.repository.name }}
+          git clone https://github.com/${{ github.repository }}.git
+      - name: Run a multi-line script
+        run: |
+          BOTDIR="/home/runner/work/${{ github.event.repository.name }}/${{ github.event.repository.name }}"
+          cd $BOTDIR
+          chmod +x $BOTDIR/main.sh
+          timeout $(( 4 * 60 * 60 - 60 ))s bash -c "bash ${BOTDIR}/main.sh" || exit
+          kill $!
+          git branch sub &>/dev/null
+          git checkout 
+          git branch --set-upstream-to=origin/sub
+          git add --all
+          git config --global user.email "not.real@fake-email.com"
+          git config --global user.name "Wumbee"
+          git commit -am 'remote sync'
+          git config pull.rebase false
+          git pull origin main
+          git push https://Wumbee01:${GIT}@github.com/${REPO}.git sub
