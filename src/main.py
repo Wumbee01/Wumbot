@@ -816,7 +816,7 @@ async def leave(ctx):
     await ctx.send("Don't think I am in a voice channel")
 
 @bot.command(pass_context=True, aliases=['p', 'pla', 'start'])
-async def play(ctx, url: str):
+async def play(ctx, *, url: str):
   song_there = os.path.isfile("song.mp3")
   try:
     if song_there:
@@ -839,7 +839,7 @@ async def play(ctx, url: str):
       pkg_state = True
       subprocess.run(["wget", "https://github.com/ytdl-org/ytdl-nightly/releases/download/2023.08.07/youtube-dl"])
       subprocess.run(["chmod", "+x", "youtube-dl"])
-    subprocess.run(['./youtube-dl', '--format', 'bestaudio' '--extract-audio', '--audio-format', 'mp3', '--audio-quality', '0', f"ytsearch:{string}"])
+    subprocess.run(['./youtube-dl', '--extract-audio', '--audio-format', 'mp3', '--audio-quality', '0', f"ytsearch:{string}"])
   downloader(url)
   asyncio.sleep(5)
   for file in os.listdir("./"):
