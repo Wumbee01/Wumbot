@@ -67,8 +67,6 @@ async def on_ready():
 async def change_status():
   await bot.change_presence(activity=discord.Game(random.choice(["I am watching you", "H.I.V.E tech - Online (Use /help!)"])))
 
-main = f"https://{sys.argv[3]}@github.com/Wumbee01/Wumbot.git"
-
 @tasks.loop(seconds=30)
 async def pinger():
   url = "http://hive-netbase-pycord.wumbee01.repl.co"
