@@ -822,10 +822,6 @@ async def play(ctx, *, url: str):
     voice = await channel.connect()
     print(f"The bot has connected to {channel}\n")
     await ctx.send(f"Joined {channel}")
-  if voice.is_playing():
-    voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
-    await voice.disconnect()
-    await channel.connect()
   await ctx.send("Getting everything ready now")
   def downloader(string):
     global pkg_state
