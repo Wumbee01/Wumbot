@@ -811,6 +811,7 @@ async def join(ctx):
 async def leave(ctx):
   channel = ctx.message.author.voice.channel
   voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
+  voice.disconnect()
   if voice and voice.is_connected():
     await voice.disconnect()
     print(f"The bot has left {channel}")
