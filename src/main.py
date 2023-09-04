@@ -851,7 +851,7 @@ async def play(ctx, url: str):
   voice.source = discord.PCMVolumeTransformer(voice.source)
   voice.source.volume = 1.0
   voice.is_playing()
-  await ctx.send(f"Playing {name}")
+  await ctx.send(f"Playing a song")
   print("playing\n")
 
 @bot.command()
