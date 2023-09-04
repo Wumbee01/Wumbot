@@ -816,6 +816,9 @@ async def play(ctx, *, url: str):
     return
   channel = ctx.message.author.voice.channel
   voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
+  if voice.is_playing():
+    await voice.disconnect()
+    await channel.connect()
   if voice and voice.is_connected():
     await voice.move_to(channel)  
   else:
@@ -837,9 +840,9 @@ async def play(ctx, *, url: str):
       name = file
       print(f"Renamed File: {file}\n")
       os.rename(file, "song.mp3")
-  voice.play(discord.FFmpegPCMAudio(source="song.mp3"), after=lambda e: print("Song done!"))
-  voice.source = discord.PCMVolumeTransformer(voice.source)
-  voice.source.volume = 1.0
+  await voice.play(discord.FFmpegPCMAudio(source="song.mp3"), after=lambda e: print("Song done!"))
+  await voice.source = discord.PCMVolumeTransformer(voice.source)
+  await voice.source.volume = 1.0
   voice.is_playing()
   nname = name.rsplit("-", 2)
   await ctx.send(f"Playing: {nname[0]}")
