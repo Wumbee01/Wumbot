@@ -839,7 +839,7 @@ async def play(ctx, url: str):
       pkg_state = True
       subprocess.run(["wget", "https://github.com/ytdl-org/ytdl-nightly/releases/download/2023.08.07/youtube-dl"])
       subprocess.run(["chmod", "+x", "youtube-dl"])
-    subprocess.run(['./youtube-dl', '--extract-audio', '--audio-format', 'mp3', f"ytsearch:{string}"])
+    subprocess.run(['./youtube-dl', '--format', 'bestaudio' '--extract-audio', '--audio-format', 'mp3', '--audio-quality', '0', f"ytsearch:{string}"])
   downloader(url)
   asyncio.sleep(5)
   for file in os.listdir("./"):
@@ -848,6 +848,8 @@ async def play(ctx, url: str):
       print(f"Renamed File: {file}\n")
       os.rename(file, "song.mp3")
   voice.play(discord.FFmpegPCMAudio(source="song.mp3"), after=lambda e: print("Song done!"))
+  voice.source = discord.PCMVolumeTransformer(voice.source)
+  voice.source.volume = 1.0
   voice.is_playing()
   await ctx.send(f"Playing {name}")
   print("playing\n")
