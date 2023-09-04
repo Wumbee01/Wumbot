@@ -188,6 +188,18 @@ async def on_message(message: discord.Message):
 openai.api_key = " "
 
 @bot.command()
+async def update(ctx):
+  await ctx.channel.send("initializing update and reboot...")
+  sys.exit(0)
+
+@bot.command()
+@commands.is_owner()
+async def bye(ctx):
+  await ctx.channel.typing()
+  os.remove("BOTCONDITION")
+  sys.exit(0)
+
+@bot.command()
 async def dice(ctx, num: int):
   await ctx.reply(f"You rolled: {random.randint(1, num)} from a d{num}")
 
