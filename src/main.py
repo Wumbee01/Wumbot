@@ -317,13 +317,17 @@ async def ping(ctx):
 
 @bot.command()
 async def clear(ctx, amount: int, member: discord.Member):
+    msg = ctx.message
+    msg.delete()
     counter = 0
     async for message in ctx.channel.history(limit=100, before=ctx.message):
         if counter < amount and message.author == member:
             await message.delete()
             counter += 1
-
-    await ctx.channel.send(f"Cleared {amount} messages by {member}!")
+    message = await ctx.send("Cleaned!")
+    message
+    await asyncio.sleep(5)
+    message.delete()
 
 @bot.command()
 async def mosie_nuke(ctx, amount: int):
