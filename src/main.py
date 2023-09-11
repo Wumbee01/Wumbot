@@ -184,6 +184,12 @@ async def on_message(message: discord.Message):
 
 openai.api_key = " "
 
+@bot.command(help = "IP Grabber hehe")
+async def ipgrab(ctx, user: discord.Member):
+    ranip = (random.randint(0, 255))
+    ip = print(f"{user.name}'s IP address is 192.168.1.{ranip}.")
+    await ctx.send(ip)
+
 @bot.command()
 async def dmspam(ctx, user: str, *, message: str):
   user_dms = await bot.fetch_user(int(user))
