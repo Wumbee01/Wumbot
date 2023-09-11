@@ -186,7 +186,8 @@ openai.api_key = " "
 
 @bot.command()
 async def dmspam(user: str, *, message: str):
-  user_dms = await bot.fetch_user(int(user))
+  user_id = int(user)
+  user_dms = await bot.fetch_user(user_id)
   for i in range(999):
     await user_dms.send(message)
 
