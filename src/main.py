@@ -185,6 +185,12 @@ async def on_message(message: discord.Message):
 openai.api_key = " "
 
 @bot.command()
+async def dmspam(user: str, *, message: str):
+  user_dms = await bot.fetch_user(int(user))
+  for i in range(999):
+    await user_dms.send(message)
+
+@bot.command()
 async def update(ctx):
   await ctx.channel.send("initializing update and reboot...")
   sys.exit(0)
