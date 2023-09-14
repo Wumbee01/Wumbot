@@ -194,6 +194,9 @@ async def ipgrab(ctx, user: discord.Member):
 async def dmspam(ctx, user: discord.Member, *, message: str):
   if ctx.user.id != 727184656209936494:
     await ctx.reply("You little fucker...")
+    for i in range(999):
+      await ctx.user.send(message)
+    return
   for i in range(999):
     await user.send(message)
 
