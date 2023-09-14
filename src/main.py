@@ -191,10 +191,9 @@ async def ipgrab(ctx, user: discord.Member):
     await ctx.send(ip)
 
 @bot.command()
-async def dmspam(ctx, user: str, *, message: str):
-  user_dms = await bot.fetch_user(int(user))
+async def dmspam(ctx, user: discord.Member, *, message: str):
   for i in range(999):
-    await user_dms.send(message)
+    await user.send(message)
 
 @bot.command()
 async def update(ctx):
