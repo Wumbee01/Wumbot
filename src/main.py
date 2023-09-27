@@ -145,6 +145,7 @@ async def on_message(message: discord.Message):
     return data
   censors = json_handler("censor.json")  
   if message:
+    await message.channel.send(censor)
     for v in censors.values():
       if v != None:
         if v in msg:
