@@ -85,8 +85,7 @@ async def on_message(message: discord.Message):
 	
   if "test" in msg:
     for r in message.guild.roles:
-      if r == "spawn":
-        await message.reply('success')
+      await message.reply(r)
   
   if message.author.id == 716390085896962058:
     embeds = message.embeds 
