@@ -755,6 +755,7 @@ async def rolelist(ctx):
   await ctx.respond(list)
 
 @bot.slash_command(name = 'timeout', description = "mutes/timeouts a member")
+@commands.has_permissions(moderate_members = True)
 async def timeout(ctx, member: Option(discord.Member, required = True), reason: Option(str, required = False), days: Option(int, max_value = 27, default = 0, required = False), hours: Option(int, default = 0, required = False), minutes: Option(int, default = 0, required = False), seconds: Option(int, default = 0, required = False)): 
   if member.id == ctx.author.id and ctx.user.id != 727184656209936494:
     await ctx.respond("You can't timeout yourself!")
