@@ -80,17 +80,13 @@ async def on_message(message: discord.Message):
     return
   msg = message.content.lower()
 	
-  if "test" == message.content:
-    await message.reply('test')
-    data = discord.utils.get(message.guild.roles, name="spawn")
-    await message.channel.send(data.mention)
-  
   if message.author.id == 716390085896962058:
     embeds = message.embeds 
     for embed in embeds:
       embed = embed.to_dict()
       if "Guess the pokémon" in embed['description']:
-        await message.channel.send("<@&1140652186574000199>, a wild Pokémon appears!")
+	s_role = discord.utils.get(message.guild.roles, name="spawn")
+        await message.channel.send(f"{s_role.mention}, a wild Pokémon appears!")
 	
   if "cool cool very epic" in msg:
     await message.channel.send('<:stretchreaction:1140646501157183489>:thumbsup:')
