@@ -417,8 +417,8 @@ class MyView(discord.ui.View):
     @discord.ui.button(label="Fun", row=0, style=discord.ButtonStyle.blurple)
     async def first_button_callback(self, button, interaction):
       FunEmbed = discord.Embed(title="Fun commands!", description="*Well, I think they are fun...*", color=0x9d89c9)
-      FunEmbed.add_field(name="***Echo:***", value=" **•** (prefix command) Makes the bot say something", inline=False)        
-      FunEmbed.add_field(name="***Spam:***", value=" **•** (prefix command) format: !spam <amount> <message>) Sends a message repeatedly", inline=False)
+      FunEmbed.add_field(name="***(Prefix)Echo:***", value=" **•** Makes the bot say something", inline=False)        
+      FunEmbed.add_field(name="***(PrefixSpam:***", value=" **•** format: !spam <amount> <message>) Sends a message repeatedly", inline=False)
       FunEmbed.add_field(name="***2ball:***", value=" **•** Yes or no", inline=False)
       FunEmbed.add_field(name="***8ball:***", value=" **•** Classic 8ball", inline=False)
       FunEmbed.add_field(name="***Ping:***", value=" **•** Pings Bee", inline=True)
@@ -432,7 +432,13 @@ class MyView(discord.ui.View):
       FunEmbed.add_field(name="***Waifuhelp:***", value=" **•** Lists all categories", inline=False)
       FunEmbed.add_field(name="***Bees:***", value=" **•** Sends a Bee image", inline=False)
       FunEmbed.add_field(name="***Raccoons:***", value=" **•** Sends a Raccon image", inline=False)
-      FunEmbed.add_field(name="***Whatisdeez:***", value=" **•** Heh...", inline=False)      
+      FunEmbed.add_field(name="***Whatisdeez:***", value=" **•** Heh...", inline=False)
+      FunEmbed.add_field(name="***(Prefix)DMSpam:***", value=" **•** Dont try it lol", inline = False)
+      FunEmbed.add_field(name="***Chatmode:***", value=" **•** Links a DM and a channel together", inline = False)
+      FunEmbed.add_field(name="***Bridge:***", value=" **•** Links two channels together, can be from different servers", inline = False)
+      FunEmbed.add_field(name="***Guess:***", value=" **•** Guess a number from 1~10", inline = False)
+      FunEmbed.add_field(name="***(Prefix)(VC)Join:***", value=" **•** (Format eg: !p rickroll) Plays a song", inline = False)
+      FunEmbed.add_field(name="***(Prefix)(VC)Leave:***", value=" **•** Makes bot leave the vc", inline = False)
       FunEmbed.set_footer(text="Wum-NET™")  
       button.disabled = True
       await interaction.response.edit_message(view=self)
@@ -446,9 +452,10 @@ class MyView(discord.ui.View):
         embedVar.add_field(name="***Roleadd:***", value=" **•** Adds a role", inline=False)
         embedVar.add_field(name="***Roleremove:***", value=" **•** Removes a role", inline=False)
         embedVar.add_field(name="***Purge:***", value=" **•** Deletes messages", inline=False)
-        embedVar.add_field(name="***Clear:***", value=" **•** (Prefix command) format: !clear <amount> <user>", inline=False)
+        embedVar.add_field(name="***(Prefix)Clear:***", value=" **•** format: !clear <amount> <user>", inline=False)
         embedVar.add_field(name="***Timeout:***", value=" **•** Times out a user", inline=False)
         embedVar.add_field(name="***Roles:***", value=" **•** Shows a Member's roles", inline=False)
+			  embedVar.add_field(name="***Censor***:", value=" **•** Censor anything", inline = False)
         button.disabled = True
         await interaction.response.edit_message(view=self)
         await interaction.followup.send(embed=embedVar)
@@ -831,7 +838,7 @@ async def leave(ctx):
     await ctx.send("Don't think I am in a voice channel")
 
 @bot.command(pass_context=True, aliases=['p', 'pla', 'start'])
-async def play(ctx, *, url: str):
+async def play(ctx, type: str, *, url: str):
   song_there = os.path.isfile("song.mp3")
   try:
     if song_there:
@@ -856,7 +863,10 @@ async def play(ctx, *, url: str):
       pkg_state = True
       subprocess.run(["wget", "https://github.com/ytdl-org/ytdl-nightly/releases/download/2023.08.07/youtube-dl"])
       subprocess.run(["chmod", "+x", "youtube-dl"])
-    subprocess.run(['./youtube-dl', '--extract-audio', '--audio-format', 'mp3', '--audio-quality', '0', f"ytsearch:{string}"])
+    if type == "url":
+      subprocess.run(['./youtube-dl', '--extract-audio', '--audio-format', 'mp3', '--audio-quality', '0', f"{string}"])
+    else:
+      subprocess.run(['./youtube-dl', '--extract-audio', '--audio-format', 'mp3', '--audio-quality', '0', f"ytsearch:{string}"])
   downloader(url)
   asyncio.sleep(5)
   for file in os.listdir("./"):
