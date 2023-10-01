@@ -432,8 +432,7 @@ class MyView(discord.ui.View):
       FunEmbed.add_field(name="***Waifuhelp:***", value=" **•** Lists all categories", inline=False)
       FunEmbed.add_field(name="***Bees:***", value=" **•** Sends a Bee image", inline=False)
       FunEmbed.add_field(name="***Raccoons:***", value=" **•** Sends a Raccon image", inline=False)
-      FunEmbed.add_field(name="***Whatisdeez:***", value=" **•** Heh...", inline=False)
-      FunEmbed.add_field(name="***Mosie_nuke:***", value=" **•** (Prefix command) format: !mosie_nuke <amount>", inline=False)      
+      FunEmbed.add_field(name="***Whatisdeez:***", value=" **•** Heh...", inline=False)      
       FunEmbed.set_footer(text="Wum-NET™")  
       button.disabled = True
       await interaction.response.edit_message(view=self)
