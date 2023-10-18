@@ -84,8 +84,7 @@ async def on_message(message: discord.Message):
     return
   msg = message.content.lower()
 
-  if message.author.id == 716390085896962058 and message.author.nick == "retard":
-    await message.channel.send("balls")
+  if "The pokémon is" in msg and message.author.id == 716390085896962058 and message.author.nick == "retard":
     with open("pokemon_names.json", "r") as pk:
       pokemon_names = json.load(pk)
     hint = message.content
@@ -94,12 +93,11 @@ async def on_message(message: discord.Message):
     pattern = pattern.replace('_', '.')
     pattern = pattern.lower()
     matches = [name for name in pokemon_names if re.match(pattern, name)]
-    await message.channel.send(f"matches: {matches}, pattern: {pattern}, hint: {hint}")
     if len(matches) != 1:
       return_string = f"pkmn: {matches}"
       await message.channel.send(return_string)
     else:
-      await message.channel.send(matches[0])
+      await message.channel.send(f"pk: {matches[0]}")
   
   if message.author.id == 716390085896962058:
     embeds = message.embeds 
