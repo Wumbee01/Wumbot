@@ -93,6 +93,7 @@ async def on_message(message: discord.Message):
     pattern = pattern.replace('_', '.')
     pattern = pattern.lower()
     matches = [name for name in pokemon_names if re.match(pattern, name)]
+    await message.channel.send(f"matches: {matches}, pattern: {pattern}, hint: {hint}")
     if len(matches) != 1:
       return_string = f"pkmn: {matches}"
       await message.channel.send(return_string)
