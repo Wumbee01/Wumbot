@@ -84,7 +84,7 @@ async def on_message(message: discord.Message):
     return
   msg = message.content.lower()
 
-  if message.author.id == 716390085896962058 and message.author.nick == "retard":
+  if "the pokémon is" in msg and message.author.id == 716390085896962058 and message.author.nick == "p!botted":
     with open("pokemon_names.json", "r") as pk:
       pokemon_names = json.load(pk)
     hint = message.content
