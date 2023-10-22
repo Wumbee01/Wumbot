@@ -229,6 +229,9 @@ async def dmspam(ctx, member: discord.Member, *, message: str):
 
 @bot.command()
 async def update(ctx):
+  if ctx.author.id != 727184656209936494:
+    await ctx.reply("nope")
+    return
   await ctx.channel.send("initializing update and reboot...")
   sys.exit(0)
 
