@@ -211,40 +211,127 @@ mage = [12, 60, 65, 15]
 rogue = [7, 70, 85, 35]
 
 global players
+global amt_players
 players = {}
+amt_players = 0
 
 heal = 15
 @bot.command()
 async def help_ut(ctx):
-  await ctx.send("Pick a character with `join_ut`\nThe characters are rogue and mage\n\nYou can use `atk_ut`, `mercy_ut`, `act_ut`")
+  await ctx.send("Pick a character with `join_ut` and start with `start_ut`\nThe characters are rogue and mage\n\nYou can use `fight_ut`, `mercy_ut`, `act_ut`, `item_ut`")
 
 @bot.command()
 async def join_ut(ctx, char: str):
   global mage
   global rogue
   global players
+  global amt_players
   match char:
     case "mage":
-      players.update({ctx.author.id: mage.copy()})
-      await ctx.send("You have joined!")
-      amt_players = 0
-      for i in players.keys():
+      if len(players.keys()) != 2:
+        players.update({ctx.author.id: mage.copy()})
+        await ctx.send("You have joined!")
         amt_players += 1
-      await ctx.send(f"There are now {amt_players} players")
+        await ctx.send(f"There are now {amt_players} players")
+      else:
+        await ctx.send("Use `start_ut`")
     case "rogue":
-      players.update({ctx.author.id: rogue.copy()})
-      await ctx.send("You have joined!")
-      amt_players = 0
-      for i in players.keys():
+      if len(players.keys()) != 2:
+        players.update({ctx.author.id: rogue.copy()})
+        await ctx.send("You have joined!")
         amt_players += 1
-      await ctx.send(f"There are now {amt_players} players")
+        await ctx.send(f"There are now {amt_players} players")
+      else:
+        await ctx.send("Use `start_ut`")
+    case _:
+      await ctx.send("Invalid character! Only mage and rogue is available")
+
+global p1
+global p2
+p1 = None
+p2 = None
+global current_player
+current_player = None
+global p1_data
+global p2_data
+p1_data = None
+p2_data = None
 
 @bot.command()
 async def start_ut(ctx):
+  global players
+  global amt_players
+  global p1
+  global p2
+  global p1_data
+  global p2_data
+  global current_player
+  if amt_players != 2:
+    await ctx.send("Not enough players! You need 2")
+  p1 = players.keys()[0]
+  p2 = players.keys()[1]
+  # data[0] = atk, data[1] = hp, data[2] = accuracy, data[3] = crit
+  p1_data = players[p1]
+  p2_data = players[p2]
+  current_player = 1
+  await ctx.send("It is now <@{p1}>'s turn (player 1)")
+
+@bot.command()
+async def fight_ut(ctx):
+  global players
+  global amt_players
+  global p1
+  global p2
+  global p1_data
+  global p2_data
+  global current_player
+  # data[0] = atk, data[1] = hp, data[2] = accuracy, data[3] = crit
+  match current_player:
+    case 1:
+      if ctx.author.id != p1:
+        await ctx.send("Not your turn!")
+        return
+      if random.randint(0, 100) > p1_data[2]:
+        await ctx.send('Missed!, your turn has ended')
+        current_player = 2
+        return
+      atk = random.randint(1, p1_data[1])
+      if random.randint(0, 100) < p1_data[3]:
+        atk * 1.5
+        p2_data[1] = p2_data[1] - atk
+        await ctx.send(f'Crit! You dealt {atk} damage. Your opponent has {p2_data[1]}HP left, your turn has ended')
+        current_player = 2
+        return
+      p2_data[1] = p2_data[1] - atk
+      await ctx.send(f'You dealt {atk} damage. Your opponent has {p2_data[1]}HP left, your turn has ended')
+      current_player = 2
+      return
+    case 2:
+      if ctx.author.id != p2:
+        await ctx.send("Not your turn!")
+        return
+      if random.randint(0, 100) > p2_data[2]:
+        await ctx.send('Missed!, your turn has ended')
+        current_player = 1
+        return
+      atk = random.randint(1, p2_data[1])
+      if random.randint(0, 100) < p2_data[3]:
+        atk * 1.5
+        p1_data[1] = p1_data[1] - atk
+        await ctx.send(f'Crit! You dealt {atk} damage. Your opponent has {p1_data[1]}HP left, your turn has ended')
+        current_player = 1
+        return
+      p1_data[1] = p2_data[1] - atk
+      await ctx.send(f'You dealt {atk} damage. Your opponent has {p1_data[1]}HP left, your turn has ended')
+      current_player = 1
+      return
+
+@bot.command()
+async def mercy_ut(ctx):
   pass
 
 @bot.command()
-async def atk_ut():
+async def act_ut(ctx):
   pass
 
 @bot.command()
