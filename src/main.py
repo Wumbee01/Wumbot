@@ -204,6 +204,49 @@ async def on_message(message: discord.Message):
 
 openai.api_key = " "
 
+# char = atk, hp, accuracy, crit
+global mage
+global rogue
+mage = [12, 60, 65, 15]
+rogue = [7, 70, 85, 35]
+
+global players
+players = {}
+
+heal = 15
+@bot.command()
+async def help_ut(ctx):
+  await ctx.send("Pick a character with `join_ut`\nThe characters are rogue and mage\n\nYou can use `atk_ut`, `mercy_ut`, `act_ut`")
+
+@bot.command()
+async def join_ut(ctx, char: str):
+  global mage
+  global rogue
+  global players
+  match char:
+    case "mage":
+      players.update({ctx.author.id: mage.copy()})
+      await ctx.send("You have joined!")
+      amt_players = 0
+      for i in players.keys():
+        amt_players += 1
+      await ctx.send(f"There are now {amt_players} players")
+    case "rogue":
+      players.update({ctx.author.id: rogue.copy()})
+      await ctx.send("You have joined!")
+      amt_players = 0
+      for i in players.keys():
+        amt_players += 1
+      await ctx.send(f"There are now {amt_players} players")
+
+@bot.command()
+async def start_ut(ctx):
+  pass
+
+@bot.command()
+async def atk_ut():
+  pass
+
 @bot.command()
 async def cal(ctx, a: int, b: int, c: str = '+', d: str = '-'):
   result = eval(f"{a} {c} {b}")
