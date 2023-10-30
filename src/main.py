@@ -257,6 +257,23 @@ global p2_data
 p1_data = None
 p2_data = None
 
+global reset
+def reset():
+  global p1
+  global p2
+  global current_player
+  global p1_data
+  global p2_data
+  global players
+  global amt_players
+  p1 = None
+  p2 = None
+  current_player = 0
+  p1_data = None
+  p2_data = None
+  players = {}
+  amt_players = 0
+
 @bot.command()
 async def start_ut(ctx):
   global players
@@ -325,10 +342,41 @@ async def fight_ut(ctx):
       await ctx.send(f'You dealt {atk} damage. Your opponent has {p1_data[1]}HP left, your turn has ended')
       current_player = 1
       return
+    case _:
+      await ctx.send("A game has not been started")
 
 @bot.command()
 async def mercy_ut(ctx):
-  pass
+  global players
+  global amt_players
+  global p1
+  global p2
+  global p1_data
+  global p2_data
+  global current_player
+  # data[0] = atk, data[1] = hp, data[2] = accuracy, data[3] = crit
+  match current_player:
+    case 1:
+      if ctx.author.id != p1:
+        await ctx.send("Not your turn!")
+        return
+      if p1_data[1] < p2_data[1]:
+        await ctx.send("You have lower HP than your opponent, use another action")
+        return
+      if random.randint(0, 100) > 20:
+        await ctx.send("Your opponent failed to see reason, your turn was wasted")
+        current_player = 2
+        return
+      await ctx.send("Successfully convinced your opponent to back off, game has ended\nJoin and start a new game")
+    case 2:
+      if ctx.author.id != p2:
+        await ctx.send("Not your turn!")
+        return
+      if p2_data[1] < p1_data[1]:
+        await ctx.send("You have lower HP than your opponent, use another action")
+        return
+    case _:
+      await ctx.send("A game has not been started")
 
 @bot.command()
 async def act_ut(ctx):
