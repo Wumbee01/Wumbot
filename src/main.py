@@ -302,6 +302,7 @@ async def fight_ut(ctx):
   global p1_data
   global p2_data
   global current_player
+  global reset
   # data[0] = atk, data[1] = hp, data[2] = accuracy, data[3] = crit
   match current_player:
     case 1:
@@ -316,9 +317,17 @@ async def fight_ut(ctx):
       if random.randint(0, 100) < p1_data[3]:
         atk * 1.5
         p2_data[1] = p2_data[1] - atk
+        if p2_data[1] == 0 or p2_data[1] < 0:
+          await ctx.reply("You win! join and start another match.")
+          reset()
+          return
         await ctx.send(f'Crit! You dealt {atk} damage. Your opponent has {p2_data[1]}HP left, your turn has ended')
         current_player = 2
         return
+      if p2_data[1] == 0 or p2_data[1] < 0:
+          await ctx.reply("You win! join and start another match.")
+          reset()
+          return
       p2_data[1] = p2_data[1] - atk
       await ctx.send(f'You dealt {atk} damage. Your opponent has {p2_data[1]}HP left, your turn has ended')
       current_player = 2
@@ -335,10 +344,18 @@ async def fight_ut(ctx):
       if random.randint(0, 100) < p2_data[3]:
         atk * 1.5
         p1_data[1] = p1_data[1] - atk
+        if p1_data[1] == 0 or p1_data[1] < 0:
+          await ctx.reply("You win! join and start another match.")
+          reset()
+          return
         await ctx.send(f'Crit! You dealt {atk} damage. Your opponent has {p1_data[1]}HP left, your turn has ended')
         current_player = 1
         return
-      p1_data[1] = p2_data[1] - atk
+      p1_data[1] = p1_data[1] - atk
+      if p1_data[1] == 0 or p1_data[1] < 0:
+        await ctx.reply("You win! join and start another match.")
+        reset()
+        return
       await ctx.send(f'You dealt {atk} damage. Your opponent has {p1_data[1]}HP left, your turn has ended')
       current_player = 1
       return
@@ -354,6 +371,7 @@ async def mercy_ut(ctx):
   global p1_data
   global p2_data
   global current_player
+  global reset
   # data[0] = atk, data[1] = hp, data[2] = accuracy, data[3] = crit
   match current_player:
     case 1:
@@ -367,7 +385,9 @@ async def mercy_ut(ctx):
         await ctx.send("Your opponent failed to see reason, your turn was wasted")
         current_player = 2
         return
-      await ctx.send("Successfully convinced your opponent to back off, game has ended\nJoin and start a new game")
+      await ctx.send("Successfully convinced your opponent to quit, game has ended\nJoin and start a new game")
+      reset()
+      return 
     case 2:
       if ctx.author.id != p2:
         await ctx.send("Not your turn!")
@@ -375,12 +395,33 @@ async def mercy_ut(ctx):
       if p2_data[1] < p1_data[1]:
         await ctx.send("You have lower HP than your opponent, use another action")
         return
+      if random.randint(0, 100) > 20:
+        await ctx.send("Your opponent failed to see reason, your turn was wasted")
+        current_player = 1
+        return
+      await ctx.send("Successfully convinced your opponent to quit, game has ended\nJoin and start a new game")
+      reset()
+      return 
     case _:
       await ctx.send("A game has not been started")
 
 @bot.command()
 async def act_ut(ctx):
-  pass
+  global players
+  global amt_players
+  global p1
+  global p2
+  global p1_data
+  global p2_data
+  global current_player
+  global reset
+  match current_player:
+    case 1:
+      pass
+    case 2:
+      pass
+    case _:
+      await ctx.send("A game has not been started")
 
 @bot.command()
 async def cal(ctx, a: int, b: int, c: str = '+', d: str = '-'):
