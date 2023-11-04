@@ -218,7 +218,7 @@ amt_players = 0
 heal = 15
 @bot.command()
 async def help_ut(ctx):
-  await ctx.send("Pick a character with `join_ut` and start with `start_ut`\nThe characters are rogue and mage\n\nYou can use `fight_ut`, `mercy_ut`, `act_ut`, `item_ut`")
+  await ctx.send("Pick a character with `join_ut` and start with `start_ut`\nThe characters are rogue and mage\n\nYou can use `fight_ut`, `mercy_ut` and `act_ut`")
 
 @bot.command()
 async def join_ut(ctx, char: str):
@@ -324,11 +324,11 @@ async def fight_ut(ctx):
         await ctx.send(f'Crit! You dealt {atk} damage. Your opponent has {p2_data[1]}HP left, your turn has ended')
         current_player = 2
         return
+      p2_data[1] = p2_data[1] - atk
       if p2_data[1] == 0 or p2_data[1] < 0:
           await ctx.reply("You win! join and start another match.")
           reset()
           return
-      p2_data[1] = p2_data[1] - atk
       await ctx.send(f'You dealt {atk} damage. Your opponent has {p2_data[1]}HP left, your turn has ended')
       current_player = 2
       return
@@ -415,13 +415,95 @@ async def act_ut(ctx):
   global p2_data
   global current_player
   global reset
+  # data[0] = atk, data[1] = hp, data[2] = accuracy, data[3] = crit
   match current_player:
     case 1:
-      pass
+      num = random.randint(1, 100)
+      if num == 1:
+        await ctx.send('You got the 1 in 100 chance action!')
+        await ctx.send('Sansfield smites the enemy for 30 HP')
+        p2_data[1] - 30
+        if p2_data[1] == 0 or p2_data[1] < 0:
+          await ctx.reply("Bro died :skull:")
+          reset()
+          return
+        current_player = 2
+        return
+      if 10 > num:
+        await ctx.send("You feel invigorated! +2 atk")
+        p1_data[0] += 2
+        current_player = 2
+        return
+      if 20 > num:
+        await ctx.send('You feel scared! -1 atk')
+        p1_data[0] -= 1
+        current_player = 2
+        return
+      if 30 > num:
+        await ctx.send('You feel ***DETERMINED***!!! +10 HP')
+        p1_data[1] += 10
+        current_player = 2
+        return
+      if 40 > num:
+        await ctx.send('You feel hopeless. -5 HP')
+        p1_data[1] -= 5
+        current_player = 2
+        return
+      if 50 > num:
+        await ctx.send('You called a ceasefire and bonded(?) with your enemy... you feel closer?')
+        await ctx.send('You are uneffected physically...')
+        current_player = 2
+        return
+      await ctx.send('Nothing happened. Boooring.')
+      current_player = 2
+      return
     case 2:
-      pass
+      num = random.randint(1, 100)
+      if num == 1:
+        await ctx.send('You got the 1 in 100 chance action!')
+        await ctx.send('Sansfield smites the enemy for 30 HP')
+        p1_data[1] - 30
+        if p1_data[1] == 0 or p1_data[1] < 0:
+          await ctx.reply("Bro died :skull:")
+          reset()
+          return
+        current_player = 1
+        return
+      if 10 > num:
+        await ctx.send("You feel invigorated! +2 atk")
+        p2_data[0] += 2
+        current_player = 1
+        return
+      if 20 > num:
+        await ctx.send('You feel less motivated. -1 atk')
+        p2_data[0] -= 1
+        current_player = 1
+        return
+      if 30 > num:
+        await ctx.send('You feel ***DeTErMinATion***!!! +10 HP')
+        p2_data[1] += 10
+        current_player = 1
+        return
+      if 40 > num:
+        await ctx.send('You feel hopeless. -5 HP')
+        p2_data[1] -= 5
+        if p1_data[1] == 0 or p1_data[1] < 0:
+          await ctx.reply("Bro died :skull:")
+          reset()
+          return
+        current_player = 1
+        return
+      if 50 > num:
+        await ctx.send('You called a ceasefire and bonded(?) with your enemy... you feel closer?')
+        await ctx.send('You are uneffected physically...')
+        current_player = 1
+        return
+      await ctx.send('Nothing happened. Boooring.')
+      current_player = 1
+      return
     case _:
       await ctx.send("A game has not been started")
+      return
 
 @bot.command()
 async def cal(ctx, a: int, b: int, c: str = '+', d: str = '-'):
