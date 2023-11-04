@@ -292,7 +292,30 @@ async def start_ut(ctx):
   p1_data = players[p1]
   p2_data = players[p2]
   current_player = 1
-  await ctx.send("It is now <@{p1}>'s turn (player 1)")
+  await ctx.send(f"It is now <@{p1}>'s turn (player 1)")
+
+@bot.command()
+async def stats_ut(ctx):
+  global p1
+  global p2
+  global p1_data
+  global p2_data
+  global current_player
+  if ctx.author.id == p1:
+    viewer = 1
+  if ctx.author.id == p2:
+    viewer = 2
+  match viewer:
+    case 1:
+      msg = f'HP: {p1_data[1]}\nAttack:{p1_data[0]}\nAccuracy:{p1_data[2]}\nCrit Chance\n{p1_data[3]}'
+      await ctx.send(msg)
+      pass
+    case 2:
+      msg = f'HP: {p2_data[1]}\nAttack:{p2_data[0]}\nAccuracy:{p2_data[2]}\nCrit Chance\n{p2_data[3]}'
+      await ctx.send(msg)
+      pass
+    case _:
+      await ctx.send("Are you ingame?")
 
 @bot.command()
 async def fight_ut(ctx):
@@ -314,7 +337,7 @@ async def fight_ut(ctx):
         await ctx.send('Missed!, your turn has ended')
         current_player = 2
         return
-      atk = random.randint(1, p1_data[1])
+      atk = random.randint(1, p1_data[0])
       if random.randint(0, 100) < p1_data[3]:
         atk * 1.5
         p2_data[1] = p2_data[1] - atk
@@ -341,7 +364,7 @@ async def fight_ut(ctx):
         await ctx.send('Missed!, your turn has ended')
         current_player = 1
         return
-      atk = random.randint(1, p2_data[1])
+      atk = random.randint(1, p2_data[0])
       if random.randint(0, 100) < p2_data[3]:
         atk * 1.5
         p1_data[1] = p1_data[1] - atk
