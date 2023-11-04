@@ -17,6 +17,30 @@ from discord.ext import commands, tasks
 from itertools import cycle
 import openai
 
+global p1
+global p2
+p1 = None
+p2 = None
+global current_player
+current_player = None
+global p1_data
+global p2_data
+p1_data = None
+p2_data = None
+
+# char = atk, hp, accuracy, crit
+global mage
+global rogue
+mage = [12, 60, 65, 15]
+rogue = [7, 70, 85, 35]
+
+global players
+global amt_players
+players = {}
+amt_players = 0
+
+heal = 15
+
 global pkg_state
 pkg_state = None
 
@@ -204,18 +228,6 @@ async def on_message(message: discord.Message):
 
 openai.api_key = " "
 
-# char = atk, hp, accuracy, crit
-global mage
-global rogue
-mage = [12, 60, 65, 15]
-rogue = [7, 70, 85, 35]
-
-global players
-global amt_players
-players = {}
-amt_players = 0
-
-heal = 15
 @bot.command()
 async def help_ut(ctx):
   await ctx.send("Pick a character with `join_ut` and start with `start_ut`\nThe characters are rogue and mage\n\nYou can use `fight_ut`, `mercy_ut` and `act_ut`")
@@ -245,17 +257,6 @@ async def join_ut(ctx, char: str):
         await ctx.send("Use `start_ut`")
     case _:
       await ctx.send("Invalid character! Only mage and rogue is available")
-
-global p1
-global p2
-p1 = None
-p2 = None
-global current_player
-current_player = None
-global p1_data
-global p2_data
-p1_data = None
-p2_data = None
 
 global reset
 def reset():
