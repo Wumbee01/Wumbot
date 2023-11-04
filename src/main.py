@@ -286,8 +286,8 @@ async def start_ut(ctx):
   global current_player
   if amt_players != 2:
     await ctx.send("Not enough players! You need 2")
-  p1 = players.keys()[0]
-  p2 = players.keys()[1]
+  p1 = list(players.keys())[0]
+  p2 = list(players.keys())[1]
   # data[0] = atk, data[1] = hp, data[2] = accuracy, data[3] = crit
   p1_data = players[p1]
   p2_data = players[p2]
