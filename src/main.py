@@ -16,6 +16,7 @@ from discord.ext.commands import MissingPermissions
 from discord.ext import commands, tasks
 from itertools import cycle
 import openai
+from discord.utils import find
 
 global p1
 global p2
@@ -227,6 +228,22 @@ async def on_message(message: discord.Message):
   await bot.process_commands(message)
 
 openai.api_key = " "
+
+@bot.event
+async def on_guild_join(guild):
+  general = find(lambda x: x.name == 'general',  guild.text_channels)
+  if general and general.permissions_for(guild.me).send_messages:
+    await general.send(f'Hello there {guild.name}!\nUse /help for list of commands\nIf you have Pokétwo, use the /spawnping command to receive pings!')
+  await guild.create_role(name="spawn")
+
+@bot.slash_command(description = 'Sets up Pokétwo pings!')
+async def spawnping(ctx):
+  try:
+    s_role = discord.utils.get(ctx.guild.roles, name="spawn")
+    await ctx.user.add_roles(s_role)
+    await ctx.respond("Role added!")
+  except exception as e:
+    await ctx.send(e)
 
 @bot.command()
 async def help_ut(ctx):
