@@ -242,7 +242,7 @@ async def spawnping(ctx):
     s_role = discord.utils.get(ctx.guild.roles, name="spawn")
     await ctx.user.add_roles(s_role)
     await ctx.respond("Role added!")
-  except exception as e:
+  except Exception as e:
     await ctx.send(e)
 
 @bot.command()
