@@ -35,9 +35,8 @@ jobs:
           cd $BOTDIR
           git config --global user.email "not.real@fake-email.com"
           git config --global user.name "Wumbee"
-          git pull
-          git push --force origin sub
           git checkout sub
+          git push --force origin main
       - name: Update the runner
         run: |
           BOTDIR="/home/runner/work/${{ github.event.repository.name }}/${{ github.event.repository.name }}"
