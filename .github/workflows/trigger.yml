@@ -46,3 +46,13 @@ jobs:
           chmod +x $BOTDIR/main.sh
           timeout $(( 4 * 60 * 60 - 60 ))s bash -c "bash ${BOTDIR}/main.sh" || exit
           kill $!
+      - name: Clean-up 
+        run: |
+          git checkout main
+          git remote set-url origin https://${GIT}@github.com/Wumbee01/Wumbot.git
+          git add --all
+          git commit -am 'sync main'
+          git config pull.rebase false
+          git pull origin main
+          git push
+          git push origin main:sub --force
