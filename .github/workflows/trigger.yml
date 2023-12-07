@@ -25,10 +25,12 @@ jobs:
           rm -rf /home/runner/work/${{ github.event.repository.name }}/${{ github.event.repository.name }}
           cd /home/runner/work/${{ github.event.repository.name }}
           git clone https://github.com/${{ github.repository }}.git
-      - name: Run a multi-line script
+      - name: Update Linux
         run: |
           sudo apt update -y
           sudo apt install ffmpeg -y
+      - name: Git sync
+        run: |
           BOTDIR="/home/runner/work/${{ github.event.repository.name }}/${{ github.event.repository.name }}"
           cd $BOTDIR
           git config --global user.email "not.real@fake-email.com"
@@ -36,6 +38,10 @@ jobs:
           git pull
           git push --force https://Wumbee01:${GIT}@github.com/${REPO}.git HEAD:sub
           git checkout sub
+      - name: Update the runner
+        run: |
+          BOTDIR="/home/runner/work/${{ github.event.repository.name }}/${{ github.event.repository.name }}"
+          cd $BOTDIR
           chmod +x $BOTDIR/main.sh
           timeout $(( 4 * 60 * 60 - 60 ))s bash -c "bash ${BOTDIR}/main.sh" || exit
           kill $!
