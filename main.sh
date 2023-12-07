@@ -11,6 +11,7 @@ git_sync () {
 	git commit -am 'remote sync'
 	git config pull.rebase false
 	git push https://Wumbee01:${GIT}@github.com/${REPO}.git sub
+        git push origin main
 }
 
 touch BOTCONDITION
