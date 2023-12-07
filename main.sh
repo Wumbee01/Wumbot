@@ -7,7 +7,7 @@ git_sync () {
 	git config --global user.name "Wumbee"
 	git commit -am 'sync main'
 	git config pull.rebase false
-	git origin sub:main
+	git push origin sub:main
 }
 
 touch BOTCONDITION
