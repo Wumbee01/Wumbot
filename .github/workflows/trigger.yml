@@ -34,13 +34,3 @@ jobs:
           chmod +x $BOTDIR/main.sh
           timeout $(( 4 * 60 * 60 - 60 ))s bash -c "bash ${BOTDIR}/main.sh" || exit
           kill $!
-          git branch sub &>/dev/null
-          git checkout 
-          git branch --set-upstream-to=origin/sub
-          git add --all
-          git remove youtube-dl
-          git config --global user.email "not.real@fake-email.com"
-          git config --global user.name "Wumbee"
-          git commit -am 'remote sync'
-          git config pull.rebase false
-          git push https://Wumbee01:${GIT}@github.com/${REPO}.git sub
