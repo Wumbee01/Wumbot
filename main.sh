@@ -10,7 +10,6 @@ git_sync () {
 	git config --global user.name "Wumbee"
 	git commit -am 'remote sync'
 	git config pull.rebase false
-	git pull origin main
 	git push https://Wumbee01:${GIT}@github.com/${REPO}.git sub
 }
 
