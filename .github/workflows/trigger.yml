@@ -31,6 +31,8 @@ jobs:
           sudo apt install ffmpeg -y
           BOTDIR="/home/runner/work/${{ github.event.repository.name }}/${{ github.event.repository.name }}"
           cd $BOTDIR
+          git config --global user.email "not.real@fake-email.com"
+          git config --global user.name "Wumbee"
           git pull
           git checkout main
           git commit -am "sync sub"
