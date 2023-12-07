@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 git checkout sub
 git_sync () {
-	git branch --set-upstream-to=origin/sub
+	git checkout sub
 	git add --all
-        git remove youtube-dl
 	git config --global user.email "not.real@fake-email.com"
 	git config --global user.name "Wumbee"
 	git commit -am 'remote sync'
