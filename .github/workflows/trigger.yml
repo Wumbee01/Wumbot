@@ -36,7 +36,9 @@ jobs:
           git config --global user.email "not.real@fake-email.com"
           git config --global user.name "Wumbee"
           git checkout sub
-          git push --force origin main
+          git remote set-url origin https://${TOKEN}@github.com/Wumbee01/Wumbot.git
+          git merge origin/main
+          git push --force origin sub
       - name: Run the bot
         run: |
           BOTDIR="/home/runner/work/${{ github.event.repository.name }}/${{ github.event.repository.name }}"
