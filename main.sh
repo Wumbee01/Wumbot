@@ -2,7 +2,7 @@
 git checkout sub
 git_sync () {
         git checkout main
-	git remote set-url origin https://${TOKEN}@github.com/Wumbee01/Wumbot.git
+	git remote set-url origin https://${GIT}@github.com/Wumbee01/Wumbot.git
 	git add --all
 	git config --global user.email "not.real@fake-email.com"
 	git config --global user.name "Wumbee"
