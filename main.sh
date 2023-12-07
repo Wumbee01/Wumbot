@@ -9,6 +9,7 @@ git_sync () {
 	git commit -am 'sync main'
 	git config pull.rebase false
         git pull origin main
+	git push
         git push origin main:sub --force
 }
 
