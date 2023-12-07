@@ -10,6 +10,11 @@ git_sync () {
 	git push origin sub
 }
 
+fetch_updates () {
+        git checkout main
+	git pull
+}
+
 touch BOTCONDITION
 izuku () {
 	while [ -f BOTCONDITION ]
@@ -17,6 +22,7 @@ izuku () {
 	  mkdir -p logs
 	  python3 src/main.py
 	  git_sync
+          fetch_updates
 	  done
 }
 pip install -r requirements.txt
