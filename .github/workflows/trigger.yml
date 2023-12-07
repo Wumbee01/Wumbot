@@ -37,7 +37,7 @@ jobs:
           git config --global user.name "Wumbee"
           git checkout sub
           git remote set-url origin https://${TOKEN}@github.com/Wumbee01/Wumbot.git
-          git merge origin/main
+          git merge -X theirs origin/main || true
           git push --force origin sub
       - name: Run the bot
         run: |
