@@ -33,8 +33,6 @@ jobs:
           cd $BOTDIR
           git config --global user.email "not.real@fake-email.com"
           git config --global user.name "Wumbee"
-          git pull
-          git checkout main
           git commit -am "sync sub"
           git push https://Wumbee01:${GIT}@github.com/${REPO}.git sub
           git checkout sub
