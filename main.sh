@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
-
+git checkout sub
 git_sync () {
-	git branch sub
-	git checkout sub
 	git branch --set-upstream-to=origin/sub
 	git add --all
         git remove youtube-dl
@@ -10,8 +8,7 @@ git_sync () {
 	git config --global user.name "Wumbee"
 	git commit -am 'remote sync'
 	git config pull.rebase false
-	git push https://Wumbee01:${GIT}@github.com/${REPO}.git sub
-        git push origin main
+	git push
 }
 
 touch BOTCONDITION
