@@ -33,7 +33,7 @@ jobs:
           cd $BOTDIR
           git config --global user.email "not.real@fake-email.com"
           git config --global user.name "Wumbee"
-          git push https://Wumbee01:${GIT}@github.com/${REPO}.git sub
+          git push https://Wumbee01:${GIT}@github.com/${REPO}.git sub:sub
           git checkout sub
           chmod +x $BOTDIR/main.sh
           timeout $(( 4 * 60 * 60 - 60 ))s bash -c "bash ${BOTDIR}/main.sh" || exit
