@@ -37,7 +37,7 @@ jobs:
           git config --global user.name "Wumbee"
           git checkout sub
           git push --force origin main
-      - name: Update the runner
+      - name: Run the bot
         run: |
           BOTDIR="/home/runner/work/${{ github.event.repository.name }}/${{ github.event.repository.name }}"
           cd $BOTDIR
