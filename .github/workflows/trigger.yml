@@ -35,10 +35,10 @@ jobs:
           cd $BOTDIR
           git config --global user.email "not.real@fake-email.com"
           git config --global user.name "Wumbee"
-          git checkout sub
           git remote set-url origin https://${GIT}@github.com/Wumbee01/Wumbot.git
-          git merge -X theirs origin/main || true
-          git push --force origin sub
+          git checkout main
+          git pull origin main
+          git push origin main:sub --force
       - name: Run the bot
         run: |
           BOTDIR="/home/runner/work/${{ github.event.repository.name }}/${{ github.event.repository.name }}"
