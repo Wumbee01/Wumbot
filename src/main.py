@@ -96,19 +96,25 @@ async def pinger():
 	
 @bot.event
 async def on_message(message: discord.Message):
+  global wumbee
   if message.author == bot.user:
     return
   msg = message.content.lower()
   if message.content.startswith('sudo'):
-    import subprocess
     cmd = message.content
-    split_cmd = cmd.split(' ')
-    split_cmd.pop(0)
-    cmd = ' '.join(split_cmd)
-    await message.channel.send(f'Your command was:\n{cmd}')
-    result = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, text=True)
+    if message.author.id != wumbee:
+      split_cmd = cmd.split(' ')
+      split_cmd.pop(0)
+      cmd = ' '.join(split_cmd)
+    result = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     stdout_result = result.stdout
-    await message.channel.send(f'Bash output!\n{stdout_result}')
+    stdout_error = result.stderr
+    if stdout_result == None:
+      await message.channel.send(f'Error...\n{stdout_error}\nResults (if any):')
+      await message.channel.send(stdout_result)
+      return
+    await message.channel.send(f'Bash result!\n{stdout_result}')
+    await message.channel.send(f'Error...\n{stdout_error}')
     
   if "<@830863280237969438>" == message.content:
     await message.reply('Fuck off!')
