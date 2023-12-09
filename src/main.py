@@ -108,7 +108,7 @@ async def pinger():
 async def on_message(message: discord.Message):
   if message.author == bot.user:
     return
-  if sudo in msg:
+  if 'sudo' in msg:
     split_message = shlex.split(message.content)
     result = subprocess.run(split_command, capture_output=True, text=True)
     output = result.stdout
