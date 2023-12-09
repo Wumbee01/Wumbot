@@ -223,7 +223,7 @@ async def on_message(message: discord.Message):
       if isinstance(chat_user, discord.TextChannel):
         await chat_user.send(f"{message.author.name}: {message.content}")
         return
-      await chat_user.send(message.content)
+      await chat_user.send(f"{message.author.namr}: {message.content}")
   else:
     pass
   await bot.process_commands(message)
