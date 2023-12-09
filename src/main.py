@@ -328,7 +328,7 @@ async def start_ut(ctx):
 @bot.command()
 async def bash(ctx, *, cmd: str):
   global wumbee
-  if ctx.user.id != wumbee:
+  if ctx.author.id != wumbee:
     split_cmd = cmd.split(' ')
     split_cmd = [word for word in split_cmd if word not in ('sudo', 'su', 'rm', 'rf', 'pkill', 'kill')]
     cmd = ' '.join(split_cmd)
