@@ -113,7 +113,8 @@ async def on_message(message: discord.Message):
       await message.reply(f'Error...\n{stdout_error}')
       return
     await message.reply(f'Bash result!\n{stdout_result}')
-    await message.reply(f'Error...\n{stdout_error}')
+    if stdout_error != None:
+      await message.reply(f'Error...\n{stdout_error}')
     
   if "<@830863280237969438>" == message.content:
     await message.reply('Fuck off!')
