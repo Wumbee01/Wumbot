@@ -1,4 +1,5 @@
 import re
+import shlex
 import discord
 import os
 import time
@@ -61,7 +62,7 @@ channel_id = None
 global wumbee
 wumbee = 727184656209936494
 
-prefix = ["!", "<@830863280237969438> ", "bee ", "sudo ", "exec "]
+prefix = ["!", "<@830863280237969438> ", "bee ", "Bee ", "exec ", "Exec ", "! "]
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
@@ -107,6 +108,11 @@ async def pinger():
 async def on_message(message: discord.Message):
   if message.author == bot.user:
     return
+  if sudo in msg:
+    split_message = shlex.split(message.content)
+    result = subprocess.run(split_command, capture_output=True, text=True)
+    output = result.stdout
+    await message.channel.send(f'Your bash output:\n{output}')
   msg = message.content.lower()
   if "<@830863280237969438>" == message.content:
     await message.reply('Fuck off!')
@@ -223,7 +229,7 @@ async def on_message(message: discord.Message):
       if isinstance(chat_user, discord.TextChannel):
         await chat_user.send(f"{message.author.name}: {message.content}")
         return
-      await chat_user.send(message.content)
+      await chat_user.send(f"{message.author.namr}: {message.content}")
   else:
     pass
   await bot.process_commands(message)
