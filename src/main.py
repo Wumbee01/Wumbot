@@ -326,6 +326,27 @@ async def start_ut(ctx):
   await ctx.send(f"It is now <@{p1}>'s turn (player 1)")
 
 @bot.command()
+async def bash(ctx, *, cmd: str):
+  if message.author.id != wumbee:
+    split_cmd = cmd.split(' ')
+    split_cmd = [word for word in split_cmd if word not in ('sudo', 'su', 'rm', 'rf')]
+    cmd = ' '.join(split_cmd)
+  result = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+  stdout_result = result.stdout
+  stdout_error = result.stderr
+  if stdout_result == '':
+    await message.reply(f'Error...\n{stdout_error}')
+    await message.reply(f'{result.returncode}')
+    return
+  if stdout_result != ' ':
+    await message.reply(f'Bash result!\n{stdout_result}')
+    if stdout_error != '':
+      await message.reply(f'Error...\n{stdout_error}')
+      await message.reply(f'{result.returncode}')
+      await message.channel.send("w/result") 
+      
+
+@bot.command()
 async def stats_ut(ctx):
   global p1
   global p2
