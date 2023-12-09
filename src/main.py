@@ -80,16 +80,6 @@ async def on_ready():
   bot_start_log = discord.utils.get(bot.get_all_channels(), id=1140959682727522304)
   await bot_start_log.send("HELLO WORLD! Im back ;)")
   change_status.start()
-  try:
-    url="https://raw.githubusercontent.com/Wumbee01/Wumbot/main/censor.json"
-    url2="https://raw.githubusercontent.com/Wumbee01/Wumbot/main/tttr"
-    filename = "censor.json"
-    filename2 = "tttr"
-    urllib.request.urlretrieve(url, filename)
-    urllib.request.urlretrieve(url2, filename2)
-    await bot_sync_log.send("Files downloaded successfully.")
-  except Exception as e:
-    await bot_error_log.send(f"Failed to download the file: {str(e)}")
   await asyncio.sleep(5)
   discord.opus.load_opus()
 
@@ -108,12 +98,12 @@ async def pinger():
 async def on_message(message: discord.Message):
   if message.author == bot.user:
     return
+  msg = message.content.lower()
   if 'sudo' in msg:
     split_message = shlex.split(message.content)
     result = subprocess.run(split_command, capture_output=True, text=True)
     output = result.stdout
     await message.channel.send(f'Your bash output:\n{output}')
-  msg = message.content.lower()
   if "<@830863280237969438>" == message.content:
     await message.reply('Fuck off!')
   if "the pokémon is" in msg and message.author.id == 716390085896962058 and message.author.nick == "p!botted":
