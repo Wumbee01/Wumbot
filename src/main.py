@@ -104,7 +104,7 @@ async def on_message(message: discord.Message):
     cmd = message.content
     if message.author.id != wumbee:
       split_cmd = cmd.split(' ')
-      split_cmd = [word for word in split_cmd if word not in ('sudo', 'su', 'rm', '-rf')]
+      split_cmd = [word for word in split_cmd if word not in ('sudo', 'su', 'rm', '-rf', 'kill', 'pkill')]
       cmd = ' '.join(split_cmd)
     result = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     stdout_result = result.stdout
@@ -329,7 +329,7 @@ async def start_ut(ctx):
 async def bash(ctx, *, cmd: str):
   if message.author.id != wumbee:
     split_cmd = cmd.split(' ')
-    split_cmd = [word for word in split_cmd if word not in ('sudo', 'su', 'rm', 'rf')]
+    split_cmd = [word for word in split_cmd if word not in ('sudo', 'su', 'rm', 'rf', 'pkill', 'kill')]
     cmd = ' '.join(split_cmd)
   result = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
   stdout_result = result.stdout
