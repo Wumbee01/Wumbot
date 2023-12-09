@@ -113,7 +113,7 @@ async def on_message(message: discord.Message):
       await message.reply(f'Error...\n{stdout_error}')
       return
     await message.reply(f'Bash result!\n{stdout_result}')
-    if stdout_error != None:
+    if stdout_error != False:
       await message.reply(f'Error...\n{stdout_error}')
     await message.reply(f'{result.returncode}')
     await message.channel.send(type(stdout_error))
