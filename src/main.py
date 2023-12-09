@@ -108,7 +108,8 @@ async def on_message(message: discord.Message):
   if message.author == bot.user:
     return
   msg = message.content.lower()
-
+  if "<@830863280237969438>" == message.content:
+    await message.reply('Fuck off!')
   if "the pokémon is" in msg and message.author.id == 716390085896962058 and message.author.nick == "p!botted":
     with open("pokemon_names.json", "r") as pk:
       pokemon_names = json.load(pk)
