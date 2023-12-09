@@ -100,12 +100,15 @@ async def on_message(message: discord.Message):
     return
   msg = message.content.lower()
   if 'sudo' in msg:
-    split_message = message.content.split(' ')
-    split_message.pop(0)
-    await message.channel.send(f'{split_message} {type(split_message)}')
-    result = subprocess.run(split_command, capture_output=True, text=True)
-    output = result.stdout
-    await message.channel.send(f'Your bash output:\n{output}')
+    import subprocess
+    cmd = message.content
+    split_cmd = cmd.split(' ')
+    split_cmd.pop(0)
+    cmd = ' '.join(split_cmd)
+    await message.channel.send(f'Your command was:\n{cmd}')
+    result = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, text=True)
+    stdout_result = result.stdout
+    await message.channel.send(f'Bash output!\n{stdout_result}')
     
   if "<@830863280237969438>" == message.content:
     await message.reply('Fuck off!')
