@@ -109,15 +109,18 @@ async def on_message(message: discord.Message):
     result = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     stdout_result = result.stdout
     stdout_error = result.stderr
-    if stdout_result == None:
+    if stdout_result == ' ':
       await message.reply(f'Error...\n{stdout_error}')
+      await message.reply(f'{result.returncode}')
+      await message.channel.send(type(stdout_error))
       return
-    await message.reply(f'Bash result!\n{stdout_result}')
-    if stdout_error != False:
-      await message.reply(f'Error...\n{stdout_error}')
-    await message.reply(f'{result.returncode}')
-    await message.channel.send(type(stdout_error))
-    
+    if stdout_result != ' ':
+      await message.reply(f'Bash result!\n{stdout_result}')
+      if stdout_error != ' ':
+        await message.reply(f'Error...\n{stdout_error}')
+        await message.reply(f'{result.returncode}')
+        await message.channel.send(type(stdout_error))  
+      
   if "<@830863280237969438>" == message.content:
     await message.reply('Fuck off!')
     
