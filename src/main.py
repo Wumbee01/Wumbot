@@ -102,7 +102,7 @@ async def on_message(message: discord.Message):
   if 'sudo' in msg:
     split_message = message.content.split(' ')
     split_message.pop(0)
-    await message.channel.send(split_message, type(split_message))
+    await message.channel.send(f'{split_message} {type(split_message)}')
     result = subprocess.run(split_command, capture_output=True, text=True)
     output = result.stdout
     await message.channel.send(f'Your bash output:\n{output}')
