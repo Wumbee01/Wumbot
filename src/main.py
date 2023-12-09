@@ -100,12 +100,16 @@ async def on_message(message: discord.Message):
     return
   msg = message.content.lower()
   if 'sudo' in msg:
-    split_message = shlex.split(message.content)
+    split_message = message.content.split(' ')
+    split_message.pop(0)
+    await message.channel.send(split_message, type(split_message))
     result = subprocess.run(split_command, capture_output=True, text=True)
     output = result.stdout
     await message.channel.send(f'Your bash output:\n{output}')
+    
   if "<@830863280237969438>" == message.content:
     await message.reply('Fuck off!')
+    
   if "the pokémon is" in msg and message.author.id == 716390085896962058 and message.author.nick == "p!botted":
     with open("pokemon_names.json", "r") as pk:
       pokemon_names = json.load(pk)
