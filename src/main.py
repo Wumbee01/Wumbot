@@ -327,7 +327,8 @@ async def start_ut(ctx):
 
 @bot.command()
 async def bash(ctx, *, cmd: str):
-  if message.author.id != wumbee:
+  global wumbee
+  if ctx.user.id != wumbee:
     split_cmd = cmd.split(' ')
     split_cmd = [word for word in split_cmd if word not in ('sudo', 'su', 'rm', 'rf', 'pkill', 'kill')]
     cmd = ' '.join(split_cmd)
@@ -335,15 +336,15 @@ async def bash(ctx, *, cmd: str):
   stdout_result = result.stdout
   stdout_error = result.stderr
   if stdout_result == '':
-    await message.reply(f'Error...\n{stdout_error}')
-    await message.reply(f'{result.returncode}')
+    await ctx.reply(f'Error...\n{stdout_error}')
+    await ctx.reply(f'{result.returncode}')
     return
   if stdout_result != ' ':
-    await message.reply(f'Bash result!\n{stdout_result}')
+    await ctx.reply(f'Bash result!\n{stdout_result}')
     if stdout_error != '':
-      await message.reply(f'Error...\n{stdout_error}')
-      await message.reply(f'{result.returncode}')
-      await message.channel.send("w/result") 
+      await ctx.reply(f'Error...\n{stdout_error}')
+      await ctx.reply(f'{result.returncode}')
+      await ctx.channel.send("w/result") 
       
 
 @bot.command()
