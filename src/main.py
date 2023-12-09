@@ -584,6 +584,14 @@ async def update(ctx):
   await ctx.channel.send("initializing update and reboot...")
   sys.exit(0)
 
+@bot.slash.command()
+async def update(ctx):
+  if ctx.user.id != 727184656209936494:
+    await ctx.respond("nope")
+    return
+  await ctx.respond("initializing update and reboot...")
+  sys.exit(0)
+
 @bot.command()
 @commands.is_owner()
 async def bye(ctx):
