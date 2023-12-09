@@ -99,7 +99,7 @@ async def on_message(message: discord.Message):
   if message.author == bot.user:
     return
   msg = message.content.lower()
-  if 'sudo' in msg:
+  if message.content.startswith('sudo'):
     import subprocess
     cmd = message.content
     split_cmd = cmd.split(' ')
