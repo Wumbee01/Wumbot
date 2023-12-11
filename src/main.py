@@ -332,7 +332,7 @@ async def bash(ctx, *, cmd: str):
     split_cmd = cmd.split(' ')
     split_cmd = [word for word in split_cmd if word not in ('sudo', 'su', 'rm', 'rf', 'pkill', 'kill')]
     cmd = ' '.join(split_cmd)
-  result = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+  result = subprocess.run(f"bash -c '{cmd}'", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
   stdout_result = result.stdout
   stdout_error = result.stderr
   if stdout_result == '':
@@ -611,14 +611,6 @@ async def update(ctx):
     await ctx.reply("nope")
     return
   await ctx.channel.send("initializing update and reboot...")
-  sys.exit(0)
-
-@bot.slash_command()
-async def update(ctx):
-  if ctx.user.id != 727184656209936494:
-    await ctx.respond("nope")
-    return
-  await ctx.respond("initializing update and reboot...")
   sys.exit(0)
 
 @bot.command()
