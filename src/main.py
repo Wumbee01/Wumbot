@@ -106,7 +106,7 @@ async def on_message(message: discord.Message):
       split_cmd = cmd.split(' ')
       split_cmd = [word for word in split_cmd if word not in ('sudo', 'su', 'rm', '-rf', 'kill', 'pkill')]
       cmd = ' '.join(split_cmd)
-    result = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    result = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=30)
     stdout_result = result.stdout
     stdout_error = result.stderr
     if stdout_result == '':
@@ -332,7 +332,7 @@ async def bash(ctx, *, cmd: str):
     split_cmd = cmd.split(' ')
     split_cmd = [word for word in split_cmd if word not in ('sudo', 'su', 'rm', 'rf', 'pkill', 'kill')]
     cmd = ' '.join(split_cmd)
-  result = subprocess.run(f"bash -c 'source .bashrc; {cmd}'", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+  result = subprocess.run(f"bash -c 'source .bashrc; {cmd}'", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=30)
   stdout_result = result.stdout
   stdout_error = result.stderr
   if stdout_result == '':
