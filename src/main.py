@@ -107,7 +107,7 @@ async def run_docker_command_realtime(command, channel):
 
     # Read and print the output line by line in real-time
     ln = 0
-    print(process.stdout)
+    print(process.stdout, process.stderr)
     while True:
       output_line = process.stdout.readline()
       ln += 1
