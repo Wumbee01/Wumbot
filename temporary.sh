@@ -1,1 +1,1 @@
-sudo docker run -t ubuntu whoami
+sudo echo hello
