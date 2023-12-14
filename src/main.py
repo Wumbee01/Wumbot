@@ -94,60 +94,6 @@ async def pinger():
   print(response)
   await bot_start_log.send("Pong")
 
-import shutil
-
-async def run_docker_command_realtime(command, channel):
-  try:
-    # Get the current working directory
-    current_dir = os.getcwd()
-    
-    # Create a temporary directory named 'temp' within the current working directory
-    temp_dir = os.path.join(current_dir, "temp")
-    os.makedirs(temp_dir, exist_ok=True)
-    
-    # Copy the current working directory's contents to the 'temp' directory
-    for root, dirs, files in os.walk(current_dir):
-      relative_path = os.path.relpath(root, current_dir)
-      temp_root = os.path.join(temp_dir, relative_path)
-      os.makedirs(temp_root, exist_ok=True)
-      for file in files:
-        shutil.copy2(os.path.join(root, file), os.path.join(temp_root, file))
-    
-    # Run the Docker command on the copied files
-    process = subprocess.Popen(
-      command,
-      stdout=subprocess.PIPE,
-      stderr=subprocess.STDOUT,
-      text=True,
-      bufsize=1,
-      universal_newlines=True,
-      cwd=temp_dir  # Set the current working directory for the command
-    )
-
-    lines = []
-    while True:
-      output_line = process.stdout.readline()
-      if output_line == '' and process.poll() is not None:
-        break
-      lines.append(output_line.strip())
-      if len(lines) >= 50:
-        await channel.send('\n'.join(lines))
-        lines = []
-
-    if lines:
-      await channel.send('\n'.join(lines))
-
-    process.wait()
-
-    if process.returncode != 0:
-      await channel.send(f"code: {process.returncode}")
-
-  except subprocess.CalledProcessError as e:
-    return f"Error running command {command}: {e.stderr}"
-  finally:
-    # Clean up: remove the 'temp' directory
-    shutil.rmtree(temp_dir, ignore_errors=True)
-
 @bot.event
 async def on_message(message: discord.Message):
   global wumbee
@@ -158,11 +104,17 @@ async def on_message(message: discord.Message):
     split_cmd = shlex.split(message.content)
     split_cmd = [word for word in split_cmd if word != 'sudo']
     cmd = ' '.join(split_cmd)
-    command = ["docker", "run", "--volume", f"{os.getcwd()}:/app/temp", "command-runner", "bash", "/app/temp/temporary.sh"]
-    with open("temporary.sh", "w") as file:
-      file.write(cmd)
-    channel = message.channel
-    await run_docker_command_realtime(command, channel)
+    command = f'docker run -t ubuntu {cmd}'
+    result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=30)
+    stdout_result = result.stdout
+    stdout_error = result.stderr
+    if result.returncode != 0:
+      await message.reply('An error has occurred!')
+      await message.channel.send(f'Error: {stdout_error}\n\nCode: {result.returncode}')
+    else:
+      await message.reply('Your Bashchan Output!')
+      await message.channel.send(f'Result: {stdout_result}\n\nCode: {result.returncode}')
+      
   
   if "<@830863280237969438>" == message.content:
     await message.reply('Fuck off!')
@@ -287,6 +239,19 @@ async def on_message(message: discord.Message):
 
 openai.api_key = " "
 
+@bot.command()
+async def bash(ctx, *, cmd: str):
+  command = f'docker run -t ubuntu {cmd}'
+  result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=30)
+  stdout_result = result.stdout
+  stdout_error = result.stderr
+  if result.returncode != 0:
+    await message.reply('An error has occurred!')
+    await message.channel.send(f'Error: {stdout_error}\n\nCode: {result.returncode}')
+  else:
+    await message.reply('Your Bashchan Output!')
+    await message.channel.send(f'Result: {stdout_result}\n\nCode: {result.returncode}')     
+
 @bot.event
 async def on_guild_join(guild):
   general = find(lambda x: x.name == 'general',  guild.text_channels)
@@ -368,15 +333,6 @@ async def start_ut(ctx):
   p2_data = players[p2]
   current_player = 1
   await ctx.send(f"It is now <@{p1}>'s turn (player 1)")
-
-@bot.command()
-async def bash(ctx, *, cmd: str):
-  command = ["docker", "run", "--volume", f"{os.getcwd()}:/app", "command-runner", "bash", "/app/temporary.sh"]
-  with open("temporary.sh", "w") as file:
-    file.write(cmd)
-  channel = ctx.channel
-  await run_docker_command_realtime(command, channel)
-  
 
 @bot.command()
 async def stats_ut(ctx):
