@@ -94,15 +94,34 @@ async def pinger():
   print(response)
   await bot_start_log.send("Pong")
 
-async def run_docker_command_realtime(command, channel):
+import shutil
+
+async def copy_files_to_docker(command, channel):
   try:
+    # Get the current working directory
+    current_dir = os.getcwd()
+    
+    # Create a temporary directory named 'temp' within the current working directory
+    temp_dir = os.path.join(current_dir, "temp")
+    os.makedirs(temp_dir, exist_ok=True)
+    
+    # Copy the current working directory's contents to the 'temp' directory
+    for root, dirs, files in os.walk(current_dir):
+      relative_path = os.path.relpath(root, current_dir)
+      temp_root = os.path.join(temp_dir, relative_path)
+      os.makedirs(temp_root, exist_ok=True)
+      for file in files:
+        shutil.copy2(os.path.join(root, file), os.path.join(temp_root, file))
+    
+    # Run the Docker command on the copied files
     process = subprocess.Popen(
       command,
       stdout=subprocess.PIPE,
       stderr=subprocess.STDOUT,
       text=True,
       bufsize=1,
-      universal_newlines=True
+      universal_newlines=True,
+      cwd=temp_dir  # Set the current working directory for the command
     )
 
     lines = []
@@ -117,7 +136,7 @@ async def run_docker_command_realtime(command, channel):
 
     if lines:
       await channel.send('\n'.join(lines))
- 
+
     process.wait()
 
     if process.returncode != 0:
@@ -125,6 +144,9 @@ async def run_docker_command_realtime(command, channel):
 
   except subprocess.CalledProcessError as e:
     return f"Error running command {command}: {e.stderr}"
+  finally:
+    # Clean up: remove the 'temp' directory
+    shutil.rmtree(temp_dir, ignore_errors=True)
 
 @bot.event
 async def on_message(message: discord.Message):
