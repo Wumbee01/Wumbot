@@ -158,7 +158,7 @@ async def on_message(message: discord.Message):
     split_cmd = shlex.split(message.content)
     split_cmd = [word for word in split_cmd if word != 'sudo']
     cmd = ' '.join(split_cmd)
-    command = ["docker", "run", "--volume", f"{os.getcwd()}:/app", "command-runner", "bash", "/app/temporary.sh"]
+    command = ["docker", "run", "--volume", f"{os.getcwd()}:/app/temp", "command-runner", "bash", "/app/temp/temporary.sh"]
     with open("temporary.sh", "w") as file:
       file.write(cmd)
     channel = message.channel
