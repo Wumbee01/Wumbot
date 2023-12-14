@@ -1,1 +1,1 @@
-cat tttr
+pwd
