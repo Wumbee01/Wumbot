@@ -340,25 +340,12 @@ async def start_ut(ctx):
 
 @bot.command()
 async def bash(ctx, *, cmd: str):
-  global wumbee
-  if ctx.author.id != wumbee:
-    split_cmd = cmd.split(' ')
-    split_cmd = [word for word in split_cmd if word not in ('sudo', 'su', 'rm', 'rf', 'pkill', 'kill', 'alias', 'append', '>>>') and not word.startswith('/', '"', '$')  and not word.startswith('.')]
-    cmd = ' '.join(split_cmd)
-  result = subprocess.run(f"bash -c 'source .bashrc; {cmd}'", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=30)
-  stdout_result = result.stdout
-  stdout_error = result.stderr
-  if stdout_result == '':
-    await ctx.reply(f'Error...\n{stdout_error}')
-    await ctx.reply(f'{result.returncode}')
-    return
-  if stdout_result != ' ':
-    await ctx.reply(f'Bash result!\n{stdout_result}')
-    if stdout_error != '':
-      await ctx.reply(f'Error...\n{stdout_error}')
-      await ctx.reply(f'{result.returncode}')
-      await ctx.channel.send("w/result") 
-      
+  command = ["docker", "run", "--volume", f"{os.getcwd()}:/app", "command-runner", "bash", "/app/temporary.sh"]
+  with open("temporary.sh", "w") as file:
+    file.write(cmd)
+  channel = ctx.channel
+  await run_docker_command_realtime(command, channel)
+  
 
 @bot.command()
 async def stats_ut(ctx):
