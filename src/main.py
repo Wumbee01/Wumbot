@@ -102,24 +102,12 @@ async def on_message(message: discord.Message):
   msg = message.content.lower()
   if message.content.startswith('sudo'):
     cmd = message.content
-    if message.author.id != wumbee:
-      split_cmd = cmd.split(' ')
-      split_cmd = [word for word in split_cmd if word not in ('sudo', 'su', 'rm', '-rf', 'kill', 'pkill', 'alias', 'append', '>>>') and not word.startswith('/', '"', '$') and not word.startswith('.')]
-      cmd = ' '.join(split_cmd)
-    result = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=30)
-    stdout_result = result.stdout
-    stdout_error = result.stderr
-    if stdout_result == '':
-      await message.reply(f'Error...\n{stdout_error}')
-      await message.reply(f'{result.returncode}')
-      return
-    if stdout_result != ' ':
-      await message.reply(f'Bash result!\n{stdout_result}')
-      if stdout_error != '':
-        await message.reply(f'Error...\n{stdout_error}')
-        await message.reply(f'{result.returncode}')
-        await message.channel.send("w/result") 
-      
+    command = ["docker", "run", "--volume", f"{os.getcwd()}:/app", "command-runner", "bash", "/app/temporary.sh"]
+    with open("temporary.sh", "w") as file:
+      file.write(cmd)
+      channel = message.channel
+    await run_docker_command_realtime(command, channel)
+    
   if "<@830863280237969438>" == message.content:
     await message.reply('Fuck off!')
     
