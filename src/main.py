@@ -93,7 +93,38 @@ async def pinger():
   response = requests.get(url)
   print(response)
   await bot_start_log.send("Pong")
-	
+
+async def run_docker_command_realtime(command, channel):
+  try:
+    process = subprocess.Popen(
+      command,
+      stdout=subprocess.PIPE,
+      stderr=subprocess.STDOUT,
+      text=True,  # Capture output as text
+      bufsize=1,  # Line-buffered
+      universal_newlines=True  # Use universal newlines mode
+    )
+
+    # Read and print the output line by line in real-time
+    ln = 0
+    while True:
+      output_line = process.stdout.readline()
+      ln += 1
+      if output_line == '' and process.poll() is not None:
+        break
+      if ln >= 50:
+        await channel.send(output_line.strip())
+        ln = 0
+
+    # Ensure the process has completed
+    process.wait()
+
+    if process.returncode != 0:
+      await channel.send(str(f"code: {process.returncode}"))
+
+  except subprocess.CalledProcessError as e:
+    return f"Error running command {command}: {e.stderr}"
+
 @bot.event
 async def on_message(message: discord.Message):
   global wumbee
