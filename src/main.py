@@ -94,34 +94,27 @@ async def pinger():
   print(response)
   await bot_start_log.send("Pong")
 
-def run_docker_command_realtime(command, channel):
+async def run_docker_command_realtime(command, channel):
   try:
     process = subprocess.Popen(
       command,
       stdout=subprocess.PIPE,
       stderr=subprocess.STDOUT,
-      text=True,  # Capture output as text
-      bufsize=1,  # Line-buffered
-      universal_newlines=True  # Use universal newlines mode
+      text=True,
+      bufsize=1,
+      universal_newlines=True
     )
 
-    # Read and print the output line by line in real-time
-    ln = 0
-    print(process.stdout, process.stderr)
     while True:
       output_line = process.stdout.readline()
-      ln += 1
       if output_line == '' and process.poll() is not None:
         break
-      if ln >= 50:
-        await channel.send(output_line.strip())
-        ln = 0
+      await channel.send(output_line.strip())
 
-    # Ensure the process has completed
     process.wait()
 
     if process.returncode != 0:
-      await channel.send(str(f"code: {process.returncode}"))
+      await channel.send(f"code: {process.returncode}")
 
   except subprocess.CalledProcessError as e:
     return f"Error running command {command}: {e.stderr}"
@@ -137,9 +130,9 @@ async def on_message(message: discord.Message):
     command = ["docker", "run", "--volume", f"{os.getcwd()}:/app", "command-runner", "bash", "/app/temporary.sh"]
     with open("temporary.sh", "w") as file:
       file.write(cmd)
-      channel = message.channel
+    channel = message.channel
     await run_docker_command_realtime(command, channel)
-    
+  
   if "<@830863280237969438>" == message.content:
     await message.reply('Fuck off!')
     
