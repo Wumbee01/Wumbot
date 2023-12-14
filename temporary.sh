@@ -1,1 +1,1 @@
-echo $output: $(apt update)
+echo test
