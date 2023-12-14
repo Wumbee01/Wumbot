@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+docker build -t command-runner .
 git checkout sub
 git_sync () {
         git checkout main
