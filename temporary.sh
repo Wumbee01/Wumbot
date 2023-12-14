@@ -1,1 +1,1 @@
-echo test
+cat tttr
