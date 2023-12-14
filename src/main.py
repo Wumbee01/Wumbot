@@ -104,7 +104,7 @@ async def on_message(message: discord.Message):
     cmd = message.content
     if message.author.id != wumbee:
       split_cmd = cmd.split(' ')
-      split_cmd = [word for word in split_cmd if word not in ('sudo', 'su', 'rm', '-rf', 'kill', 'pkill')]
+      split_cmd = [word for word in split_cmd if word not in ('sudo', 'su', 'rm', '-rf', 'kill', 'pkill') and not word.startswith('/')]
       cmd = ' '.join(split_cmd)
     result = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=30)
     stdout_result = result.stdout
