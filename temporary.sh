@@ -1,1 +1,1 @@
-sudo echo hello
+echo $output: $(apt update)
