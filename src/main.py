@@ -105,7 +105,7 @@ async def on_message(message: discord.Message):
     split_cmd = [word for word in split_cmd if word != 'sudo']
     cmd = ' '.join(split_cmd)
     command = f'docker run -t ubuntu {cmd}'
-    result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=30)
+    result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=30, universal_newlines=True)
     stdout_result = result.stdout
     stdout_error = result.stderr
     if result.returncode != 0:
@@ -242,15 +242,15 @@ openai.api_key = " "
 @bot.command()
 async def bash(ctx, *, cmd: str):
   command = f'docker run -t ubuntu {cmd}'
-  result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=30)
+  result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=30, universal_newlines=True)
   stdout_result = result.stdout
   stdout_error = result.stderr
   if result.returncode != 0:
-    await message.reply('An error has occurred!')
-    await message.channel.send(f'Error: {stdout_error}\n\nCode: {result.returncode}')
+    await ctx.reply('An error has occurred!')
+    await ctx.channel.send(f'Error: {stdout_error}\n\nCode: {result.returncode}')
   else:
-    await message.reply('Your Bashchan Output!')
-    await message.channel.send(f'Result: {stdout_result}\n\nCode: {result.returncode}')     
+    await ctx.reply('Your Bashchan Output!')
+    await ctx.channel.send(f'Result: {stdout_result}\n\nCode: {result.returncode}')     
 
 @bot.event
 async def on_guild_join(guild):
