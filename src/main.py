@@ -105,12 +105,19 @@ async def run_docker_command_realtime(command, channel):
       universal_newlines=True
     )
 
+    lines = []
     while True:
       output_line = process.stdout.readline()
       if output_line == '' and process.poll() is not None:
         break
-      await channel.send(output_line.strip())
+      lines.append(output_line.strip())
+      if len(lines) >= 50:
+        await channel.send('\n'.join(lines))
+        lines = []
 
+    if lines:
+      await channel.send('\n'.join(lines))
+ 
     process.wait()
 
     if process.returncode != 0:
