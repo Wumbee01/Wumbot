@@ -94,7 +94,7 @@ async def pinger():
   print(response)
   await bot_start_log.send("Pong")
 
-async def run_docker_command_realtime(command, channel):
+def run_docker_command_realtime(command, channel):
   try:
     process = subprocess.Popen(
       command,
