@@ -96,7 +96,7 @@ async def pinger():
 
 import shutil
 
-async def copy_files_to_docker(command, channel):
+async def run_docker_command_realtime(command, channel):
   try:
     # Get the current working directory
     current_dir = os.getcwd()
