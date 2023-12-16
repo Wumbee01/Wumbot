@@ -104,7 +104,7 @@ async def on_message(message: discord.Message):
     split_cmd = shlex.split(message.content)
     split_cmd = [word for word in split_cmd if word != 'sudo']
     cmd = ' '.join(split_cmd)
-    command = f'docker run ubuntu bash {cmd}'
+    command = f'docker run ubuntu bash -c "{cmd}"'
     result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=30, universal_newlines=True)
     stdout_result = result.stdout
     stdout_error = result.stderr
