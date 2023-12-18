@@ -21,6 +21,7 @@ from cogs import app, vars
 from cogs.vars import *
 
 bot = app.bot
+localchatmode = None
 
 async def _message(message):
   global wumbee
@@ -141,20 +142,25 @@ async def _message(message):
       await message.reply("Lower!")
     if int(message.content) <= number:
       await message.reply("Higher!")
-  
+  if message.centent == 
   global chatmode
   global chat_user
   global chat_user_id
   global chatter
   global channel_id
   global ch_channel
-  if app.chatmode != None:
+  if app.chatmode != None and localchatmode == None:
     chatmode = app.chatmode
     chat_user = app.chat_user
     chat_user_id = app.chat_user_id
     chatter = app.chatter
     channel_id = app.channel_id
     ch_channel = app.ch_channel
+    localchatmode = True
+  else:
+    if app.chatmode != None and localchatmode == True:
+      app.chatmode = None
+      localchatmode = None
   if chatter != None and chatmode != None and chat_user != None:
     if isinstance(message.channel, discord.DMChannel) and message.author.id == chat_user_id:
       await ch_channel.send(message.content)
