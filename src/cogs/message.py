@@ -141,13 +141,20 @@ async def _message(message):
       await message.reply("Lower!")
     if int(message.content) <= number:
       await message.reply("Higher!")
-	
+  
   global chatmode
   global chat_user
   global chat_user_id
   global chatter
   global channel_id
   global ch_channel
+  if app.chatmode != None:
+    chatmode = app.chatmode
+    chat_user = app.chat_user
+    chat_user_id = app.chat_user_id
+    chatter = app.chatter
+    channel_id = app.channel_id
+    ch_channel = app.ch_channel
   if chatter != None and chatmode != None and chat_user != None:
     if isinstance(message.channel, discord.DMChannel) and message.author.id == chat_user_id:
       await ch_channel.send(message.content)
@@ -159,7 +166,7 @@ async def _message(message):
       if isinstance(chat_user, discord.TextChannel):
         await chat_user.send(f"{message.author.name}: {message.content}")
         return
-      await chat_user.send(f"{message.author.namr}: {message.content}")
+      await chat_user.send(f"{message.author.name}: {message.content}")
   else:
     pass
   await bot.process_commands(message)
