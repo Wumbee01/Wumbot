@@ -3,6 +3,7 @@ from cogs.message import _message
 from cogs.message_edit import _message_edit
 import discord
 import os
+from cogs.vars import *
 
 bot = command.bot
 
