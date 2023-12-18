@@ -20,6 +20,7 @@ from discord.utils import find
 from cogs import vars
 
 bot = vars.bot
+number = None
 
 @bot.slash_command(description = 'Sets up Pokétwo pings!')
 async def spawnping(ctx):
