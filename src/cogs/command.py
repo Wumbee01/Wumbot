@@ -18,7 +18,7 @@ from itertools import cycle
 import openai
 from discord.utils import find
 from cogs import app, vars
-
+from cogs.vars import *
 bot = app.bot
 
 @tasks.loop(seconds=5)
