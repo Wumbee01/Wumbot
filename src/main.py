@@ -12,9 +12,8 @@ import subprocess
 import urllib.request
 from discord import Option
 from datetime import timedelta
-from discord.ext import commands
-from discord.ext.commands import MissingPermissions
 from discord.ext import commands, tasks
+from discord.ext.commands import MissingPermissions
 from itertools import cycle
 import openai
 from discord.utils import find
