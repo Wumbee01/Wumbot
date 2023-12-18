@@ -21,7 +21,6 @@ from cogs import app, vars
 from cogs.vars import *
 
 bot = app.bot
-number = app.number
 
 async def _message(message):
   global wumbee
