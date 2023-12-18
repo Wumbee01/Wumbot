@@ -21,7 +21,6 @@ from cogs import app, vars
 from cogs.vars import *
 
 bot = app.bot
-localchatmode = None
 
 async def _message(message):
   global wumbee
@@ -149,18 +148,17 @@ async def _message(message):
   global chatter
   global channel_id
   global ch_channel
-  if app.chatmode != None and localchatmode == None:
-    chatmode = app.chatmode
-    chat_user = app.chat_user
-    chat_user_id = app.chat_user_id
-    chatter = app.chatter
-    channel_id = app.channel_id
-    ch_channel = app.ch_channel
-    localchatmode = True
+  if app.chatmode != None:
+    def syncer():
+      chatmode = app.chatmode
+      chat_user = app.chat_user
+      chat_user_id = app.chat_user_id
+      chatter = app.chatter
+      channel_id = app.channel_id
+      ch_channel = app.ch_channel
+    syncer()
   else:
-    if app.chatmode != None and localchatmode == True:
-      app.chatmode = None
-      localchatmode = None
+    pass
   if chatter != None and chatmode != None and chat_user != None:
     if isinstance(message.channel, discord.DMChannel) and message.author.id == chat_user_id:
       await ch_channel.send(message.content)
