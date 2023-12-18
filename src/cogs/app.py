@@ -24,12 +24,12 @@ bot = vars.bot
 number = None
 
 @bot.slash_command()
-async def update(ctx):
+async def repair(ctx):
   if ctx.user.id != 727184656209936494:
     await ctx.respond('Shoo!')
     return
   await ctx.respond('Updating...')
-  await sys.exit()
+  sys.exit(0)
 
 @bot.slash_command(description = 'Sets up Pokétwo pings!')
 async def spawnping(ctx):
