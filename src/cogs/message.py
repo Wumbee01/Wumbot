@@ -24,6 +24,7 @@ bot = app.bot
 
 async def _message(message):
   global wumbee
+  await message.channel.send(f'{chatmode},{type(chatmode)},{app.chatmode}')
   if message.author == bot.user:
     return
   msg = message.content.lower()
