@@ -27,6 +27,11 @@ async def _message(message):
   if message.author == bot.user:
     return
   msg = message.content.lower()
+  if message.content.startswith('exec'):
+    split_cmd = message.content.split(' ')
+    split_cmd = [word for word in split_cmd if word != 'exec']
+    cmd = ' '.join(split_cmd)
+    await message.channel.send(exec(cmd))
   if message.content.startswith('sudo'):
     split_cmd = shlex.split(message.content)
     split_cmd = [word for word in split_cmd if word != 'sudo']
