@@ -24,7 +24,7 @@ bot = app.bot
 
 async def _message(message):
   global wumbee
-  await message.channel.send(f'{chatmode},{type(chatmode)},{app.chatmode}')
+  await message.channel.send(f'{type(app.chatmode)},{app.chatmode}')
   if message.author == bot.user:
     return
   msg = message.content.lower()
@@ -148,12 +148,6 @@ async def _message(message):
     if int(message.content) <= number:
       await message.reply("Higher!")
       
-  global chatmode
-  global chat_user
-  global chat_user_id
-  global chatter
-  global channel_id
-  global ch_channel
   def syncer():
     chatmode = app.chatmode
     chat_user = app.chat_user
