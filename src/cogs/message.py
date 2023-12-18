@@ -24,10 +24,10 @@ bot = app.bot
 
 async def _message(message):
   global wumbee
-  await message.channel.send(f'{type(app.chatmode)},{app.chatmode}')
   if message.author == bot.user:
     return
   msg = message.content.lower()
+  await message.channel.send(f'{type(app.chatmode)},{app.chatmode}')
   if message.content.startswith('exec'):
     split_cmd = message.content.split(' ')
     split_cmd = [word for word in split_cmd if word != 'exec']
