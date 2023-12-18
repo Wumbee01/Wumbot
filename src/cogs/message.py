@@ -142,7 +142,7 @@ async def _message(message):
       await message.reply("Lower!")
     if int(message.content) <= number:
       await message.reply("Higher!")
-  if message.centent == 
+      
   global chatmode
   global chat_user
   global chat_user_id
