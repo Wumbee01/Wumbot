@@ -18,6 +18,7 @@ from itertools import cycle
 import openai
 from discord.utils import find
 from cogs import vars
+from cogs.vars import*
 
 bot = vars.bot
 number = None
