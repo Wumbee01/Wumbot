@@ -24,6 +24,9 @@ bot = app.bot
 
 async def _message(message):
   global wumbee
+  if message.author.bot:
+    return
+    
   if message.author == bot.user:
     return
   msg = message.content.lower()
@@ -150,10 +153,12 @@ async def _message(message):
         if v in msg:
           await message.delete()
           await message.channel.send(f"{message.author.mention} said a censored word")
-  number = app.number
+  
+  number = app.number	
   if message.content.isdigit() and number != None:
     if int(message.content) == number:
       await message.reply("Epic!")
+      number = None
       return
     if int(message.content) >= number:
       await message.reply("Lower!")
