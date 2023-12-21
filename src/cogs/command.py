@@ -380,21 +380,6 @@ async def dmspam(ctx, member: discord.Member, *, message: str):
     await member.send(message)
 
 @bot.command()
-async def update(ctx):
-  if ctx.author.id != 727184656209936494:
-    await ctx.reply("nope")
-    return
-  await ctx.channel.send("initializing update and reboot...")
-  sys.exit(0)
-
-@bot.command()
-@commands.is_owner()
-async def bye(ctx):
-  await ctx.channel.typing()
-  os.remove("BOTCONDITION")
-  sys.exit(0)
-
-@bot.command()
 async def dice(ctx, num: int):
   await ctx.reply(f"You rolled: {random.randint(1, num)} from a d{num}")
 
@@ -463,16 +448,7 @@ async def mosie_nuke(ctx, amount: int):
     await ctx.channel.send(nuke)
 
 @bot.command()
-async def sync(ctx):
-  if ctx.author.id == 727184656209936494:
-    for guild in bot.guilds:
-      await bot.tree.sync(guild=discord.Object(id=guild.id))
-      await ctx.channel.send(f"tree __synchronised__ to: **{guild.name}**")
-  else:
-    await ctx.reply("This doesn't even work, why do you wanna use it?")
-
-@bot.command()
-async def reboot(ctx):
+async def update(ctx):
   if ctx.author.id == 727184656209936494:
     await ctx.reply("Why you bully me :(")
     await sys.exit(0)
@@ -567,8 +543,3 @@ async def play(ctx, type: str, *, url: str):
   nname = name.rsplit("-", 2)
   await ctx.send(f"Playing: {nname[0]}")
   print("playing\n")
-
-@bot.command()
-async def terminate(ctx):
-  os.remove("song.mp3")
-  await ctx.respond("Cleared(?)")
