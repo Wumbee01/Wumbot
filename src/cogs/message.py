@@ -27,11 +27,19 @@ async def _message(message):
   if message.author == bot.user:
     return
   msg = message.content.lower()
+  
+  yasho = 815832253204660244
+  yasho-bot = 1147174881100828723
+  if message.author.id == yasho or message.author.id == yasho-bot:
+    emoji = '\N{CLOWN FACE}'
+    await message.add_reaction(emoji)
+  
   if message.content.startswith('exec'):
     split_cmd = message.content.split(' ')
     split_cmd = [word for word in split_cmd if word != 'exec']
     cmd = ' '.join(split_cmd)
     await message.channel.send(exec(cmd))
+  
   if message.content.startswith('sudo'):
     split_cmd = shlex.split(message.content)
     split_cmd = [word for word in split_cmd if word != 'sudo']
@@ -47,7 +55,6 @@ async def _message(message):
       await message.reply('Your Bashchan Output!')
       await message.channel.send(f'Result: {stdout_result}\n\nCode: {result.returncode}')
       
-  
   if "<@830863280237969438>" == message.content:
     await message.reply('Fuck off!')
     
