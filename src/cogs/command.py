@@ -408,9 +408,9 @@ class MyTab(discord.ui.View):
 
 @bot.event
 async def on_command_error(ctx, error):
-	chan = discord.utils.get(bot.get_all_channels(), id=ctx.channel.id)
-	embed = discord.Embed(title=f'{ctx.command}', description=f'{error}', color=0x9d89c9)
-	await chan.send(embed=embed)
+  chan = discord.utils.get(bot.get_all_channels(), id=ctx.channel.id)
+  embed = discord.Embed(title=f'{ctx.command}', description=f'{error}', color=0x9d89c9)
+  await chan.send(embed=embed)
   return
 
 @bot.command()
