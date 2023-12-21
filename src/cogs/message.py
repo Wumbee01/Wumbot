@@ -158,7 +158,7 @@ async def _message(message):
   if message.content.isdigit() and number != None:
     if int(message.content) == number:
       await message.reply("Epic!")
-      number = None
+      app.number = None
       return
     if int(message.content) >= number:
       await message.reply("Lower!")
