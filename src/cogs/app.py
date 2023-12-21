@@ -134,7 +134,6 @@ async def insanity(interaction):
   number = randnum()
   await interaction.respond("Choose a number between 1 and 10")
   await asyncio.sleep(10)
-  number = message.number
   if number != None:
     await interaction.followup.send("Time's up!\nToo bad...")
   else:
