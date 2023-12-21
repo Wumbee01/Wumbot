@@ -457,7 +457,7 @@ async def spam(interaction):
   await interaction.response.send_message("Hehehe", ephemeral=True)
 
 @bot.slash_command(name = 'roles', description = "Shows the roles of a user")
-async def rolelist(ctx, user: discord.Member):
+async def roles_s(ctx, user: discord.Member):
   role_list = ""
   for role in user.roles:
     role_list += f'* {role}\n'
