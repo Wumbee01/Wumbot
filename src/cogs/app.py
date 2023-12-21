@@ -171,7 +171,7 @@ class MyView(discord.ui.View):
       FunEmbed.add_field(name="***Bridge:***", value=" **•** (Slash command) Links two channels together, can be from different servers", inline = False)
       FunEmbed.add_field(name="***(VC)Join:***", value=" **•** (Prefix command) format: !p <type(url, or search)> <url/search term>, eg: !p search rickroll, Plays a song", inline = False)
       FunEmbed.add_field(name="***(VC)Leave:***", value=" **•** (Prefix command) format: !l, Makes bot leave the vc", inline = False)
-      FunEmbed.set_footer(text="Wum-NET™")  
+      FunEmbed.set_footer(text="Wumbot™")  
       button.disabled = True
       await interaction.response.edit_message(view=self)
       await interaction.followup.send(embed=FunEmbed)
@@ -191,7 +191,7 @@ class MyView(discord.ui.View):
       GameEmbed.add_field(name="***Coinflip:***", value=" **•** (Slash command) Flips a coin", inline=False)
       GameEmbed.add_field(name="***Dice:***", value=" **•** (Prefix command) format: !dice <number>, Chooses a random number from 1 to whatever you chose", inline=False)
       GameEmbed.add_field(name="***Guess:***", value=" **•** (Slash command) Guess a number from 1~10", inline = False)
-      GameEmbed.set_footer(text="Wum-NET™")  
+      GameEmbed.set_footer(text="Wumbot™")  
       button.disabled = True
       await interaction.response.edit_message(view=self)
       await interaction.followup.send(embed=GameEmbed)
