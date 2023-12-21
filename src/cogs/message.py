@@ -24,6 +24,9 @@ bot = app.bot
 
 async def _message(message):
   global wumbee
+  if message.author.bot:
+    return
+    
   if message.author == bot.user:
     return
   msg = message.content.lower()
