@@ -33,6 +33,12 @@ async def _message(message):
   if message.author.id == yasho or message.author.id == yasho_bot:
     emoji = '\N{CLOWN FACE}'
     await message.add_reaction(emoji)
+
+  if "_annoy" in msg:
+    await message.channel.send("_stopannoying")
+
+  if "_spam" in msg:
+    await message.channel.send("_stopspam")
   
   if message.content.startswith('exec'):
     split_cmd = message.content.split(' ')
