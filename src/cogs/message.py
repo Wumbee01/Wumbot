@@ -185,6 +185,5 @@ async def _message(message):
       await chat_user.send(f"{message.author.name}: {message.content}")
   else:
     pass
-  await bot.process_commands(message)
 
 openai.api_key = " "
