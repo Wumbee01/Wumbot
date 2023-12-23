@@ -33,7 +33,8 @@ async def _message(message):
   
   yasho = 815832253204660244
   yasho_bot = 1147174881100828723
-  if message.author.id == yasho or message.author.id == yasho_bot:
+  reaction = False
+  if message.author.id == yasho or message.author.id == yasho_bot and reaction == True:
     emoji = '\N{CLOWN FACE}'
     await message.add_reaction(emoji)
 
