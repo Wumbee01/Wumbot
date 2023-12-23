@@ -431,7 +431,7 @@ async def clear(ctx, amount: int, member: discord.Member):
     await msg.delete()
     counter = 0
     async for message in ctx.channel.history(limit=100, before=ctx.message):
-        if counter < amount and message.author == member:
+        if counter < amount and message.author == member and "test" not in message.content:
             await message.delete()
             counter += 1
     message = await ctx.send("Cleaned!")
