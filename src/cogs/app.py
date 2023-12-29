@@ -560,7 +560,6 @@ async def totallysfwbomb(interaction, category: str):
     return
   if waifu_category == "nsfw":
     if interaction.channel.is_nsfw():
-      await interaction.respond(f"Bombed by {interaction.user.mention}")
       for i in range(5):
         waifu_type = ["waifu", "neko", "trap", "blowjob"]
         def get_waifu_random_bomb_n():
