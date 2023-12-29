@@ -144,6 +144,7 @@ async def _message(message):
     sent_message = await message.channel.send(embed=discord.Embed(title="Congratulations...", description=f"{message.author.mention} added another hour to the amount of time till whatever they were waiting for, nice work. The collective total of the hours added by impatience is now {file_handler('tttr')}"))
     await asyncio.sleep(3)
     await sent_message.delete()
+    await message.delete()
   
   def json_handler(filename):
     with open(filename, "r") as read_file:
