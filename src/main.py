@@ -15,8 +15,10 @@ async def on_message(message):
   if "cum" == msg:
     with open('disabled.txt', 'w'):
       pass
+    await message.reply("Mmmmmm\n*Mouth is full*")
   if "uncum" == msg:
     os.remove('disabled.txt')
+    await message.reply("*Swallowed*")
   await bot.process_commands(message)
 
 @bot.event
