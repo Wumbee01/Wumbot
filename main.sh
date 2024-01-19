@@ -2,7 +2,6 @@
 docker build -t command-runner .
 git checkout sub
 git_sync () {
-        rm -rf disabled.txt
         git checkout main
 	git remote set-url origin https://${GIT}@github.com/Wumbee01/Wumbot.git
 	git add --all
@@ -26,6 +25,7 @@ izuku () {
 	  do
 	  mkdir -p logs
 	  python3 src/main.py
+          rm -rf disabled.txt
 	  git_sync
           fetch_updates
 	  done
