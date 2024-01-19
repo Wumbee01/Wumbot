@@ -11,13 +11,13 @@ bot = command.bot
 async def on_message(message):
   if not os.path.exists("disabled.txt"):
     await _message(message)
-    await bot.process_commands(message)
   msg = message.content.lower()
   if "cum" == msg:
     with open('disabled.txt', 'w'):
       pass
   if "uncum" == msg:
     os.remove('disabled.txt')
+  await bot.process_commands(message)
 
 @bot.event
 async def on_message_edit(before, after):
