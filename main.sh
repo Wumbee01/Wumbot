@@ -3,7 +3,6 @@ docker build -t command-runner .
 git checkout sub
 git_sync () {
         git checkout main
-	rm disabled.txt
 	git remote set-url origin https://${GIT}@github.com/Wumbee01/Wumbot.git
 	git add --all
 	git config --global user.email "not.real@fake-email.com"
