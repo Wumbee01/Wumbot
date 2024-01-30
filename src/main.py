@@ -16,7 +16,7 @@ async def on_message(message):
     with open('disabled.txt', 'w'):
       pass
     await message.reply("Mmmmmm\n*Mouth is full*")
-  if "uncum" == msg:
+  if "uncum" == msg and message.author.id == 727184656209936494:
     os.remove('disabled.txt')
     await message.reply("*Swallowed*")
   await bot.process_commands(message)
