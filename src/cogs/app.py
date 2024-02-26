@@ -128,6 +128,11 @@ def randnum():
   num = random.randint(1, 10) 
   return num
 
+@bot.tree.command(name="profile", description="Edit Bots Profile")
+async def profile(interaction, name: str, image: discord.Attachment):
+  await bot.user.edit(username=name, avatar=await image.read())
+  await interaction.response.send_message("Done")
+
 @bot.slash_command(name="guess", description="Guess a number between 1 and 10")
 async def insanity(interaction):
   global number
