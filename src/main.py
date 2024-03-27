@@ -13,6 +13,9 @@ async def on_message(message):
     await _message(message)
   msg = message.content.lower()
   if "cum" == msg:
+    if os.path.exists("disabled.txt"):
+      await message.reply("*Wtf bro im already cummed*")
+      return
     with open('disabled.txt', 'w'):
       pass
     await message.reply("Mmmmmm\n*Mouth is full*")
