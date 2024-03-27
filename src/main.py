@@ -18,7 +18,7 @@ async def on_message(message):
       return
     with open('disabled.txt', 'w'):
       pass
-    await message.reply("Mmmmmm\n*Mouth is full*")
+    await message.reply("*Mouth is full*")
   if "uncum" == msg:
     if not os.path.exists("disabled.txt"):
       await message.reply("Tf am I supposed to swallow?")
