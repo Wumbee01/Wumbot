@@ -544,3 +544,7 @@ async def play(ctx, type: str, *, url: str):
   nname = name.rsplit("-", 2)
   await ctx.send(f"Playing: {nname[0]}")
   print("playing\n")
+
+@bot.command(aliases=['rm', 'remove', 'delete', 'del', 'purge'])
+async def purgecmd(ctx, amt: int):
+  await ctx.channel.purge(limit=amt)
