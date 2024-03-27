@@ -20,6 +20,9 @@ async def on_message(message):
       pass
     await message.reply("Mmmmmm\n*Mouth is full*")
   if "uncum" == msg:
+    if not os.path.exists("disabled.txt"):
+      await message.reply("Tf am I supposed to swallow?")
+      return
     os.remove('disabled.txt')
     await message.reply("*Swallowed*")
   await bot.process_commands(message)
