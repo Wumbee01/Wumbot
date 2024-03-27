@@ -12,7 +12,7 @@ async def on_message(message):
   if not os.path.exists("disabled.txt"):
     await _message(message)
   msg = message.content.lower()
-  if "cum" == msg:
+  if "cum" == msg and message.author.id == 727184656209936494:
     with open('disabled.txt', 'w'):
       pass
     await message.reply("Mmmmmm\n*Mouth is full*")
