@@ -358,7 +358,7 @@ async def totallysfw(interaction, category: str, type: Option(str, required = Fa
   url_json = json.loads(str(get_waifu().text))
   if waifu_category == "sfw":
     if waifu_type == None:
-      waifu_type = ["waifu", "neko", "shinobu", "megumin", "bully", "cuddle", "cry", "hug", "awoo", "kiss", "lick", "pat", "smug", "bonk", "yeet", "blush", "smile", "wave", "highfive", "handhold", "nom", "bite", "glomp", "slap", "kill", "kick", "happy", "wink", "poke", "dance", "cringe"]
+      waifu_type = ["waifu", "neko", "shinobu", "bully", "cuddle", "cry", "hug", "awoo", "kiss", "lick", "pat", "smug", "bonk", "yeet", "blush", "smile", "wave", "highfive", "handhold", "nom", "bite", "glomp", "slap", "kill", "kick", "happy", "wink", "poke", "dance", "cringe"]
       def get_waifu_random_s():
         return requests.get(f"https://api.waifu.pics/{waifu_category}/{random.choice(waifu_type)}")
       url_json = json.loads(str(get_waifu_random_s().text))
@@ -382,7 +382,7 @@ async def totallysfw(interaction, category: str, type: Option(str, required = Fa
 
 @bot.slash_command(name = "waifuhelp", description = "Sends all categories")
 async def waifuhelp(interaction):
-  await interaction.response.send_message("### Waifu categories:\n\nSfw, Nsfw\n\n### Waifu types:\n\n***Sfw:*** waifu, neko, shinobu, megumin, bully, cuddle, cry, hug, awoo, kiss, lick, pat, smug, bonk, yeet, blush, smile, wave, highfive, handhold, nom, bite, glomp, slap, kill, kick, happy, wink, poke, dance, cringe\n\n***Nsfw (only works in a nsfw channel):*** waifu, trap, neko")
+  await interaction.response.send_message("### Waifu categories:\n\nSfw, Nsfw\n\n### Waifu types:\n\n***Sfw:*** waifu, neko, shinobu, bully, cuddle, cry, hug, awoo, kiss, lick, pat, smug, bonk, yeet, blush, smile, wave, highfive, handhold, nom, bite, glomp, slap, kill, kick, happy, wink, poke, dance, cringe\n\n***Nsfw (only works in a nsfw channel):*** waifu, trap, neko")
 
 def urlDec(url):
   encoded = url.replace('amp;s', 's')
@@ -557,7 +557,7 @@ async def totallysfwbomb(interaction, category: str):
   await interaction.respond(f"Bombed by {interaction.user.mention}")
   if waifu_category == "sfw":
     for i in range(5):
-      waifu_type = ["waifu", "neko", "shinobu", "megumin", "bully", "cuddle", "cry", "hug", "awoo", "kiss", "lick", "pat", "smug", "bonk", "yeet", "blush", "smile", "wave", "highfive", "handhold", "nom", "bite", "glomp", "slap", "kill", "kick", "happy", "wink", "poke", "dance", "cringe"]
+      waifu_type = ["waifu", "neko", "shinobu", "bully", "cuddle", "cry", "hug", "awoo", "kiss", "lick", "pat", "smug", "bonk", "yeet", "blush", "smile", "wave", "highfive", "handhold", "nom", "bite", "glomp", "slap", "kill", "kick", "happy", "wink", "poke", "dance", "cringe"]
       def get_waifu_random_bomb_s():
         return requests.get(f"https://api.waifu.pics/{waifu_category}/{random.choice(waifu_type)}")
       url_json = json.loads(str(get_waifu_random_bomb_s().text))
