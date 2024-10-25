@@ -69,6 +69,11 @@ async def _message(message):
     await message.reply('Fuck off!')
     
   if "the pokémon is" in msg and message.author.id == 716390085896962058:
+    await message.channel.send("The bot is functional")
+    if not os.path.exists("pokempn_names.json"):
+      await message.channel.send("Database not found!")
+    else:
+      await message.channel.send("File located!")
     with open("pokemon_names.json", "r") as pk:
       pokemon_names = json.load(pk)
     hint = message.content
