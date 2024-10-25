@@ -85,6 +85,46 @@ async def _message(message):
   # End of poketwo cheating
 
   # Start of response section
+  if message.content.lower() == "when.":
+    def file_handler(filename, strings = None):
+      if strings:
+        file = open(filename, "w")
+        file.write(str(strings))
+      else:
+        file = open(filename, "r")
+        return file.read()
+    tttr = int(file_handler("tttr"))
+    tttr += 1
+    file_handler("tttr", tttr)
+    sent_message = await message.channel.send(embed=discord.Embed(title="Congratulations...", description=f"{message.author.mention} added another hour to the amount of time till whatever they were waiting for, nice work. The collective total of the hours added by impatience is now {file_handler('tttr')}"))
+    await asyncio.sleep(3)
+    await sent_message.delete()
+    await message.delete()
+  
+  def json_handler(filename):
+    with open(filename, "r") as read_file:
+      data = json.load(read_file)
+    return data
+  censors = json_handler("censor.json")
+  
+  if message:
+    for v in censors.values():
+      if v != None:
+        if v in msg:
+          await message.delete()
+          await message.channel.send(f"{message.author.mention} said a censored word")
+  
+  number = app.number	
+  if message.content.isdigit() and number != None:
+    if int(message.content) == number:
+      await message.reply("Epic!")
+      app.number = None
+      return
+    if int(message.content) >= number:
+      await message.reply("Lower!")
+    if int(message.content) <= number:
+      await message.reply("Higher!")
+      
   if "<@830863280237969438>" == message.content:
     await message.reply('Fuck off!')
      
@@ -115,7 +155,8 @@ async def _message(message):
   if "bumblin" in msg:
     await message.channel.send('https://tenor.com/view/bumblin-lmfao-bee-bumblebee-gif-22508972')
   # End of response section
-  
+
+  # Gemini implementation
   if message.reference:
     referenced_message = await message.channel.fetch_message(message.reference.message_id)
     if message.reference.resolved.author == bot.user:
@@ -125,46 +166,8 @@ async def _message(message):
       response = model.generate_content(f"{prompt}")
       await message.reply(response.text)
       pass
-  
-  if message.content.lower() == "when.":
-    def file_handler(filename, strings = None):
-      if strings:
-        file = open(filename, "w")
-        file.write(str(strings))
-      else:
-        file = open(filename, "r")
-        return file.read()
-    tttr = int(file_handler("tttr"))
-    tttr += 1
-    file_handler("tttr", tttr)
-    sent_message = await message.channel.send(embed=discord.Embed(title="Congratulations...", description=f"{message.author.mention} added another hour to the amount of time till whatever they were waiting for, nice work. The collective total of the hours added by impatience is now {file_handler('tttr')}"))
-    await asyncio.sleep(3)
-    await sent_message.delete()
-    await message.delete()
-  
-  def json_handler(filename):
-    with open(filename, "r") as read_file:
-      data = json.load(read_file)
-    return data
-  censors = json_handler("censor.json")  
-  if message:
-    for v in censors.values():
-      if v != None:
-        if v in msg:
-          await message.delete()
-          await message.channel.send(f"{message.author.mention} said a censored word")
-  
-  number = app.number	
-  if message.content.isdigit() and number != None:
-    if int(message.content) == number:
-      await message.reply("Epic!")
-      app.number = None
-      return
-    if int(message.content) >= number:
-      await message.reply("Lower!")
-    if int(message.content) <= number:
-      await message.reply("Higher!")
-      
+
+  # Channel bridging
   chatmode = app.chatmode
   chat_user = app.chat_user
   chat_user_id = app.chat_user_id
@@ -185,5 +188,3 @@ async def _message(message):
       await chat_user.send(f"{message.author.name}: {message.content}")
   else:
     pass
-
-openai.api_key = " "
