@@ -37,6 +37,7 @@ async def _message(message):
   if message.author.id in (yasho, yasho_bot) and reaction != False:
     emoji = '\N{CLOWN FACE}'
     await message.add_reaction(emoji)
+    
   if message.content == "test":
     await message.channel.send("help meee")
     
@@ -69,6 +70,12 @@ async def _message(message):
       
   if "<@830863280237969438>" == message.content:
     await message.reply('Fuck off!')
+    
+  if message.author.id == 716390085896962058:
+    await message.channel.send("test")
+    
+  if "the pokémon is" in msg:
+    await message.channel.send("test")
     
   if "the pokémon is" in msg and message.author.id == 716390085896962058:
     await message.channel.send("The bot is functional")
