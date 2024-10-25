@@ -162,7 +162,7 @@ async def _message(message):
     if message.reference.resolved.author == bot.user:
       genai.configure(api_key=os.environ["AI"])
       model = genai.GenerativeModel('gemini-1.5-flash')
-      prompt = f"This is being sent through a discord bot (the bots/your name is Wumbot and you were made using pycord by Wumbee), please generate an answer according to the following: this was YOUR previous message: '{referenced_message.content}' and this is the reply to YOUR message: '{message.content}' and the reply was sent by '{message.author.name}', now generate a reply according to the above"
+      prompt = f"This is being sent through a discord bot (the bots/your name is Wumbot and you were made using pycord by Wumbee), please generate an answer according to the following: this was YOUR previous message: '{referenced_message.content}' and this is the reply to YOUR message: '{message.content}' and the reply was sent by '{message.author.name}', dont add \" to beginning and end of message, dont use emojis, act like a normal discord user, now generate a reply according to all of the above"
       response = model.generate_content(f"{prompt}")
       await message.reply(response.text)
       pass
