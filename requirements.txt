@@ -7,3 +7,4 @@ option
 numpy
 python-dotenv
 openai
+google-generativeai
