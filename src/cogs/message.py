@@ -19,31 +19,28 @@ import openai
 from discord.utils import find
 from cogs import app, vars
 from cogs.vars import *
+import google.generativeai as genai
+
+genai.configure(api_key=os.environ["GEMINI_API_KEY"])
+model = genai.GenerativeModel('gemini-1.5-flash')
+response = model.generate_content("The opposite of hot is")
 
 bot = app.bot
+whitelisted_ids = [716390085896962058]
 
 async def _message(message):
   global wumbee
+  # Prevents spam via other bots
+  if message.author.bot and message.author.id not in whitelisted_ids:
+    return
+
+  # Prevents chaining
   if message.author == bot.user:
     return
-  msg = message.content.lower()
-  
-  yasho = 815832253204660244
-  yasho_bot = 1147174881100828723
-  reaction = True
-  if message.author.id in (yasho, yasho_bot) and reaction != False:
-    emoji = '\N{CLOWN FACE}'
-    await message.add_reaction(emoji)
-    
-  if message.content == "test":
-    await message.channel.send("help meee")
-    
-  if "_annoy" in msg:
-    await message.channel.send("_stopannoying")
 
-  if "_spam" in msg:
-    await message.channel.send("_stopspam")
-  
+  msg = message.content.lower()
+
+  # Start of Bash section
   if message.content.startswith('exec'):
     split_cmd = message.content.split(' ')
     split_cmd = [word for word in split_cmd if word != 'exec']
@@ -64,22 +61,10 @@ async def _message(message):
     else:
       await message.reply('Your Bashchan Output!')
       await message.channel.send(f'Result: {stdout_result}\n\nCode: {result.returncode}')
-      
-  if "<@830863280237969438>" == message.content:
-    await message.reply('Fuck off!')
-    
-  if message.author.id == 716390085896962058:
-    await message.channel.send("test")
-    
-  if "the pokémon is" in msg:
-    await message.channel.send("test")
-    
+  # End of bash section
+  
+  # Poketwo cheating
   if "the pokémon is" in msg and message.author.id == 716390085896962058:
-    await message.channel.send("The bot is functional")
-    if not os.path.exists("pokempn_names.json"):
-      await message.channel.send("Database not found!")
-    else:
-      await message.channel.send("File located!")
     with open("pokemon_names.json", "r") as pk:
       pokemon_names = json.load(pk)
     hint = message.content
@@ -89,7 +74,7 @@ async def _message(message):
     pattern = pattern.lower()
     matches = [name for name in pokemon_names if re.match(pattern, name)]
     if len(matches) != 1:
-      return_string = f"pkmn: {matches}"
+      return_string = f"Several matches were discovered: ||{matches}||"
       await message.channel.send(return_string)
     else:
       await message.channel.send(f"The pokemon is: ||{matches[0]}|| (If you needed this, you're gay)")
@@ -101,7 +86,12 @@ async def _message(message):
       if "Guess the pokémon" in embed['description']:
         s_role = discord.utils.get(message.guild.roles, name="spawn")
         await message.channel.send(f"{s_role.mention}, a wild Pokémon appears!")
-	
+  # End of poketwo cheating
+
+  # Start of response section
+  if "<@830863280237969438>" == message.content:
+    await message.reply('Fuck off!')
+     
   if "cool cool very epic" in msg:
     await message.channel.send('<:stretchreaction:1140646501157183489>:thumbsup:')
 
@@ -127,8 +117,9 @@ async def _message(message):
     await message.reply(f"{message.author.mention} should play genshin")
     
   if "bumblin" in msg:
-    await message.channel.send('https://tenor.com/view/bumblin-lmfao-bee-bumblebee-gif-22508972') 
-
+    await message.channel.send('https://tenor.com/view/bumblin-lmfao-bee-bumblebee-gif-22508972')
+  # End of response section
+  
   if message.reference:
     referenced_message = await message.channel.fetch_message(message.reference.message_id)
     if message.reference.resolved.author == bot.user:
