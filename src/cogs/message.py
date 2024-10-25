@@ -68,7 +68,7 @@ async def _message(message):
   if "<@830863280237969438>" == message.content:
     await message.reply('Fuck off!')
     
-  if "the pokémon is" in msg and message.author.id == 716390085896962058 and message.author.nick == "p!botted":
+  if "the pokémon is" in msg and message.author.id == 716390085896962058:
     with open("pokemon_names.json", "r") as pk:
       pokemon_names = json.load(pk)
     hint = message.content
@@ -81,7 +81,7 @@ async def _message(message):
       return_string = f"pkmn: {matches}"
       await message.channel.send(return_string)
     else:
-      await message.channel.send(f"pk: {matches[0]}")
+      await message.channel.send(f"The pokemon is: ||{matches[0]}|| (If you needed this, you're gay)")
   
   if message.author.id == 716390085896962058:
     embeds = message.embeds 
