@@ -23,7 +23,7 @@ bot = app.bot
 
 @tasks.loop(seconds=5)
 async def change_status():
-  await bot.change_presence(activity=discord.Game(random.choice(["I am watching you", "H.I.V.E tech - Online (Use /help!)"])))
+  await bot.change_presence(activity=discord.Game(random.choice(["Keep Yourself Safe", "I am watching you", "H.I.V.E tech - Online (Use /help!)"])))
 
 @bot.event
 async def on_ready():
@@ -35,6 +35,7 @@ async def on_ready():
   await asyncio.sleep(5)
   discord.opus.load_opus()
 
+# Bash commands (Depreciated, pending fixes)
 @bot.command()
 async def bash(ctx, *, cmd: str):
   command = f'docker run -t ubuntu {cmd}'
@@ -48,6 +49,7 @@ async def bash(ctx, *, cmd: str):
     await ctx.reply('Your Bashchan Output!')
     await ctx.channel.send(f'Result: {stdout_result}\n\nCode: {result.returncode}')     
 
+# Join message
 @bot.event
 async def on_guild_join(guild):
   general = find(lambda x: x.name == 'general',  guild.text_channels)
@@ -55,12 +57,13 @@ async def on_guild_join(guild):
     await general.send(f'Hello there {guild.name}!\nUse /help for list of commands\nIf you have Pokétwo, use the /spawnping command to receive pings!')
   await guild.create_role(name="spawn")
 
+# Beginning of basic rpg, rewrite pending
 @bot.command()
-async def help_ut(ctx):
+async def help(ctx):
   await ctx.send("Pick a character with `join_ut` and start with `start_ut`\nThe characters are rogue and mage\n\nYou can use `fight_ut`, `mercy_ut` and `act_ut`")
 
 @bot.command()
-async def join_ut(ctx, char: str):
+async def join(ctx, char: str):
   global mage
   global rogue
   global players
@@ -103,7 +106,7 @@ def reset():
   amt_players = 0
 
 @bot.command()
-async def start_ut(ctx):
+async def start(ctx):
   global players
   global amt_players
   global p1
@@ -122,7 +125,7 @@ async def start_ut(ctx):
   await ctx.send(f"It is now <@{p1}>'s turn (player 1)")
 
 @bot.command()
-async def stats_ut(ctx):
+async def stats(ctx):
   global p1
   global p2
   global p1_data
@@ -145,7 +148,7 @@ async def stats_ut(ctx):
       await ctx.send("Are you ingame?")
 
 @bot.command()
-async def fight_ut(ctx):
+async def fight(ctx):
   global players
   global amt_players
   global p1
@@ -214,7 +217,7 @@ async def fight_ut(ctx):
       await ctx.send("A game has not been started")
 
 @bot.command()
-async def mercy_ut(ctx):
+async def mercy(ctx):
   global players
   global amt_players
   global p1
@@ -257,7 +260,7 @@ async def mercy_ut(ctx):
       await ctx.send("A game has not been started")
 
 @bot.command()
-async def act_ut(ctx):
+async def act(ctx):
   global players
   global amt_players
   global p1
@@ -355,7 +358,9 @@ async def act_ut(ctx):
     case _:
       await ctx.send("A game has not been started")
       return
+# End of rpg
 
+# Extremely basic calculator implementation
 @bot.command()
 async def cal(ctx, a: int, b: int, c: str = '+', d: str = '-'):
   result = eval(f"{a} {c} {b}")
@@ -363,21 +368,12 @@ async def cal(ctx, a: int, b: int, c: str = '+', d: str = '-'):
   result1 = eval(f"{a} {d} {b}")
   await ctx.send(result1)
 
+# Silly commands section
 @bot.command(help = "IP Grabber hehe")
 async def ipgrab(ctx, user: discord.Member):
     ranip = (random.randint(0, 255))
     ip = f"{user.name}'s IP address is 192.168.1.{ranip}"
     await ctx.send(ip)
-
-@bot.command()
-async def dmspam(ctx, member: discord.Member, *, message: str):
-  if ctx.author.id != 727184656209936494:
-    await ctx.reply("You little fucker...")
-    for i in range(999):
-      await ctx.author.send(message)
-    return
-  for i in range(999):
-    await member.send(message)
 
 @bot.command()
 async def dice(ctx, num: int):
@@ -406,25 +402,25 @@ class MyTab(discord.ui.View):
     async def select_callback(self, select, interaction):
         await interaction.response.send_message(f"Awesome! I like {select.values[0]} too!")
 
-@bot.event
-async def on_command_error(ctx, error):
-  chan = discord.utils.get(bot.get_all_channels(), id=ctx.channel.id)
-  embed = discord.Embed(title=f'{ctx.command}', description=f'{error}', color=0x9d89c9)
-  await chan.send(embed=embed)
-  return
-
 @bot.command()
 async def flavor(ctx):
     await ctx.send("Choose a flavor!", view=MyTab())
 
-@bot.command(pass_context=True)
-async def ping(ctx):
-    await ctx.message.delete()
-    before = time.monotonic()
-    message = await ctx.send("`Pong!``")
-    ping = (time.monotonic() - before) * 1000
-    await message.edit(content=f"`Pong!  {int(ping)}ms`")
+@bot.command()
+async def spam(ctx, amount: int, *, message: str):
+  if amount <= 5 and len(message) <= 20:  
+    for i in range(amount): 
+      await ctx.send(message)
+  else:
+    await ctx.reply("TOO MUCH")
+    return
 
+@bot.command()
+async def echo(ctx, *, message: str):  
+  await ctx.channel.purge(limit=1)
+  await ctx.send(message)
+  
+# Utilities
 @bot.command()
 async def clear(ctx, amount: int, member: discord.Member):
     msg = ctx.message
@@ -439,15 +435,14 @@ async def clear(ctx, amount: int, member: discord.Member):
     await asyncio.sleep(5)
     await message.delete()
 
-@bot.command()
-async def mosie_nuke(ctx, amount: int):
-  if ctx.author.id != 727184656209936494:
-    await ctx.reply("nuh uh")
-    return
-  for i in range(amount):
-    nuke = "MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE MOSIE"
-    await ctx.channel.send(nuke)
-
+@bot.command(pass_context=True)
+async def ping(ctx):
+    await ctx.message.delete()
+    before = time.monotonic()
+    message = await ctx.send("`Pong!``")
+    ping = (time.monotonic() - before) * 1000
+    await message.edit(content=f"`Pong!  {int(ping)}ms`")
+  
 @bot.command()
 async def update(ctx):
   if ctx.author.id == 727184656209936494:
@@ -455,29 +450,14 @@ async def update(ctx):
     await sys.exit(0)
   else:
     await ctx.reply("Only Wumbee can bully me")
-
-@bot.command()
-async def spam(ctx, amount: int, *, message: str):
-  if amount <= 5 and len(message) <= 20:  
-    for i in range(amount): 
-      await ctx.send(message)
-  else:
-    await ctx.reply("TOO MUCH")
-    return
-
-@bot.command()
-async def spamton(ctx, amount: int, *, message: str):
-  if ctx.author.id != 727184656209936494:
-    await ctx.send("This aint for you")
-    return
-  for i in range(amount): 
-    await ctx.send(message)
+    
+@bot.event
+async def on_command_error(ctx, error):
+  chan = discord.utils.get(bot.get_all_channels(), id=ctx.channel.id)
+  embed = discord.Embed(title=f'{ctx.command}', description=f'{error}', color=0x9d89c9)
+  await chan.send(embed=embed)
+  return
   
-@bot.command()
-async def echo(ctx, *, message: str):  
-  await ctx.channel.purge(limit=1)
-  await ctx.send(message)
-
 @bot.command()
 async def killswitch(ctx):
   message = discord.Message
@@ -487,6 +467,7 @@ async def killswitch(ctx):
   await ctx.reply("https://tenor.com/view/cat-bully-why-do-you-bully-me-gif-14134661")
   os.system("pkill -f bash")
 
+# Music player (depreciated, ip flagged)
 @bot.command(pass_context=True, aliases=['l', 'lea','disconnect'])
 async def leave(ctx):
   channel = ctx.message.author.voice.channel
