@@ -60,7 +60,7 @@ async def on_guild_join(guild):
 # Beginning of basic rpg, rewrite pending
 @bot.command()
 async def help_r(ctx):
-  await ctx.send("Pick a character with `join_ut` and start with `start_ut`\nThe characters are rogue and mage\n\nYou can use `fight_ut`, `mercy_ut` and `act_ut`")
+  await ctx.send("Pick a character with `join` and start with `start_r`\nThe characters are rogue and mage\n\nYou can use `fight`, `mercy` and `act`")
 
 @bot.command()
 async def join(ctx, char: str):
