@@ -23,14 +23,6 @@ from cogs.vars import *
 bot = vars.bot
 number = None
 
-@bot.slash_command()
-async def repair(ctx):
-  if ctx.user.id != 727184656209936494:
-    await ctx.respond('Shoo!')
-    return
-  await ctx.respond('Updating...')
-  sys.exit(0)
-
 @bot.slash_command(description = 'Sets up Pokétwo pings!')
 async def spawnping(ctx):
   try:
@@ -40,7 +32,7 @@ async def spawnping(ctx):
   except Exception as e:
     await ctx.send(e)
 
-@bot.slash_command(name="chatmode", description="Dm someone with the bot")
+@bot.slash_command(name="chatmode", description="Dm someone with the bot (Only use User ID, not mention)")
 async def chatmode_slash(ctx, user: str = None, silence: str = None):
   global chatmode
   global chat_user
@@ -91,7 +83,7 @@ class MyTab(discord.ui.View):
     async def select_callback(self, select, interaction):
         await interaction.response.send_message(f"Awesome! I like {select.values[0]} too!")
 
-@bot.slash_command(name="bridge", description="nothing")
+@bot.slash_command(name="bridge", description="Bridges channels together (Uses Channel ID)")
 async def bridge(ctx, channel: str = None, silence: str = None):
   global chatmode
   global chat_user
@@ -394,7 +386,7 @@ def urlDec(url):
 async def bee(ctx):
   async def getUrl():
     new_url = ""
-    api = requests.get(url="https://www.reddit.com/r/bees/random.json",headers={'User-agent': 'Wumbee'}).json()
+    api = requests.get(url="https://www.reddit.com/r/bees/random.json",headers={'User-agent': 'Wumbee01'}).json()
     try:
       url = api[0]['data']['children'][0]['data']['preview']['images'][0][
         'source']['url']
@@ -410,7 +402,7 @@ async def bee(ctx):
 async def raccoons(ctx):
   async def getUrl():
     new_url = ""
-    api = requests.get(url="https://www.reddit.com/r/Raccoons/random.json",headers={'User-agent': 'Wumbee'}).json()
+    api = requests.get(url="https://www.reddit.com/r/Raccoons/random.json",headers={'User-agent': 'Wumbee01'}).json()
     try:
       url = api[0]['data']['children'][0]['data']['preview']['images'][0]['source']['url']
       new_url = urlDec(url)
@@ -551,6 +543,7 @@ async def unmuteerror(ctx, error):
   else:
     raise error
 
+# Remnant from API fetching practice, do not the sus
 @bot.slash_command(name = "waifubomb", description = "Powered by waifu API")
 async def totallysfwbomb(interaction, category: str):
   waifu_category = (category.lower())
@@ -574,7 +567,3 @@ async def totallysfwbomb(interaction, category: str):
       return
     else:
       await interaction.followup.send("Nvm wrong channel buddy")
-
-@bot.slash_command(name="test", description="test")
-async def vscode(ctx):
-  ctx.respond("This was made in vs code!")
