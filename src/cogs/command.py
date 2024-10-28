@@ -106,7 +106,7 @@ def reset():
   amt_players = 0
 
 @bot.command()
-async def start(ctx):
+async def start_r(ctx):
   global players
   global amt_players
   global p1
