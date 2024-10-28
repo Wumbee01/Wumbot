@@ -36,7 +36,7 @@ async def _message(message):
 
   msg = message.content.lower()
 
-  # Start of Bash section
+  # Start of Bash/Code testing section
   if message.content.startswith('exec'):
     split_cmd = message.content.split(' ')
     split_cmd = [word for word in split_cmd if word != 'exec']
