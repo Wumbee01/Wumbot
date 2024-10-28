@@ -31,5 +31,6 @@ async def on_message(message):
 async def on_message_edit(before, after):
   await _message_edit(before, after)
   await bot.process_commands(after)
+  await _message(after)
   
 bot.run(os.environ['TOKEN'])
