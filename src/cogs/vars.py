@@ -45,7 +45,7 @@ channel_id = None
 global wumbee
 wumbee = 727184656209936494
 
-prefix = ["!", "<@830863280237969438> ", "bee ", "Bee ", "exec ", "Exec ", "! "]
+prefix = ["!"]
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
