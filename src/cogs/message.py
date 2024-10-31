@@ -127,7 +127,7 @@ async def _message(message):
       
   if "<@830863280237969438>" in msg:
     split_msg = shlex.split(message.content)
-    split_msg = [word for word in split_cmd if word != '<@830863280237969438>']
+    split_msg = [word for word in split_msg if word != '<@830863280237969438>']
     message2 = ' '.join(split_msg)
     genai.configure(api_key=os.environ["AI"])
     model2 = genai.GenerativeModel('gemini-1.5-flash')
