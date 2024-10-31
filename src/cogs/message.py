@@ -125,8 +125,16 @@ async def _message(message):
     if int(message.content) <= number:
       await message.reply("Higher!")
       
-  if "<@830863280237969438>" == message.content:
-    await message.reply('Fuck off!')
+  if "<@830863280237969438>" in msg:
+    split_msg = shlex.split(message.content)
+    split_msg = [word for word in split_cmd if word != '<@830863280237969438>']
+    message2 = ' '.join(split_msg)
+    genai.configure(api_key=os.environ["AI"])
+    model2 = genai.GenerativeModel('gemini-1.5-flash')
+    prompt2 = f"This is being sent through a discord bot (the bots/your name is Wumbot and you were made using pycord by Wumbee), please generate an answer according to the following: this is the question or message to you: '{message2}' and the message was sent by '{message.author.name}', guidelines: 1. dont add \" to beginning and end of message, 2. DO NOT use emojis under ANY circumstance, 3. Be a little silly :3, 4. avoid proper capitalization, 5. dont get too defensive, 6. avoid mentions of being an ai, now generate a reply using above information and guidelines"
+    response2 = model.generate_content(f"{prompt}")
+    await message.reply(response2.text)
+    
      
   if "cool cool very epic" in msg:
     await message.channel.send('<:stretchreaction:1140646501157183489>:thumbsup:')
