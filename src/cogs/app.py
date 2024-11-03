@@ -114,30 +114,7 @@ async def bridge(ctx, channel: str = None, silence: str = None):
     await ctx.respond("There is an error or you haven't started a bridge yet")
 # End of bridging section
 
-# Discord UI section
-class MyTab(discord.ui.View):
-    @discord.ui.select( 
-        placeholder = "Choose a Flavor!", 
-        min_values = 1, 
-        max_values = 1, 
-        options = [ 
-            discord.SelectOption(
-                label="Vanilla",
-                description="Pick this if you like vanilla!"
-            ),
-            discord.SelectOption(
-                label="Chocolate",
-                description="Pick this if you like chocolate!"
-            ),
-            discord.SelectOption(
-                label="Strawberry",
-                description="Pick this if you like strawberry!"
-            )
-        ]
-    )
-    async def select_callback(self, select, interaction):
-        await interaction.response.send_message(f"Awesome! I like {select.values[0]} too!")
-
+# Help section
 class MyView(discord.ui.View):
     def __init__(self):
       super().__init__()
@@ -229,7 +206,7 @@ async def help(interaction):
     await interaction.channel.send("Why tf do you need help?")
     pass
   await interaction.respond("### My commands!\nMy prefixes are !, bee, exec\n\nModeration - Moderation commands\nFun - (Hopefully) Fun commands\nUtility - Only for me\n\nChat reactions - Wumbot reacts to some phrases\n\nChatGPT - Reply to Wumbot or ping him with a message for AI (Using Gemini)", view=MyView())
-# End of discord UI section
+# End of Help section
 
 # Games section
 @bot.slash_command(name = "2ball", description = "Yes or no")
