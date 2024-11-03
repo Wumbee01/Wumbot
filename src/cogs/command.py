@@ -34,8 +34,17 @@ async def on_ready():
   change_status.start()
   await asyncio.sleep(5)
   discord.opus.load_opus()
+  
+# Join message
+@bot.event
+async def on_guild_join(guild):
+  general = find(lambda x: x.name == 'general',  guild.text_channels)
+  if general and general.permissions_for(guild.me).send_messages:
+    await general.send(f'Hello there {guild.name}!\nUse /help for list of commands\nIf you have Pokétwo, use the /spawnping command to receive pings!')
+  await guild.create_role(name="spawn")
 
 # Bash commands (Depreciated, pending fixes)
+"""
 @bot.command()
 async def bash(ctx, *, cmd: str):
   command = f'docker run -t ubuntu {cmd}'
@@ -48,14 +57,7 @@ async def bash(ctx, *, cmd: str):
   else:
     await ctx.reply('Your Bashchan Output!')
     await ctx.channel.send(f'Result: {stdout_result}\n\nCode: {result.returncode}')     
-
-# Join message
-@bot.event
-async def on_guild_join(guild):
-  general = find(lambda x: x.name == 'general',  guild.text_channels)
-  if general and general.permissions_for(guild.me).send_messages:
-    await general.send(f'Hello there {guild.name}!\nUse /help for list of commands\nIf you have Pokétwo, use the /spawnping command to receive pings!')
-  await guild.create_role(name="spawn")
+"""
 
 # Beginning of basic rpg, rewrite pending
 @bot.command()
@@ -419,8 +421,9 @@ async def spam(ctx, amount: int, *, message: str):
 async def echo(ctx, *, message: str):  
   await ctx.channel.purge(limit=1)
   await ctx.send(message)
-  
-# Utilities
+# End of silly commands section
+
+# Utilities section
 @bot.command()
 async def clear(ctx, amount: int, member: discord.Member):
     msg = ctx.message
@@ -435,6 +438,10 @@ async def clear(ctx, amount: int, member: discord.Member):
     await asyncio.sleep(5)
     await message.delete()
 
+@bot.command(aliases=['rm', 'remove', 'delete', 'del', 'purge'])
+async def purgecmd(ctx, amt: int):
+  await ctx.channel.purge(limit=amt)
+  
 @bot.command(pass_context=True)
 async def ping(ctx):
     await ctx.message.delete()
@@ -466,8 +473,10 @@ async def killswitch(ctx):
     return
   await ctx.reply("https://tenor.com/view/cat-bully-why-do-you-bully-me-gif-14134661")
   os.system("pkill -f bash")
+# End of utilities section
 
 # Music player (depreciated, ip flagged)
+"""
 @bot.command(pass_context=True, aliases=['l', 'lea','disconnect'])
 async def leave(ctx):
   channel = ctx.message.author.voice.channel
@@ -525,7 +534,4 @@ async def play(ctx, type: str, *, url: str):
   nname = name.rsplit("-", 2)
   await ctx.send(f"Playing: {nname[0]}")
   print("playing\n")
-
-@bot.command(aliases=['rm', 'remove', 'delete', 'del', 'purge'])
-async def purgecmd(ctx, amt: int):
-  await ctx.channel.purge(limit=amt)
+"""

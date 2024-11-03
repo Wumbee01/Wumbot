@@ -23,15 +23,35 @@ from cogs.vars import *
 bot = vars.bot
 number = None
 
-@bot.slash_command(description = 'Sets up Pokétwo pings!')
-async def spawnping(ctx):
-  try:
-    s_role = discord.utils.get(ctx.guild.roles, name="spawn")
-    await ctx.user.add_roles(s_role)
-    await ctx.respond("Role added!")
-  except Exception as e:
-    await ctx.send(e)
+# Silly commands section
+@bot.slash_command(name = "whatisdeez", description = "True ultimate command")
+async def deez(interaction):
+  await interaction.response.send_message("heh... DEEZ NUTS")
 
+@bot.slash_command(name = 'echo', description = "Makes the bot say stuff")
+async def echo_slash(interaction, message: str):
+  await interaction.channel.send(message)
+  await interaction.response.send_message("Hehehe", ephemeral=True)
+
+@bot.slash_command(name = 'lag', description = "Makes the bot lag you (spam)")
+async def spam(interaction):
+  await interaction.channel.send("<a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800>")
+  await interaction.response.send_message("Hehehe", ephemeral=True)
+
+@bot.slash_command(name = "ping", description = "Ping somebody indirectly")
+async def ping_pong(interaction, member: discord.Member, reason: Option(str, required = False)):
+  if reason == None:
+    await interaction.response.send_message(f"<@{interaction.user.mention} why'd you ping?")
+    await interaction.channel.send(f"{member.mention}, you've been pinged by {interaction.user.name}")
+  await interaction.response.send_message(f"{member.mention}, {interaction.user.mention} pinged you for '{reason}'")
+
+@bot.slash_command(name = "poke", description = "Dont do it")
+async def poke(interaction):
+  poke_r = [f"Hey! don't do that, {interaction.user.mention}", "Bro stop, thats gay", f"{interaction.user.mention} LIKES BOTHERING INNOCENT BOTS!", "I AM IN YOUR WALLS", "AAAAAAAAAAAAAAAA, DONT DO THAT", "*stares menacingly* <:unrelatable:1115559275301978152> <:unrelatable:1115559275301978152> <:unrelatable:1115559275301978152>"]
+  await interaction.response.send_message(random.choice(poke_r))
+# End of silly commands section
+
+# Bridging command section
 @bot.slash_command(name="chatmode", description="Dm someone with the bot (Only use User ID, not mention)")
 async def chatmode_slash(ctx, user: str = None, silence: str = None):
   global chatmode
@@ -59,29 +79,6 @@ async def chatmode_slash(ctx, user: str = None, silence: str = None):
     else:
       if silence == None:
         await ctx.respond("There is an error or you haven't started chatmode yet")
-
-class MyTab(discord.ui.View):
-    @discord.ui.select( 
-        placeholder = "Choose a Flavor!", 
-        min_values = 1, 
-        max_values = 1, 
-        options = [ 
-            discord.SelectOption(
-                label="Vanilla",
-                description="Pick this if you like vanilla!"
-            ),
-            discord.SelectOption(
-                label="Chocolate",
-                description="Pick this if you like chocolate!"
-            ),
-            discord.SelectOption(
-                label="Strawberry",
-                description="Pick this if you like strawberry!"
-            )
-        ]
-    )
-    async def select_callback(self, select, interaction):
-        await interaction.response.send_message(f"Awesome! I like {select.values[0]} too!")
 
 @bot.slash_command(name="bridge", description="Bridges channels together (Uses Channel ID)")
 async def bridge(ctx, channel: str = None, silence: str = None):
@@ -115,27 +112,9 @@ async def bridge(ctx, channel: str = None, silence: str = None):
       await ctx.respond("There is an error or you haven't started a bridge yet", ephemeral=True)
       return
     await ctx.respond("There is an error or you haven't started a bridge yet")
-    
-def randnum():
-  num = random.randint(1, 10) 
-  return num
+# End of bridging section
 
-@bot.slash_command(name="profile", description="Edit Bots Profile")
-async def profile(interaction, name: str, image: discord.Attachment):
-  await bot.user.edit(username=name, avatar=await image.read())
-  await interaction.response.send_message("Done")
-
-@bot.slash_command(name="guess", description="Guess a number between 1 and 10")
-async def insanity(interaction):
-  global number
-  number = randnum()
-  await interaction.respond("Choose a number between 1 and 10")
-  await asyncio.sleep(10)
-  if number != None:
-    await interaction.followup.send("Time's up!\nToo bad...")
-  else:
-    await interaction.followup.send("Ya win!")
-
+# Help section
 class MyView(discord.ui.View):
     def __init__(self):
       super().__init__()
@@ -226,19 +205,10 @@ async def help(interaction):
   if interaction.author.id == 727184656209936494:
     await interaction.channel.send("Why tf do you need help?")
     pass
-  await interaction.respond("### My commands!\nMy prefixes are !, bee, exec\n\nModeration - Moderation commands\nFun - (Hopefully) Fun commands\nUtility - Only for me\n\nChat reactions - Wumbot reacts to some phrases\n\nChatGPT - Reply to Wumbot to talk to ChatGPT, add .jb to the start of message for jailbroken mode (Gone for now)", view=MyView())
+  await interaction.respond("### My commands!\nMy prefixes are !, bee, exec\n\nModeration - Moderation commands\nFun - (Hopefully) Fun commands\nUtility - Only for me\n\nChat reactions - Wumbot reacts to some phrases\n\nChatGPT - Reply to Wumbot or ping him with a message for AI (Using Gemini)", view=MyView())
+# End of Help section
 
-@bot.slash_command(name = "censor", description = "Leave empty to remove censors")
-@commands.has_permissions(moderate_members = True)
-async def censor(interaction, word: str = None, word2: str = None):
-  cdata = {
-    "Word": word,
-    "Word2": word2
-  }
-  with open("censor.json", "w") as write_file:
-    json.dump(cdata, write_file)
-  await interaction.respond(f"Censor list:\n- {word}\n- {word2}", ephemeral = True)
-
+# Games section
 @bot.slash_command(name = "2ball", description = "Yes or no")
 async def twoball(interaction, question: str):
   twoballanswer = ["My answer is yes", "My answer is no"]
@@ -251,22 +221,21 @@ async def eightball(interaction, question: str):
   eightballembed = discord.Embed(title = f"Question: {question}", description = f"{random.choice(eightballanswer)}", color=0x9d89c9)
   await interaction.respond(embed=eightballembed)
 
-@bot.slash_command(name = "ping", description = "Pong's da Wum")
-async def ping_pong(interaction, reason: Option(str, required = False)):
-  if reason == None:
-    await interaction.response.send_message(f"<@{interaction.user.id}> why'd you ping?")
-    await interaction.channel.send("<@727184656209936494>, you've been pinged")
-  await interaction.response.send_message(f"<@727184656209936494>, <@{interaction.user.id}> pinged you for '{reason}'")
+def randnum():
+  num = random.randint(1, 10) 
+  return num
 
-@bot.slash_command(name = "support", description = "Wise words")
-async def mali_support(interaction):
-    await interaction.response.send_message("If updating the game or changing settings didn't do anything... *you're fucked*")
-
-@bot.slash_command(name = "poke", description = "Dont do it")
-async def poke(interaction):
-  poke_r = [f"Hey! don't do that, {interaction.user.mention}", "Bro stop, thats gay", f"{interaction.user.mention} LIKES BOTHERING INNOCENT BOTS!", "I AM IN YOUR WALLS", "AAAAAAAAAAAAAAAA, DONT DO THAT", "*stares menacingly* <:unrelatable:1115559275301978152> <:unrelatable:1115559275301978152> <:unrelatable:1115559275301978152>"]
-  await interaction.response.send_message(random.choice(poke_r))
-
+@bot.slash_command(name="guess", description="Guess a number between 1 and 10")
+async def insanity(interaction):
+  global number
+  number = randnum()
+  await interaction.respond("Choose a number between 1 and 10")
+  await asyncio.sleep(10)
+  if number != None:
+    await interaction.followup.send("Time's up!\nToo bad...")
+  else:
+    await interaction.followup.send("Ya win!")
+    
 def flip_result():
   global choice_bot_flip
   choice_bot_flip = random.choice(["HEADS", "TAILS"])
@@ -334,84 +303,24 @@ async def rps(interaction, your_choice: str):
   if result == "TIE!":
     rpsembed.add_field(name="Hmph, a tie", value="Who will win the next one?")
   await interaction.response.send_message(embed=rpsembed)
+# End of games section
 
-def get_waifu():
-  return requests.get(f"https://api.waifu.pics/{waifu_category}/{waifu_type}")
+# Utility Section
+@bot.slash_command(name = "censor", description = "Leave empty to remove censors")
+@commands.has_permissions(moderate_members = True)
+async def censor(interaction, word: str = None, word2: str = None):
+  cdata = {
+    "Word": word,
+    "Word2": word2
+  }
+  with open("censor.json", "w") as write_file:
+    json.dump(cdata, write_file)
+  await interaction.respond(f"Censor list:\n- {word}\n- {word2}", ephemeral = True)
 
-@bot.slash_command(name = "waifuimg", description = "Powered by waifu API")
-async def totallysfw(interaction, category: str, type: Option(str, required = False)):
-  global waifu_type
-  global waifu_category
-  global url_json
-  if type != None:
-    waifu_type = (type.lower())
-  waifu_type = type
-  waifu_category = (category.lower())
-  url_json = json.loads(str(get_waifu().text))
-  if waifu_category == "sfw":
-    if waifu_type == None:
-      waifu_type = ["waifu", "neko", "shinobu", "bully", "cuddle", "cry", "hug", "awoo", "kiss", "lick", "pat", "smug", "bonk", "yeet", "blush", "smile", "wave", "highfive", "handhold", "nom", "bite", "glomp", "slap", "kill", "kick", "happy", "wink", "poke", "dance", "cringe"]
-      def get_waifu_random_s():
-        return requests.get(f"https://api.waifu.pics/{waifu_category}/{random.choice(waifu_type)}")
-      url_json = json.loads(str(get_waifu_random_s().text))
-      await interaction.response.send_message(url_json["url"])
-      return
-  if waifu_category == "nsfw":
-    if interaction.channel.is_nsfw():
-      if waifu_type == None:
-        waifu_type = ["waifu", "neko", "trap"]
-        def get_waifu_random_n():
-          return requests.get(f"https://api.waifu.pics/{waifu_category}/{random.choice(waifu_type)}")
-        url_json = json.loads(str(get_waifu_random_n().text))
-        await interaction.response.send_message(url_json["url"])
-        return
-      await interaction.response.send_message(url_json["url"])
-      return
-    else:
-      await interaction.response.send_message("Wrong channel buddy")
-      return
-  await interaction.response.send_message(url_json["url"])
-
-@bot.slash_command(name = "waifuhelp", description = "Sends all categories")
-async def waifuhelp(interaction):
-  await interaction.response.send_message("### Waifu categories:\n\nSfw, Nsfw\n\n### Waifu types:\n\n***Sfw:*** waifu, neko, shinobu, bully, cuddle, cry, hug, awoo, kiss, lick, pat, smug, bonk, yeet, blush, smile, wave, highfive, handhold, nom, bite, glomp, slap, kill, kick, happy, wink, poke, dance, cringe\n\n***Nsfw (only works in a nsfw channel):*** waifu, trap, neko")
-
-def urlDec(url):
-  encoded = url.replace('amp;s', 's')
-  doubleEncoded = encoded.replace('amp;', '')
-  tripleEncoded = doubleEncoded.replace('amp;', '')
-  return tripleEncoded
-
-@bot.slash_command(name = "bees", description = "Sends a bee")
-async def bee(ctx):
-  async def getUrl():
-    new_url = ""
-    api = requests.get(url="https://www.reddit.com/r/bees/random.json",headers={'User-agent': 'Wumbee01'}).json()
-    try:
-      url = api[0]['data']['children'][0]['data']['preview']['images'][0][
-        'source']['url']
-      new_url = urlDec(url)
-    except:
-      await getUrl()
-    await ctx.respond(new_url)
-    os.system("clear")
-    return
-  await getUrl()
-
-@bot.slash_command(name = "raccoons", description = "Sends a raccoon")
-async def raccoons(ctx):
-  async def getUrl():
-    new_url = ""
-    api = requests.get(url="https://www.reddit.com/r/Raccoons/random.json",headers={'User-agent': 'Wumbee01'}).json()
-    try:
-      url = api[0]['data']['children'][0]['data']['preview']['images'][0]['source']['url']
-      new_url = urlDec(url)
-    except:
-      await getUrl()
-    await ctx.respond(new_url)
-    os.system("clear")
-    return
-  await getUrl()
+@bot.slash_command(name="profile", description="Edit Bots Profile")
+async def profile(interaction, name: str, image: discord.Attachment):
+  await bot.user.edit(username=name, avatar=await image.read())
+  await interaction.response.send_message("Done")
 
 @bot.slash_command(name = "banana", description = "The ultimate command")
 @commands.has_permissions(ban_members=True)
@@ -455,7 +364,6 @@ async def unbanerror(ctx, error):
   else:
     raise error
     
-
 @bot.slash_command(name = "removerole", description = "Removes a role from a member")
 async def removerole(ctx, member: discord.Member, role: discord.Role):
   await member.remove_roles(role)
@@ -464,20 +372,6 @@ async def removerole(ctx, member: discord.Member, role: discord.Role):
 @bot.slash_command(name = "purge", description = "Purges messages")
 async def purge(ctx, amount: int):
   await ctx.channel.purge(limit=amount)
-
-@bot.slash_command(name = "whatisdeez", description = "True ultimate command")
-async def deez(interaction):
-  await interaction.response.send_message("heh... DEEZ NUTS")
-
-@bot.slash_command(name = 'echo', description = "Makes the bot say stuff")
-async def echo_slash(interaction, message: str):
-  await interaction.channel.send(message)
-  await interaction.response.send_message("Hehehe", ephemeral=True)
-
-@bot.slash_command(name = 'lag', description = "Makes the bot lag you (spam)")
-async def spam(interaction):
-  await interaction.channel.send("<a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800><a:congaparroter:1142006542175047800>")
-  await interaction.response.send_message("Hehehe", ephemeral=True)
 
 @bot.slash_command(name = 'roles', description = "Shows the roles of a user")
 async def roles_s(ctx, user: discord.Member):
@@ -543,7 +437,60 @@ async def unmuteerror(ctx, error):
   else:
     raise error
 
-# Remnant from API fetching practice, do not the sus
+@bot.slash_command(description = 'Sets up Pokétwo pings!')
+async def spawnping(ctx):
+  try:
+    s_role = discord.utils.get(ctx.guild.roles, name="spawn")
+    await ctx.user.add_roles(s_role)
+    await ctx.respond("Role added!")
+  except Exception as e:
+    await ctx.send(e)
+# End of utilities section
+
+### Remnants from image fetching practice, do not the sus
+
+# api.waifu
+def get_waifu():
+  return requests.get(f"https://api.waifu.pics/{waifu_category}/{waifu_type}")
+  
+@bot.slash_command(name = "waifuimg", description = "Powered by waifu API")
+async def totallysfw(interaction, category: str, type: Option(str, required = False)):
+  global waifu_type
+  global waifu_category
+  global url_json
+  if type != None:
+    waifu_type = (type.lower())
+  waifu_type = type
+  waifu_category = (category.lower())
+  url_json = json.loads(str(get_waifu().text))
+  if waifu_category == "sfw":
+    if waifu_type == None:
+      waifu_type = ["waifu", "neko", "shinobu", "bully", "cuddle", "cry", "hug", "awoo", "kiss", "lick", "pat", "smug", "bonk", "yeet", "blush", "smile", "wave", "highfive", "handhold", "nom", "bite", "glomp", "slap", "kill", "kick", "happy", "wink", "poke", "dance", "cringe"]
+      def get_waifu_random_s():
+        return requests.get(f"https://api.waifu.pics/{waifu_category}/{random.choice(waifu_type)}")
+      url_json = json.loads(str(get_waifu_random_s().text))
+      await interaction.response.send_message(url_json["url"])
+      return
+  if waifu_category == "nsfw":
+    if interaction.channel.is_nsfw():
+      if waifu_type == None:
+        waifu_type = ["waifu", "neko", "trap"]
+        def get_waifu_random_n():
+          return requests.get(f"https://api.waifu.pics/{waifu_category}/{random.choice(waifu_type)}")
+        url_json = json.loads(str(get_waifu_random_n().text))
+        await interaction.response.send_message(url_json["url"])
+        return
+      await interaction.response.send_message(url_json["url"])
+      return
+    else:
+      await interaction.response.send_message("Wrong channel buddy")
+      return
+  await interaction.response.send_message(url_json["url"])
+
+@bot.slash_command(name = "waifuhelp", description = "Sends all categories")
+async def waifuhelp(interaction):
+  await interaction.response.send_message("### Waifu categories:\n\nSfw, Nsfw\n\n### Waifu types:\n\n***Sfw:*** waifu, neko, shinobu, bully, cuddle, cry, hug, awoo, kiss, lick, pat, smug, bonk, yeet, blush, smile, wave, highfive, handhold, nom, bite, glomp, slap, kill, kick, happy, wink, poke, dance, cringe\n\n***Nsfw (only works in a nsfw channel):*** waifu, trap, neko")
+
 @bot.slash_command(name = "waifubomb", description = "Powered by waifu API")
 async def totallysfwbomb(interaction, category: str):
   waifu_category = (category.lower())
@@ -567,3 +514,44 @@ async def totallysfwbomb(interaction, category: str):
       return
     else:
       await interaction.followup.send("Nvm wrong channel buddy")
+
+# Depreciated image fetchers (fuck reddit)
+"""
+def urlDec(url):
+  encoded = url.replace('amp;s', 's')
+  doubleEncoded = encoded.replace('amp;', '')
+  tripleEncoded = doubleEncoded.replace('amp;', '')
+  return tripleEncoded
+
+@bot.slash_command(name = "bees", description = "Sends a bee")
+async def bee(ctx):
+  async def getUrl():
+    new_url = ""
+    api = requests.get(url="https://www.reddit.com/r/bees/random.json",headers={'User-agent': 'Wumbee01'}).json()
+    try:
+      url = api[0]['data']['children'][0]['data']['preview']['images'][0][
+        'source']['url']
+      new_url = urlDec(url)
+    except:
+      await getUrl()
+    await ctx.respond(new_url)
+    os.system("clear")
+    return
+  await getUrl()
+
+@bot.slash_command(name = "raccoons", description = "Sends a raccoon")
+async def raccoons(ctx):
+  async def getUrl():
+    new_url = ""
+    api = requests.get(url="https://www.reddit.com/r/Raccoons/random.json",headers={'User-agent': 'Wumbee01'}).json()
+    try:
+      url = api[0]['data']['children'][0]['data']['preview']['images'][0]['source']['url']
+      new_url = urlDec(url)
+    except:
+      await getUrl()
+    await ctx.respond(new_url)
+    os.system("clear")
+    return
+  await getUrl()
+"""
+
