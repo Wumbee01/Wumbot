@@ -112,7 +112,7 @@ async def uno(ctx, func):
             await ctx.reply(f"Its now <@{player}>'s turn")
             class MyTab(): # unfinished
               pass
-            await player_message.send("Hey its your turn, pick a card", view=)
+            await player_message.send("Hey its your turn, pick a card", view="")
           def match_card(self, number, colour):
             if number == current_number or colour == current_colour:
           def play():
