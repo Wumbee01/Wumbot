@@ -100,14 +100,15 @@ async def uno(ctx, action):
       decks[player_id].remove(playable_card)  # Remove the used card
       # UNO condition
       if len(decks[player_id]) == 1:
-        await ctx.channel.send(f"<@{player_id}> is on UNO!")
-      await ctx.channel.send(f"<@{player_id}> played {playable_card['color']} {playable_card['number']}.")
+        await ctx.reply(f"<@{player_id}> is on UNO!")
+      await ctx.reply(f"<@{player_id}> played {playable_card['color']} {playable_card['number']}.")
       # Change colour and number to match last played card
       current_colour = playable_card['color']
       current_number = playable_card['number']
+      await ctx.channel.send(f'<@{player_id}> has {len(decks[player_id])} cards left')
       # Win condition
       if not decks[player_id]:
-        await ctx.reply(f"<@{player_id}> has won the game!")
+        await ctx.channel.send(f"<@{player_id}> has won the game!")
         await reset_game()
         return
       turn = (turn + 1) % len(players)  # Move to the next player
@@ -122,13 +123,14 @@ async def uno(ctx, action):
         'number': random.randint(0, 9)
       }
       deck.append(card)
+      await ctx.channel.send(f'<@{player_id}> has {len(deck)} cards left')
       turn = (turn + 1) % len(players)  # Move to the next player
       await display_current_state(ctx)
   else:
     await ctx.reply("You can only use `join`, `start`, `stop`, or `play`.")
 
 async def display_current_state(ctx):
-  await ctx.reply(f"Current Card: {current_colour} {current_number}\nIt's now <@{players[turn]}>'s turn.")
+  await ctx.channel.send(f"Current Card: {current_colour} {current_number}\nIt's now <@{players[turn]}>'s turn.")
 
 def generate_deck():
   colors = ["Red", "Green", "Blue", "Yellow"]
@@ -174,20 +176,20 @@ async def help_r(ctx):
 async def join(ctx, char: str):
   global mage
   global rogue
-  global players
+  global players_r
   global amt_players
   match char:
     case "mage":
-      if len(players.keys()) != 2:
-        players.update({ctx.author.id: mage.copy()})
+      if len(players_r.keys()) != 2:
+        players_r.update({ctx.author.id: mage.copy()})
         await ctx.send("You have joined!")
         amt_players += 1
         await ctx.send(f"There are now {amt_players} players")
       else:
         await ctx.send("Use `start_ut`")
     case "rogue":
-      if len(players.keys()) != 2:
-        players.update({ctx.author.id: rogue.copy()})
+      if len(players_r.keys()) != 2:
+        players_r.update({ctx.author.id: rogue.copy()})
         await ctx.send("You have joined!")
         amt_players += 1
         await ctx.send(f"There are now {amt_players} players")
@@ -215,7 +217,7 @@ def reset():
 
 @bot.command()
 async def start_r(ctx):
-  global players
+  global players_r
   global amt_players
   global p1
   global p2
@@ -224,11 +226,11 @@ async def start_r(ctx):
   global current_player
   if amt_players != 2:
     await ctx.send("Not enough players! You need 2")
-  p1 = list(players.keys())[0]
-  p2 = list(players.keys())[1]
+  p1 = list(players_r.keys())[0]
+  p2 = list(players_r.keys())[1]
   # data[0] = atk, data[1] = hp, data[2] = accuracy, data[3] = crit
-  p1_data = players[p1]
-  p2_data = players[p2]
+  p1_data = players_r[p1]
+  p2_data = players_r[p2]
   current_player = 1
   await ctx.send(f"It is now <@{p1}>'s turn (player 1)")
 
@@ -257,7 +259,7 @@ async def stats(ctx):
 
 @bot.command()
 async def fight(ctx):
-  global players
+  global players_r
   global amt_players
   global p1
   global p2
@@ -326,7 +328,7 @@ async def fight(ctx):
 
 @bot.command()
 async def mercy(ctx):
-  global players
+  global players_r
   global amt_players
   global p1
   global p2
@@ -369,7 +371,7 @@ async def mercy(ctx):
 
 @bot.command()
 async def act(ctx):
-  global players
+  global players_r
   global amt_players
   global p1
   global p2
