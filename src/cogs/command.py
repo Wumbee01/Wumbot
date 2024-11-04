@@ -174,20 +174,20 @@ async def help_r(ctx):
 async def join(ctx, char: str):
   global mage
   global rogue
-  global players
+  global players_r
   global amt_players
   match char:
     case "mage":
-      if len(players.keys()) != 2:
-        players.update({ctx.author.id: mage.copy()})
+      if len(players_r.keys()) != 2:
+        players_r.update({ctx.author.id: mage.copy()})
         await ctx.send("You have joined!")
         amt_players += 1
         await ctx.send(f"There are now {amt_players} players")
       else:
         await ctx.send("Use `start_ut`")
     case "rogue":
-      if len(players.keys()) != 2:
-        players.update({ctx.author.id: rogue.copy()})
+      if len(players_r.keys()) != 2:
+        players_r.update({ctx.author.id: rogue.copy()})
         await ctx.send("You have joined!")
         amt_players += 1
         await ctx.send(f"There are now {amt_players} players")
@@ -215,7 +215,7 @@ def reset():
 
 @bot.command()
 async def start_r(ctx):
-  global players
+  global players_r
   global amt_players
   global p1
   global p2
@@ -224,11 +224,11 @@ async def start_r(ctx):
   global current_player
   if amt_players != 2:
     await ctx.send("Not enough players! You need 2")
-  p1 = list(players.keys())[0]
-  p2 = list(players.keys())[1]
+  p1 = list(players_r.keys())[0]
+  p2 = list(players_r.keys())[1]
   # data[0] = atk, data[1] = hp, data[2] = accuracy, data[3] = crit
-  p1_data = players[p1]
-  p2_data = players[p2]
+  p1_data = players_r[p1]
+  p2_data = players_r[p2]
   current_player = 1
   await ctx.send(f"It is now <@{p1}>'s turn (player 1)")
 
@@ -257,7 +257,7 @@ async def stats(ctx):
 
 @bot.command()
 async def fight(ctx):
-  global players
+  global players_r
   global amt_players
   global p1
   global p2
@@ -326,7 +326,7 @@ async def fight(ctx):
 
 @bot.command()
 async def mercy(ctx):
-  global players
+  global players_r
   global amt_players
   global p1
   global p2
@@ -369,7 +369,7 @@ async def mercy(ctx):
 
 @bot.command()
 async def act(ctx):
-  global players
+  global players_r
   global amt_players
   global p1
   global p2
