@@ -1,0 +1,48 @@
+name: CI
+on:
+  schedule:
+    - cron: "0 4,8,12,16,20 * * *"
+    - cron: "0 0 * * *"
+
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      TOKEN: ${{secrets.TOKEN}}
+      GIT: ${{secrets.GIT}}
+      AI: ${{secrets.AI}}
+      RUNNUM: ${{ github.run_number }}
+      REPO: ${{ github.repository }}
+    steps:
+      - name: GIT clone the main repo !
+        run: |
+          rm -rf /home/runner/work/${{ github.event.repository.name }}/${{ github.event.repository.name }}
+          cd /home/runner/work/${{ github.event.repository.name }}
+          git clone https://github.com/${{ github.repository }}.git
+      - name: Update Linux
+        run: |
+          sudo apt update -y
+          sudo apt install ffmpeg -y
+      - name: Git sync
+        run: |
+          BOTDIR="/home/runner/work/${{ github.event.repository.name }}/${{ github.event.repository.name }}"
+          cd $BOTDIR
+          git config --global user.email "not.real@fake-email.com"
+          git config --global user.name "Wumbee"
+          git remote set-url origin https://${GIT}@github.com/Wumbee01/Wumbot.git
+          git checkout uno-again
+          git pull origin uno-again
+      - name: Run the bot
+        run: |
+          BOTDIR="/home/runner/work/${{ github.event.repository.name }}/${{ github.event.repository.name }}"
+          cd $BOTDIR
+          chmod +x $BOTDIR/main.sh
+          timeout $(( 4 * 60 * 60 - 60 ))s bash -c "bash ${BOTDIR}/main.sh" || exit
+          kill $!
+        continue-on-error: true
