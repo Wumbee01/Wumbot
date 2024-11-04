@@ -115,6 +115,7 @@ async def uno(ctx, func):
             await player_message.send("Hey its your turn, pick a card", view="")
           def match_card(self, number, colour):
             if number == current_number or colour == current_colour:
+              pass
           def play():
             global turn
             if turn == input:
