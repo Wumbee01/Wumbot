@@ -100,14 +100,15 @@ async def uno(ctx, action):
       decks[player_id].remove(playable_card)  # Remove the used card
       # UNO condition
       if len(decks[player_id]) == 1:
-        await ctx.channel.send(f"<@{player_id}> is on UNO!")
-      await ctx.channel.send(f"<@{player_id}> played {playable_card['color']} {playable_card['number']}.")
+        await ctx.reply(f"<@{player_id}> is on UNO!")
+      await ctx.reply(f"<@{player_id}> played {playable_card['color']} {playable_card['number']}.")
       # Change colour and number to match last played card
       current_colour = playable_card['color']
       current_number = playable_card['number']
+      await ctx.channel.send(f'<@{player_id}> has {len(decks[player_id])} cards left')
       # Win condition
       if not decks[player_id]:
-        await ctx.reply(f"<@{player_id}> has won the game!")
+        await ctx.channel.send(f"<@{player_id}> has won the game!")
         await reset_game()
         return
       turn = (turn + 1) % len(players)  # Move to the next player
@@ -122,13 +123,14 @@ async def uno(ctx, action):
         'number': random.randint(0, 9)
       }
       deck.append(card)
+      await ctx.channel.send(f'<@{player_id}> has {len(deck)} cards left')
       turn = (turn + 1) % len(players)  # Move to the next player
       await display_current_state(ctx)
   else:
     await ctx.reply("You can only use `join`, `start`, `stop`, or `play`.")
 
 async def display_current_state(ctx):
-  await ctx.reply(f"Current Card: {current_colour} {current_number}\nIt's now <@{players[turn]}>'s turn.")
+  await ctx.channel.send(f"Current Card: {current_colour} {current_number}\nIt's now <@{players[turn]}>'s turn.")
 
 def generate_deck():
   colors = ["Red", "Green", "Blue", "Yellow"]
