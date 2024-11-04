@@ -29,9 +29,9 @@ global rogue
 mage = [12, 60, 65, 15]
 rogue = [7, 70, 85, 35]
 
-global players
+global players_r
 global amt_players
-players = {}
+players_r = {}
 amt_players = 0
 
 heal = 15
