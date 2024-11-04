@@ -109,7 +109,7 @@ async def uno(ctx, func):
             current_player = uno_game.play()
             player = players[current_player]
             player_msg = await bot.fetch_user(player)
-            await ctx.reply(f"Its now <@{player}>'s turn')
+            await ctx.reply(f"Its now <@{player}>'s turn")
             class MyTab(): # unfinished
             await player_message.send("Hey its your turn, pick a card", view=)
           def match_card(self, number, colour):
