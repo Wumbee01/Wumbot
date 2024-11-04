@@ -122,10 +122,10 @@ async def uno(ctx, func):
               turn = -1
             while turn != input:
               turn += 1
-            return turn
               return True
             else:
               return False
+            return turn
         uno_game = gamerunner()   
         uno_game.deck_gen()
         uno_game.play_turn()       
