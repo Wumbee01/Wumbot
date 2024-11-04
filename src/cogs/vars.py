@@ -2,6 +2,16 @@ import os
 import discord
 from discord.ext import commands
 
+# Uno
+players = []
+game_state = False
+current_number = None
+current_colour = None
+uno_colors = ["Red", "Green", "Blue", "Yellow"]
+decks = {}
+turn = None
+
+# Rpg
 global p1
 global p2
 p1 = None
@@ -25,10 +35,12 @@ players = {}
 amt_players = 0
 
 heal = 15
+# End of Rpg
 
 global pkg_state
 pkg_state = None
 
+# Bridge/Chatmode
 global ch_channel
 global chatter
 global chat_user

@@ -43,6 +43,112 @@ async def on_guild_join(guild):
     await general.send(f'Hello there {guild.name}!\nUse /help for list of commands\nIf you have Pokétwo, use the /spawnping command to receive pings!')
   await guild.create_role(name="spawn")
 
+# Uno
+@bot.command()
+async def test(ctx):
+  global players
+  await ctx.reply(f'These are the players: {", ".join(f"<@{p}>" for p in players)}')
+
+@bot.command()
+async def uno(ctx, action):
+  global players, game_state, current_number, current_colour, turn, decks
+  if action == "start":
+    if game_state:
+      await ctx.reply('A game is already ongoing. Use !uno stop to end the game.')
+      return
+    if len(players) < 2:
+      await ctx.reply("Get some friends to join... if you have any that is (`!uno join`)")
+      return
+    game_state = True
+    turn = 0 # Start with the first player
+    decks = {p: generate_deck() for p in players}
+    current_number = random.randint(0, 9)
+    current_colour = random.choice(uno_colors)
+    await ctx.reply(f"Starting a game with: {', '.join(f'<@{p}>' for p in players)}. It's now <@{players[turn]}>'s turn.")
+    await display_current_state(ctx)
+
+  elif action == "stop":
+    if not game_state:
+      await ctx.reply("No game is ongoing. Start a game with `!uno start`.")
+      return
+    await reset_game()
+    await ctx.reply("Game stopped.")
+
+  elif action == "join":
+    if ctx.author.id in players:
+      await ctx.reply("You can't join twice.")
+      return
+    players.append(ctx.author.id)
+    await ctx.reply(f"{ctx.author.mention} has joined! Current players: {', '.join(f'<@{p}>' for p in players)}")
+
+  elif action == "play":
+    if not game_state:
+      await ctx.reply("No game is ongoing. Start a game with `!uno start`.")
+      return
+    player_id = ctx.author.id
+    if player_id != players[turn]:
+      await ctx.reply("It's not your turn!")
+      return
+    # Check for playable card
+    playable_card = None
+    for card in decks[player_id]:
+      if card['number'] == current_number or card['color'] == current_colour:
+        playable_card = card
+        break
+    # Play a turn
+    if playable_card:
+      decks[player_id].remove(playable_card)  # Remove the used card
+      # UNO condition
+      if len(decks[player_id]) == 1:
+        await ctx.channel.send(f"<@{player_id}> is on UNO!")
+      await ctx.channel.send(f"<@{player_id}> played {playable_card['color']} {playable_card['number']}.")
+      # Change colour and number to match last played card
+      current_colour = playable_card['color']
+      current_number = playable_card['number']
+      # Win condition
+      if not decks[player_id]:
+        await ctx.reply(f"<@{player_id}> has won the game!")
+        await reset_game()
+        return
+      turn = (turn + 1) % len(players)  # Move to the next player
+      await display_current_state(ctx)
+      return
+    else:
+      await ctx.channel.send(f"<@{player_id}> has no playable cards, drawing one and changing turn")
+      # Generating and appending a card to players deck
+      deck = decks[player_id]
+      card = {
+        'color': random.choice(uno_colors),
+        'number': random.randint(0, 9)
+      }
+      deck.append(card)
+      turn = (turn + 1) % len(players)  # Move to the next player
+      await display_current_state(ctx)
+  else:
+    await ctx.reply("You can only use `join`, `start`, `stop`, or `play`.")
+
+async def display_current_state(ctx):
+  await ctx.reply(f"Current Card: {current_colour} {current_number}\nIt's now <@{players[turn]}>'s turn.")
+
+def generate_deck():
+  colors = ["Red", "Green", "Blue", "Yellow"]
+  deck = []
+  for _ in range(7):
+    card = {
+      'color': random.choice(colors),
+      'number': random.randint(0, 9)
+    }
+    deck.append(card)
+  return deck
+
+async def reset_game():
+  global players, game_state, turn, decks
+  players.clear()
+  game_state = False
+  turn = 0
+  decks = {}
+# End of Uno
+
 # Bash commands (Depreciated, pending fixes)
 """
 @bot.command()
