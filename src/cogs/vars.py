@@ -10,6 +10,7 @@ current_colour = None
 uno_colors = ["Red", "Green", "Blue", "Yellow"]
 decks = {}
 turn = None
+tturns = None
 playable_card = None
 embed_message = None
 
