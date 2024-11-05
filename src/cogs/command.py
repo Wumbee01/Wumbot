@@ -120,7 +120,7 @@ async def play(ctx):
     await reset_game()
     return
   await asyncio.sleep(3)
-  played.delete()
+  await played.delete()
 
 async def draw(ctx):
   player_id = ctx.author.id
@@ -133,7 +133,7 @@ async def draw(ctx):
   }
   deck.append(card)
   await asyncio.sleep(3)
-  drawing.delete()
+  await drawing.delete()
 
 async def uno_status(ctx):
   global embed_message
