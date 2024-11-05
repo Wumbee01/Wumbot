@@ -152,6 +152,7 @@ def uno_embed():
     f"<@{player}>: {len(decks[player])} cards" for player in players
   )
   embed.add_field(name="Player Cards", value=player_states, inline=False)
+  embed.add_field(name="Turns Passed" value=f"{tturns}", inline=False)
   return embed
 
 def generate_deck():
