@@ -10,6 +10,8 @@ current_colour = None
 uno_colors = ["Red", "Green", "Blue", "Yellow"]
 decks = {}
 turn = None
+playable_card = None
+embed_message = None
 
 # Rpg
 global p1
