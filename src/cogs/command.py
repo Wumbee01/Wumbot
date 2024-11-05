@@ -104,7 +104,7 @@ async def uno(ctx, action):
       return
     else:
       await draw(ctx)
-      tturns + 1
+      tturns = tturns + 1
       turn = (turn + 1) % len(players)  # Move to the next player
       await uno_status(ctx)
   else:
