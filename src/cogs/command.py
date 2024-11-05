@@ -98,13 +98,13 @@ async def uno(ctx, action):
       current_number = playable_card['number']
       decks[player_id].remove(playable_card) # Remove the used card
       await play(ctx)
-      tturns + 1
+      tturns += 1
       turn = (turn + 1) % len(players)  # Move to the next player
       await uno_status(ctx)
       return
     else:
       await draw(ctx)
-      tturns = tturns + 1
+      tturns += 1
       turn = (turn + 1) % len(players)  # Move to the next player
       await uno_status(ctx)
   else:
