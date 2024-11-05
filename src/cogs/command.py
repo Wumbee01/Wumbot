@@ -45,13 +45,8 @@ async def on_guild_join(guild):
 
 # Uno
 @bot.command()
-async def test(ctx):
-  global players
-  await ctx.reply(f'These are the players: {", ".join(f"<@{p}>" for p in players)}')
-
-@bot.command()
 async def uno(ctx, action):
-  global players, game_state, current_number, current_colour, turn, decks
+  global players, game_state, current_number, current_colour, turn, decks, embed_message, playable_card
   if action == "start":
     if game_state:
       await ctx.reply('A game is already ongoing. Use !uno stop to end the game.')
@@ -61,11 +56,12 @@ async def uno(ctx, action):
       return
     game_state = True
     turn = 0 # Start with the first player
-    decks = {p: generate_deck() for p in players}
-    current_number = random.randint(0, 9)
-    current_colour = random.choice(uno_colors)
+    decks = {p: generate_deck() for p in players} # Create dict with list of cards for each player 
+    current_number = random.randint(0, 9) # starting number
+    current_colour = random.choice(uno_colors) # starting colour
     await ctx.reply(f"Starting a game with: {', '.join(f'<@{p}>' for p in players)}. It's now <@{players[turn]}>'s turn.")
-    await display_current_state(ctx)
+    embed_message = await ctx.send(embed=uno_embed())
+    await uno_status(ctx)
 
   elif action == "stop":
     if not game_state:
@@ -97,45 +93,66 @@ async def uno(ctx, action):
         break
     # Play a turn
     if playable_card:
-      decks[player_id].remove(playable_card)  # Remove the used card
-      # UNO condition
-      if len(decks[player_id]) == 1:
-        await ctx.reply(f"<@{player_id}> is on UNO!")
-      await ctx.reply(f"<@{player_id}> played {playable_card['color']} {playable_card['number']}.")
-      # Change colour and number to match last played card
       current_colour = playable_card['color']
       current_number = playable_card['number']
-      await ctx.channel.send(f'<@{player_id}> has {len(decks[player_id])} cards left')
-      # Win condition
-      if not decks[player_id]:
-        await ctx.channel.send(f"<@{player_id}> has won the game!")
-        await reset_game()
-        return
+      decks[player_id].remove(playable_card) # Remove the used card
+      await play(ctx)
       turn = (turn + 1) % len(players)  # Move to the next player
-      await display_current_state(ctx)
+      await uno_status(ctx)
       return
     else:
-      await ctx.channel.send(f"<@{player_id}> has no playable cards, drawing one and changing turn")
-      # Generating and appending a card to players deck
-      deck = decks[player_id]
-      card = {
-        'color': random.choice(uno_colors),
-        'number': random.randint(0, 9)
-      }
-      deck.append(card)
-      await ctx.channel.send(f'<@{player_id}> has {len(deck)} cards left')
+      await draw(ctx)
       turn = (turn + 1) % len(players)  # Move to the next player
-      await display_current_state(ctx)
+      await uno_status(ctx)
   else:
     await ctx.reply("You can only use `join`, `start`, `stop`, or `play`.")
 
-async def display_current_state(ctx):
-  await ctx.channel.send(f"Current Card: {current_colour} {current_number}\nIt's now <@{players[turn]}>'s turn.")
+async def play(ctx):
+  # UNO condition
+  player_id = ctx.author.id
+  if len(decks[player_id]) == 1:
+    uno_shout = await ctx.reply(f"<@{player_id}> is on UNO!")
+  played = await ctx.reply(f"<@{player_id}> played {playable_card['color']} {playable_card['number']}.")
+  # Change colour and number to match last played card
+  # Win condition
+  if not decks[player_id]:
+    await ctx.channel.send(f"<@{player_id}> has won the game!")
+    await reset_game()
+    return
+  await asyncio.sleep(3)
+  played.delete()
+
+async def draw(ctx):
+  player_id = ctx.author.id
+  drawing = await ctx.channel.send(f"<@{player_id}> has no playable cards, drawing one and changing turn")
+  # Generating and appending a card to players deck
+  deck = decks[player_id]
+  card = {
+    'color': random.choice(uno_colors),
+    'number': random.randint(0, 9)
+  }
+  deck.append(card)
+  await asyncio.sleep(3)
+  drawing.delete()
+
+async def uno_status(ctx):
+  global embed_message
+  await embed_message.edit(embed=uno_embed())
+
+def uno_embed():
+  embed = discord.Embed(title="Shiddy Uno", description="Less spammy info", color=discord.Color.blue())
+  embed.add_field(name="Current Card", value=f"{current_colour} {current_number}", inline=False)
+  embed.add_field(name="Current Player", value=f"<@{players[turn]}>", inline=False)
+  player_states = "\n".join(
+    f"<@{player}>: {len(decks[player])} cards" for player in players
+  )
+  embed.add_field(name="Player Cards", value=player_states, inline=False)
+  return embed
 
 def generate_deck():
-  colors = ["Red", "Green", "Blue", "Yellow"]
+  colors = ["Red", "Green", "Blue", "Yellow"] # Uno colours
   deck = []
-  for _ in range(7):
+  for _ in range(7): # generate 7 cards with random colour and append them to a list which is added to the dict
     card = {
       'color': random.choice(colors),
       'number': random.randint(0, 9)
@@ -144,6 +161,7 @@ def generate_deck():
   return deck
 
 async def reset_game():
+  # Clear main variables for next game
   global players, game_state, turn, decks
   players.clear()
   game_state = False
