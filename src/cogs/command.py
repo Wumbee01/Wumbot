@@ -46,7 +46,7 @@ async def on_guild_join(guild):
 # Uno
 @bot.command()
 async def uno(ctx, action):
-  global players, game_state, current_number, current_colour, turn, decks, embed_message, playable_card
+  global players, game_state, current_number, current_colour, turn, decks, embed_message, playable_card, tturns
   if action == "start":
     if game_state:
       await ctx.reply('A game is already ongoing. Use !uno stop to end the game.')
@@ -55,6 +55,7 @@ async def uno(ctx, action):
       await ctx.reply("Get some friends to join... if you have any that is (`!uno join`)")
       return
     game_state = True
+    tturn = 0
     turn = 0 # Start with the first player
     decks = {p: generate_deck() for p in players} # Create dict with list of cards for each player 
     current_number = random.randint(0, 9) # starting number
@@ -97,11 +98,13 @@ async def uno(ctx, action):
       current_number = playable_card['number']
       decks[player_id].remove(playable_card) # Remove the used card
       await play(ctx)
+      tturns + 1
       turn = (turn + 1) % len(players)  # Move to the next player
       await uno_status(ctx)
       return
     else:
       await draw(ctx)
+      tturns + 1
       turn = (turn + 1) % len(players)  # Move to the next player
       await uno_status(ctx)
   else:
@@ -121,6 +124,7 @@ async def play(ctx):
     return
   await asyncio.sleep(3)
   await played.delete()
+  await ctx.message.delete()
 
 async def draw(ctx):
   player_id = ctx.author.id
@@ -134,6 +138,7 @@ async def draw(ctx):
   deck.append(card)
   await asyncio.sleep(3)
   await drawing.delete()
+  await ctx.message.delete()
 
 async def uno_status(ctx):
   global embed_message
@@ -165,6 +170,7 @@ async def reset_game():
   global players, game_state, turn, decks
   players.clear()
   game_state = False
+  tturns = 0
   turn = 0
   decks = {}
 # End of Uno
