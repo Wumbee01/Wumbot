@@ -13,6 +13,9 @@ async def on_message(message):
     await _message(message)
   msg = message.content.lower()
   if "cum" == msg:
+    if message.author.id != wumbee:
+      await message.reply("Not for you")
+      return
     if os.path.exists("disabled.txt"):
       await message.reply("*Wtf bro im full*")
       return
@@ -20,6 +23,9 @@ async def on_message(message):
       pass
     await message.reply("*Mouth is full*")
   if "uncum" == msg:
+    if message.author.id != wumbee:
+      await message.reply("Not for you")
+      return
     if not os.path.exists("disabled.txt"):
       await message.reply("Tf am I supposed to swallow?")
       return
