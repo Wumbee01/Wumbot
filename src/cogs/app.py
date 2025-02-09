@@ -510,20 +510,16 @@ async def totallysfwbomb(interaction, category: str):
   await interaction.respond(f"Bombed by {interaction.user.mention}")
   if waifu_category == "sfw":
     for i in range(5):
-      waifu_type = ["waifu", "neko", "shinobu", "bully", "cuddle", "cry", "hug", "awoo", "kiss", "lick", "pat", "smug", "bonk", "yeet", "blush", "smile", "wave", "highfive", "handhold", "nom", "bite", "glomp", "slap", "kill", "kick", "happy", "wink", "poke", "dance", "cringe"]
-      def get_waifu_random_bomb_s():
-        return requests.get(f"https://api.waifu.pics/{waifu_category}/{random.choice(waifu_type)}")
-      url_json = json.loads(str(get_waifu_random_bomb_s().text))
-      await interaction.channel.send(url_json["url"])
+      waifu_type = ["maid", "waifu", "marin-kitagawa", "mori-calliope", "raiden-shogun", "oppai", "selfies", "uniform", "kamisato-ayaka"]
+      url_json = get_waifu(random.choice(waifu_type), "sfw")
+      await interaction.channel.send(url_json["images"][0]["url"])
     return
   if waifu_category == "nsfw":
     if interaction.channel.is_nsfw():
       for i in range(5):
-        waifu_type = ["waifu", "neko", "trap", "blowjob"]
-        def get_waifu_random_bomb_n():
-          return requests.get(f"https://api.waifu.pics/{waifu_category}/{random.choice(waifu_type)}")
-        url_json = json.loads(str(get_waifu_random_bomb_n().text))        
-        await interaction.channel.send(url_json["url"])
+        waifu_type = ["ass", "hentai", "milf", "oral", "paizuri", "ecchi", "ero"]
+        url_json = get_waifu(random.choice(waifu_type), "nsfw")        
+        await interaction.channel.send(url_json["images"][0]["url"])
       return
     else:
       await interaction.followup.send("Nvm wrong channel buddy")
