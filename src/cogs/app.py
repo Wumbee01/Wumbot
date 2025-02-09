@@ -461,7 +461,7 @@ def get_waifu(type, category):
       'included_tags': [type],
     }
   data = requests.get(url, params=params)
-  return data
+  return data.json()
   
 @bot.slash_command(name = "waifuimg", description = "Powered by waifu API")
 async def totallysfw(interaction, category: str, type: Option(str, required = False)):
