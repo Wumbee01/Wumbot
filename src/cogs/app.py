@@ -463,7 +463,7 @@ def get_waifu(type, category):
       'is_nsfw': 'false'
     }
   data = requests.get(url, params=params)
-  return str(data).to_dict()
+  return data
   
 @bot.slash_command(name = "waifuimg", description = "Powered by waifu API")
 async def totallysfw(interaction, category: str, type: Option(str, required = False)):
@@ -478,7 +478,7 @@ async def totallysfw(interaction, category: str, type: Option(str, required = Fa
     if waifu_type == None:
       waifu_type = ["maid", "waifu", "marin-kitagawa", "mori-calliope", "raiden-shogun", "oppai", "selfies", "uniform", "kamisato-ayaka"]
       url_json = get_waifu(random.choice(waifu_type), "sfw")
-      await interaction.response.send_message(url_json["images"]["url"])
+      await interaction.response.send_message(f"{type(url_json)}, {url_json}")
       return
     else:
       url_json = get_waifu(waifu_type, "sfw")
