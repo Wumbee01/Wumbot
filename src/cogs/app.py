@@ -477,22 +477,22 @@ async def totallysfw(interaction, category: str, type: Option(str, required = Fa
   if waifu_category == "sfw":
     if waifu_type == None:
       waifu_type = ["maid", "waifu", "marin-kitagawa", "mori-calliope", "raiden-shogun", "oppai", "selfies", "uniform", "kamisato-ayaka"]
-      url_json = json.loads(str(get_waifu(random.choice(waifu_type), "sfw").text))
+      url_json = json.loads(str(get_waifu(random.choice(waifu_type), "sfw")))
       await interaction.response.send_message(url_json["images"]["url"])
       return
     else:
-      url_json = json.loads(str(get_waifu(waifu_type, "sfw").text))
+      url_json = json.loads(str(get_waifu(waifu_type, "sfw")))
       await interaction.response.send_message(url_json["images"]["url"])
       return
   if waifu_category == "nsfw":
     if interaction.channel.is_nsfw():
       if waifu_type == None:
         waifu_type = ["ass", "hentai", "milf", "oral", "paizuri", "ecchi", "ero"]
-        url_json = json.loads(str(get_waifu(random.choice(waifu_type), "nsfw").text))
+        url_json = json.loads(str(get_waifu(random.choice(waifu_type), "nsfw")))
         await interaction.response.send_message(url_json["images"]["url"])
         return
       else:
-        url_json = json.loads(str(get_waifu(waifu_type, "nsfw").text))
+        url_json = json.loads(str(get_waifu(waifu_type, "nsfw")))
         await interaction.response.send_message(url_json["images"]["url"])
         return
     else:
