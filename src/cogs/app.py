@@ -476,7 +476,7 @@ async def totallysfw(interaction, category: str, type: Option(str, required = Fa
   if waifu_category == "sfw":
     if waifu_type == None:
       waifu_type = ["maid", "waifu", "marin-kitagawa", "mori-calliope", "raiden-shogun", "oppai", "selfies", "uniform", "kamisato-ayaka"]
-      url_json = await get_waifu(random.choice(waifu_type), "sfw")
+      url_json = get_waifu(random.choice(waifu_type), "sfw")
       await interaction.response.send_message(f"{url_json}")
       return
     else:
