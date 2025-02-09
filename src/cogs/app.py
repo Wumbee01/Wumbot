@@ -454,11 +454,13 @@ def get_waifu(type, category):
   url = "https://api.waifu.im/search"
   if category == "nsfw":
     params = {
-      'included_tags': [type]
+      'included_tags': [type],
+      'is_nsfw': 'true'
     }
   else:
     params = {
-      'included_tags': ['maid']
+      'included_tags': [type],
+      'is_nsfw': 'false'
     }
   data = requests.get(url, params=params)
   json = data.json()
@@ -477,7 +479,7 @@ async def totallysfw(interaction, category: str, type: Option(str, required = Fa
     if waifu_type == None:
       waifu_type = ["maid", "waifu", "marin-kitagawa", "mori-calliope", "raiden-shogun", "oppai", "selfies", "uniform", "kamisato-ayaka"]
       url_json = get_waifu(random.choice(waifu_type), "sfw")
-      await interaction.response.send_message(f"{url_json}")
+      await interaction.response.send_message(url_json["images"][0]["url"])
       return
     else:
       url_json = get_waifu(waifu_type, "sfw")
@@ -488,11 +490,11 @@ async def totallysfw(interaction, category: str, type: Option(str, required = Fa
       if waifu_type == None:
         waifu_type = ["ass", "hentai", "milf", "oral", "paizuri", "ecchi", "ero"]
         url_json = get_waifu(random.choice(waifu_type), "nsfw")
-        await interaction.response.send_message(url_json["images"]["url"])
+        await interaction.response.send_message(url_json["images"][0]["url"])
         return
       else:
         url_json = get_waifu(waifu_type, "nsfw")
-        await interaction.response.send_message(url_json["images"]["url"])
+        await interaction.response.send_message(url_json["images"][0]["url"])
         return
     else:
       await interaction.response.send_message("Wrong channel buddy")
