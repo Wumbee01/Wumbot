@@ -455,12 +455,10 @@ def get_waifu(type, category):
   if category == "nsfw":
     params = {
       'included_tags': [type],
-      'is_nsfw': 'true'
     }
   else:
     params = {
       'included_tags': [type],
-      'is_nsfw': 'false'
     }
   data = requests.get(url, params=params)
   return data
