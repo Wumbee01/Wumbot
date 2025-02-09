@@ -461,6 +461,7 @@ def get_waifu(type, category):
     params = {
       'included_tags': [type],
       'is_nsfw': 'false'
+    }
   data = requests.get(url, params=params)
   return data.json()
   
