@@ -450,7 +450,7 @@ async def spawnping(ctx):
 ### Remnants from image fetching practice, do not the sus
 
 # api.waifu
-async def get_waifu(type, category):
+def get_waifu(type, category):
   url = "https://api.waifu.im/search"
   if category == "nsfw":
     params = {
@@ -460,8 +460,9 @@ async def get_waifu(type, category):
     params = {
       'included_tags': ['maid']
     }
-  data = await requests.get(url, params=params)
-  return data.json()
+  data = requests.get(url, params=params)
+  json = data.json()
+  return json
   
 @bot.slash_command(name = "waifuimg", description = "Powered by waifu API")
 async def totallysfw(interaction, category: str, type: Option(str, required = False)):
@@ -475,7 +476,7 @@ async def totallysfw(interaction, category: str, type: Option(str, required = Fa
   if waifu_category == "sfw":
     if waifu_type == None:
       waifu_type = ["maid", "waifu", "marin-kitagawa", "mori-calliope", "raiden-shogun", "oppai", "selfies", "uniform", "kamisato-ayaka"]
-      url_json = str(get_waifu(random.choice(waifu_type), "sfw"))
+      url_json = await get_waifu(random.choice(waifu_type), "sfw")
       await interaction.response.send_message(f"{url_json}")
       return
     else:
