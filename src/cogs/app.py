@@ -454,11 +454,11 @@ def get_waifu(type, category):
   url = "https://api.waifu.im/search"
   if category == "nsfw":
     params = {
-      'included_tags': [type],
+      'included_tags': [type]
     }
   else:
     params = {
-      'included_tags': [type],
+      'included_tags': ['maid']
     }
   data = requests.get(url, params=params)
   return data.json()
