@@ -193,7 +193,7 @@ async def _message(message):
   if chatter != None and chatmode != None and chat_user != None:
     if isinstance(message.channel, discord.DMChannel) and message.author.id == chat_user_id:
       if message.attachments:
-        file = await discord.File(message.attachments[0].url)
+        file = await message.attachments[0].to_file()
         await ch_channel.send(file=file, content=message.content)
         return
       await ch_channel.send(message.content)
