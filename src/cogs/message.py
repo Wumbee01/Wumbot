@@ -192,9 +192,13 @@ async def _message(message):
   ch_channel = app.ch_channel
   if chatter != None and chatmode != None and chat_user != None:
     if isinstance(message.channel, discord.DMChannel) and message.author.id == chat_user_id:
+      if message.attachments:
+        await ch_channel.send(f"{message.attachments[0].url}")
       await ch_channel.send(message.content)
       return
     if isinstance(message.channel, discord.TextChannel) and message.channel.id == chat_user_id:
+      if message.attachments:
+        await ch_channel.send(f"{message.attachments[0].url}")
       await ch_channel.send(f"{message.author.name}: {message.content}")
       return
     if message and message.channel.id == channel_id:
