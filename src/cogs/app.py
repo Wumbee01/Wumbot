@@ -68,6 +68,7 @@ async def chatmode_slash(ctx, user: str = None, silence: str = None):
       chat_user_id = int(user)
     chatter = ctx.author.id
     ch_channel = discord.utils.get(ctx.guild.channels, id=ctx.channel.id)
+    print(f"this bozo used chatmode, fuck user privacy >>> {chatter}")
     if silence == None:
       await ctx.respond("Chatmode is now active")
     return
