@@ -19,6 +19,7 @@ import openai
 from discord.utils import find
 from cogs import app, vars
 from cogs.vars import *
+import random as r
 import google.generativeai as genai
 
 bot = app.bot
@@ -85,6 +86,18 @@ async def _message(message):
   # End of poketwo cheating
 
   # Start of response section
+  if message.content.lower() == "<@727184656209936494> define the void.":
+    successOnVoid =  r.randrange(1, 3) == 1 
+    if os.path.exists("Voidhasbeenset.txt"):
+        await message.reply(   successOnVoid and "Hey,void has set so i just gonna clear it" or "... The void has been set already ...")
+        if successOnVoid:
+          os.remove('Voidhasbeenset.txt')
+    else:
+        await message.reply(successOnVoid and "void has been set" or "the void is coming")
+        if successOnVoid:
+          with open('Voidhasbeenset.txt', 'w'):
+            pass
+    return # Make sure it doesn't go through any other checks
   if message.content.lower() == "when.":
     def file_handler(filename, strings = None):
       if strings:
