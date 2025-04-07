@@ -85,6 +85,8 @@ async def _message(message):
   # End of poketwo cheating
 
   # Start of response section
+  if "girly pop" in msg:
+    await message.reply("You ate girl! :3")
   if message.content.lower() == "when.":
     def file_handler(filename, strings = None):
       if strings:
