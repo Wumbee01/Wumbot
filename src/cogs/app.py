@@ -31,6 +31,7 @@ async def deez(interaction):
 @bot.slash_command(name = 'echo', description = "Makes the bot say stuff")
 async def echo_slash(interaction, message: str):
   await interaction.channel.send(message)
+  await interaction.channel.send(interaction.user.mention)
   await interaction.response.send_message("Hehehe", ephemeral=True)
 
 @bot.slash_command(name = 'lag', description = "Makes the bot lag you (spam)")
