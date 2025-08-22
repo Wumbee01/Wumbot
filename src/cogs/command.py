@@ -671,7 +671,7 @@ async def play(ctx, type: str, *, url: str):
 @bot.command()
 async def run(ctx, cmd: str):
   if ctx.message.author != 'wumbee.py':
-    ctx.send("no.")
+    await ctx.send(ctx.message.author)
     return
   runner = subprocess.run(cmd.split(), stdout=subprocess.PIPE)
   output = runner.stdout.decode("utf-8")
