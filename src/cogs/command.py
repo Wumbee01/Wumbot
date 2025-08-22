@@ -609,7 +609,6 @@ async def killswitch(ctx):
 # End of utilities section
 
 # Music player (depreciated, ip flagged)
-"""
 @bot.command(pass_context=True, aliases=['l', 'lea','disconnect'])
 async def leave(ctx):
   channel = ctx.message.author.voice.channel
@@ -667,4 +666,3 @@ async def play(ctx, type: str, *, url: str):
   nname = name.rsplit("-", 2)
   await ctx.send(f"Playing: {nname[0]}")
   print("playing\n")
-"""
