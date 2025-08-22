@@ -32,8 +32,7 @@ async def on_ready():
   bot_start_log = discord.utils.get(bot.get_all_channels(), id=1140959682727522304)
   await bot_start_log.send("HELLO WORLD! Im back ;)")
   change_status.start()
-  await asyncio.sleep(5)
-  discord.opus.load_opus()
+  discord.opus.load_opus("libopus.so")
   
 # Join message
 @bot.event
