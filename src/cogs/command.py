@@ -635,15 +635,18 @@ async def play(ctx, type: str, *, url: str):
     await ctx.send("ERROR: Music playing")
     return
   channel = ctx.message.author.voice.channel
-  voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
-  if voice and voice.is_connected():
-    await voice.move_to(channel)  
+  for server in bot.guilds:
+    voice = discord.utils.get(bot.voice_clients, guild=server)
+    if voice and voice.is_connected():
+      await voice.move_to(channel)  
   else:
+    if channel == None:
+      await ctx.channel.send("You're not in a vc")
+      return
     voice = await channel.connect()
     print(f"The bot has connected to {channel}\n")
     await ctx.send(f"Joined {channel}")
   await ctx.send("Getting everything ready now")
-  await ctx.send(os.listdir())
   def downloader(string):
     global pkg_state
     if pkg_state == None:
@@ -657,6 +660,7 @@ async def play(ctx, type: str, *, url: str):
   await downloader(url)
   for file in os.listdir():
     if file.endswith(".mp3"):
+      print(FILE FOUNDDDD)
       name = file
       print(f"Renamed File: {file}\n")
       os.rename(file, "song.mp3")
