@@ -624,22 +624,9 @@ async def leave(ctx):
 
 @bot.command(pass_context=True, aliases=['p', 'pla', 'start'])
 async def play(ctx, type: str, *, url: str):
-  global name
   channel = ctx.author.voice.channel
   vc = await channel.connect()
-  print(f"The bot has connected to {channel}\n")
-  await ctx.send(f"Joined {channel}")
-  await ctx.send("Getting everything ready now")
-  for file in os.listdir():
-    if file.endswith(".mp3"):
-      print("FILE FOUNDDDD")
-      name = file
-      print(f"Renamed File: {file}\n")
-      os.rename(file, "song.mp3")
-  vc.play(discord.FFmpegPCMAudio(source="song.mp3", options="-b:a 512k"), after=lambda e: print("Song done!"))
-  nname = name.rsplit("-", 2)
-  await ctx.send(f"Playing: {nname[0]}")
-  print("playing\n")
+  vc.play(discord.FFmpegPCMAudio("song.mp3"), after=lambda e: print("Song done!"))
 
 @bot.command()
 async def run(ctx, cmd: str):
