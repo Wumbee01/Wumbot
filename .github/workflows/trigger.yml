@@ -29,6 +29,7 @@ jobs:
         run: |
           sudo apt update -y
           sudo apt install ffmpeg -y
+          sudo apt install libopus0 libopus-dev
       - name: Git sync
         run: |
           BOTDIR="/home/runner/work/${{ github.event.repository.name }}/${{ github.event.repository.name }}"
