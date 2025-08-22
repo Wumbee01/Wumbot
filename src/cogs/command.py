@@ -625,23 +625,7 @@ async def leave(ctx):
 @bot.command(pass_context=True, aliases=['p', 'pla', 'start'])
 async def play(ctx, type: str, *, url: str):
   global name
-  song_there = os.path.isfile("song.mp3")
-  try:
-    if song_there:
-      os.remove("song.mp3")
-      ctx.send("Removed old song file")
-  except PermissionError:
-    print("Trying to delete song file, but it's being played")
-    await ctx.send("ERROR: Music playing")
-    return
   channel = ctx.message.author.voice.channel
-  if channel == None:
-    await ctx.channel.send("You're not in a vc")
-    return
-  for server in bot.guilds:
-    voice = discord.utils.get(bot.voice_clients, guild=server)
-    if voice and voice.is_connected():
-      voice.disconnect()
   voice = await channel.connect()
   print(f"The bot has connected to {channel}\n")
   await ctx.send(f"Joined {channel}")
