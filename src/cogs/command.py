@@ -622,9 +622,34 @@ async def leave(ctx):
     print("Bot was told to leave voice channel, but was not in one")
     await ctx.send("Don't think I am in a voice channel")
 
-@bot.command(pass_context=True, aliases=['p', 'pla', 'start'])
-async def play(ctx, type: str, *, url: str):
+@bot.command()
+async def player(ctx, mode: str, *, url: str):
+  global name
+  song_there = os.path.isfile("song.mp3")
+  try:
+    if song_there:
+      os.remove("song.mp3")
+      await ctx.send("Removed old song file")
+    def downloader(string):
+      if mode == "url":
+        subprocess.run(['./yt-dlp', '-x', '--audio-format', 'mp3', '--cookies', 'cookies.txt', f"{string}"])
+      else:
+        subprocess.run(['./yt-dlp', '-x', '--audio-format', 'mp3', '--cookies', 'cookies.txt', f"ytsearch:{string}"])
+    downloader(url)
+    for file in os.listdir():
+      if file.endswith(".mp3"):
+        os.rename(file, "song.mp3")
+  except PermissionError:
+    print("Trying to delete song file, but it's being played")
+    await ctx.send("ERROR: Music playing")
+    return
+  if ctx.author.voice is None:
+    await ctx.send("You're not in a vc")
+    return
   channel = ctx.author.voice.channel
+  voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
+  if voice and voice.is_connected():
+    await voice.disconnect()
   vc = await channel.connect()
   vc.play(discord.FFmpegPCMAudio("song.mp3"), after=lambda e: print("Song done!"))
 
