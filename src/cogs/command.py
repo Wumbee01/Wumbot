@@ -624,6 +624,7 @@ async def leave(ctx):
 
 @bot.command(pass_context=True, aliases=['p', 'pla', 'start'])
 async def play(ctx, type: str, *, url: str):
+  global name
   song_there = os.path.isfile("song.mp3")
   try:
     if song_there:
