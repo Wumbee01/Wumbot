@@ -8,3 +8,4 @@ numpy
 python-dotenv
 openai
 google-generativeai
+yt-dlp

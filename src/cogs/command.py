@@ -10,6 +10,8 @@ import asyncio
 import sys
 import subprocess
 import urllib.request
+import yt-dlp
+from yt-dlp import YoutubeDL
 from discord import Option
 from datetime import timedelta
 from discord.ext import commands, tasks
@@ -651,9 +653,9 @@ async def play(ctx, type: str, *, url: str):
       subprocess.run(["chmod", "+x", "youtube-dl"])
       subprocess.run(["ls", "./"])
     if type == "url":
-      subprocess.run(['./youtube-dl', '--extract-audio', '--audio-format', 'mp3', '--audio-quality', '0', '--user-agent', '"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"', f"{string}"])
+      subprocess.run(['yt-dlp', '-x', '--audio-format', 'mp3', f"{string}"])
     else:
-      subprocess.run(['./youtube-dl', '--extract-audio', '--audio-format', 'mp3', '--audio-quality', '0', '--user-agent', '"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"', f"ytsearch:{string}"])
+      subprocess.run(['yt-dlp', '-x', '--audio-format', 'mp3', f"ytsearch:{string}"])
   downloader(url)
   await ctx.send(f'{os.listdir()}')
   asyncio.sleep(5)
