@@ -643,11 +643,11 @@ async def play(ctx, type: str, *, url: str):
     print(f"The bot has connected to {channel}\n")
     await ctx.send(f"Joined {channel}")
   await ctx.send("Getting everything ready now")
+  await ctx.senf(os.listdir())
   def downloader(string):
     global pkg_state
     if pkg_state == None:
       pkg_state = True
-      subprocess.run(["wget", "https://github.com/ytdl-org/ytdl-nightly/releases/download/2023.08.07/youtube-dl"])
       subprocess.run(["chmod", "+x", "youtube-dl"])
     if type == "url":
       subprocess.run(['youtube-dl', '--extract-audio', '--audio-format', 'mp3', '--audio-quality', '0', f"{string}"])
