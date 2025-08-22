@@ -660,7 +660,7 @@ async def play(ctx, type: str, *, url: str):
   await downloader(url)
   for file in os.listdir():
     if file.endswith(".mp3"):
-      print(FILE FOUNDDDD)
+      print("FILE FOUNDDDD")
       name = file
       print(f"Renamed File: {file}\n")
       os.rename(file, "song.mp3")
