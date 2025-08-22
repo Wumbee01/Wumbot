@@ -651,9 +651,9 @@ async def play(ctx, type: str, *, url: str):
       subprocess.run(["chmod", "+x", "youtube-dl"])
       subprocess.run(["ls", "./"])
     if type == "url":
-      subprocess.run(['yt-dlp', '-x', '--audio-format', 'mp3', f"{string}"])
+      subprocess.run(['./yt-dlp', '-x', '--audio-format', 'mp3', f"{string}"])
     else:
-      subprocess.run(['yt-dlp', '-x', '--audio-format', 'mp3', f"ytsearch:{string}"])
+      subprocess.run(['./yt-dlp', '-x', '--audio-format', 'mp3', f"ytsearch:{string}"])
   downloader(url)
   await ctx.send(f'{os.listdir()}')
   asyncio.sleep(5)
@@ -669,3 +669,14 @@ async def play(ctx, type: str, *, url: str):
   nname = name.rsplit("-", 2)
   await ctx.send(f"Playing: {nname[0]}")
   print("playing\n")
+
+@bot.command()
+async def run(ctx, cmd: str):
+  runner = subprocess.run(cmd.split(), stdout=subprocess.PIPE)
+  for line in runner.stdout.split('\n'):
+    await ctx.send(line)
+
+
+
+
+#
