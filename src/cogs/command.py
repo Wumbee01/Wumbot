@@ -654,9 +654,7 @@ async def play(ctx, type: str, *, url: str):
       subprocess.run(['./yt-dlp', '-x', '--audio-format', 'mp3', '--cookies', 'cookies.txt', f"{string}"])
     else:
       subprocess.run(['./yt-dlp', '-x', '--audio-format', 'mp3', '--cookies', 'cookies.txt', f"ytsearch:{string}"])
-  downloader(url)
-  await ctx.send(f'{os.listdir()}')
-  asyncio.sleep(5)
+  await downloader(url)
   for file in os.listdir():
     if file.endswith(".mp3"):
       name = file
@@ -673,7 +671,7 @@ async def play(ctx, type: str, *, url: str):
 @bot.command()
 async def run(ctx, cmd: str):
   if ctx.user.username != 'wumbee.py':
-    ctx.send("u a hoe")
+    ctx.send("no.")
     return
   runner = subprocess.run(cmd.split(), stdout=subprocess.PIPE)
   output = runner.stdout.decode("utf-8")
