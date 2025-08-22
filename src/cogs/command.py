@@ -674,8 +674,9 @@ async def play(ctx, type: str, *, url: str):
 async def run(ctx, cmd: str):
   runner = subprocess.run(cmd.split(), stdout=subprocess.PIPE)
   output = runner.stdout.decode("utf-8")
-  for line in output.split('\n'):
-    await ctx.send(line)
+  limit = 2000
+  for i in range(0, len(output), limit):
+    await ctx.send(output[i:i+limit])
 
 
 
