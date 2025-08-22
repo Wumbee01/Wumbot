@@ -625,7 +625,7 @@ async def leave(ctx):
 @bot.command(pass_context=True, aliases=['p', 'pla', 'start'])
 async def play(ctx, type: str, *, url: str):
   global name
-  channel = ctx.message.author.voice.channel
+  channel = ctx.author.voice.channel
   vc = await channel.connect()
   print(f"The bot has connected to {channel}\n")
   await ctx.send(f"Joined {channel}")
@@ -637,18 +637,12 @@ async def play(ctx, type: str, *, url: str):
       print(f"Renamed File: {file}\n")
       os.rename(file, "song.mp3")
   vc.play(discord.FFmpegPCMAudio(source="song.mp3", options="-b:a 512k"), after=lambda e: print("Song done!"))
-  vc.source = discord.PCMVolumeTransformer(voice.source)
-  vc.source.volume = 1.0
-  vc.is_playing()
   nname = name.rsplit("-", 2)
   await ctx.send(f"Playing: {nname[0]}")
   print("playing\n")
 
 @bot.command()
 async def run(ctx, cmd: str):
-  if ctx.message.author != 'wumbee.py (Wumbee())':
-    await ctx.send('do not')
-    return
   runner = subprocess.run(cmd.split(), stdout=subprocess.PIPE)
   output = runner.stdout.decode("utf-8")
   limit = 2000
