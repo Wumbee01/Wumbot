@@ -632,17 +632,15 @@ async def player(ctx, mode: str, *, url: str):
       await ctx.send("Removed old song file")
     def downloader(string):
       if mode == "url":
-        subprocess.run(['./yt-dlp', '-x', '--audio-format', 'mp3', '--cookies', 'cookies.txt', f"{string}"])
+        subprocess.run(['./yt-dlp', '-x', '-o', 'song.mp3', '--audio-format', 'mp3', '--cookies', 'cookies.txt', f"{string}"])
       else:
-        subprocess.run(['./yt-dlp', '-x', '--audio-format', 'mp3', '--cookies', 'cookies.txt', f"ytsearch:{string}"])
+        subprocess.run(['./yt-dlp', '-x', '-o', 'song.mp3', '--audio-format', 'mp3', '--cookies', 'cookies.txt', f"ytsearch:{string}"])
     downloader(url)
-    for file in os.listdir():
-      if file.endswith(".mp3"):
-        os.rename(file, "song.mp3")
   except PermissionError:
     print("Trying to delete song file, but it's being played")
     await ctx.send("ERROR: Music playing")
     return
+  await ctx.send("file downloaded")
   if ctx.author.voice is None:
     await ctx.send("You're not in a vc")
     return
@@ -654,7 +652,9 @@ async def player(ctx, mode: str, *, url: str):
   if not os.path.exists("song.mp3"):
     await ctx.send("Download failed: song.mp3 not found")
     return
+  await ctx.send("about to play")
   vc.play(discord.FFmpegPCMAudio("song.mp3"), after=lambda e: print("Song done!"))
+  await ctx.senf("playing")
 
 @bot.command()
 async def run(ctx, cmd: str):
