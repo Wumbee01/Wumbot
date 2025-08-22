@@ -649,6 +649,7 @@ async def play(ctx, type: str, *, url: str):
     if pkg_state == None:
       pkg_state = True
       subprocess.run(["chmod", "+x", "youtube-dl"])
+      subprocess.run(["ls", "./"])
     if type == "url":
       subprocess.run(['bash', 'youtube-dl', '--extract-audio', '--audio-format', 'mp3', '--audio-quality', '0', f"{string}"])
     else:
