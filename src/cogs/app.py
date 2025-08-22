@@ -24,6 +24,10 @@ bot = vars.bot
 number = None
 
 # Silly commands section
+@bot.slash_command(name = "quote")
+async def quotestore(interaction):
+  pass
+
 @bot.slash_command(name = "whatisdeez", description = "True ultimate command")
 async def deez(interaction):
   await interaction.response.send_message("heh... DEEZ NUTS")
