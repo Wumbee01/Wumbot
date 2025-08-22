@@ -2,6 +2,9 @@ import os
 import discord
 from discord.ext import commands
 
+# Music
+name = None
+
 # Uno
 players = []
 game_state = False
