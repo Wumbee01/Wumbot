@@ -651,6 +651,9 @@ async def player(ctx, mode: str, *, url: str):
   if voice and voice.is_connected():
     await voice.disconnect()
   vc = await channel.connect()
+  if not os.path.exists("song.mp3"):
+    await ctx.send("Download failed: song.mp3 not found")
+    return
   vc.play(discord.FFmpegPCMAudio("song.mp3"), after=lambda e: print("Song done!"))
 
 @bot.command()
