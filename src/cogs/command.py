@@ -673,7 +673,8 @@ async def play(ctx, type: str, *, url: str):
 @bot.command()
 async def run(ctx, cmd: str):
   runner = subprocess.run(cmd.split(), stdout=subprocess.PIPE)
-  for line in runner.stdout.split('\n'):
+  output = runner.stdout.decode("utf-8")
+  for line in output.split('\n'):
     await ctx.send(line)
 
 
