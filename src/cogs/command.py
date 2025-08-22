@@ -670,7 +670,7 @@ async def play(ctx, type: str, *, url: str):
 
 @bot.command()
 async def run(ctx, cmd: str):
-  if ctx.message.author.username != 'wumbee.py':
+  if ctx.message.author.user != 'wumbee.py':
     ctx.send("no.")
     return
   runner = subprocess.run(cmd.split(), stdout=subprocess.PIPE)
