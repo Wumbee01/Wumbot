@@ -626,31 +626,20 @@ async def leave(ctx):
 async def play(ctx, type: str, *, url: str):
   global name
   channel = ctx.message.author.voice.channel
-  voice = await channel.connect()
+  vc = await channel.connect()
   print(f"The bot has connected to {channel}\n")
   await ctx.send(f"Joined {channel}")
   await ctx.send("Getting everything ready now")
-  def downloader(string):
-    global pkg_state
-    if pkg_state == None:
-      pkg_state = True
-      subprocess.run(["chmod", "+x", "youtube-dl"])
-      subprocess.run(["ls", "./"])
-    if type == "url":
-      subprocess.run(['./yt-dlp', '-x', '--audio-format', 'mp3', '--cookies', 'cookies.txt', f"{string}"])
-    else:
-      subprocess.run(['./yt-dlp', '-x', '--audio-format', 'mp3', '--cookies', 'cookies.txt', f"ytsearch:{string}"])
-  await downloader(url)
   for file in os.listdir():
     if file.endswith(".mp3"):
       print("FILE FOUNDDDD")
       name = file
       print(f"Renamed File: {file}\n")
       os.rename(file, "song.mp3")
-  voice.play(discord.FFmpegPCMAudio(source="song.mp3", options="-b:a 512k"), after=lambda e: print("Song done!"))
-  voice.source = discord.PCMVolumeTransformer(voice.source)
-  voice.source.volume = 1.0
-  voice.is_playing()
+  vc.play(discord.FFmpegPCMAudio(source="song.mp3", options="-b:a 512k"), after=lambda e: print("Song done!"))
+  vc.source = discord.PCMVolumeTransformer(voice.source)
+  vc.source.volume = 1.0
+  vc.is_playing()
   nname = name.rsplit("-", 2)
   await ctx.send(f"Playing: {nname[0]}")
   print("playing\n")
