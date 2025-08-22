@@ -650,9 +650,9 @@ async def play(ctx, type: str, *, url: str):
       pkg_state = True
       subprocess.run(["chmod", "+x", "youtube-dl"])
     if type == "url":
-      subprocess.run(['youtube-dl', '--extract-audio', '--audio-format', 'mp3', '--audio-quality', '0', f"{string}"])
+      subprocess.run(['bash', 'youtube-dl', '--extract-audio', '--audio-format', 'mp3', '--audio-quality', '0', f"{string}"])
     else:
-      subprocess.run(['youtube-dl', '--extract-audio', '--audio-format', 'mp3', '--audio-quality', '0', f"ytsearch:{string}"])
+      subprocess.run(['bash', 'youtube-dl', '--extract-audio', '--audio-format', 'mp3', '--audio-quality', '0', f"ytsearch:{string}"])
   downloader(url)
   await ctx.send(f'{os.listdir()}')
   asyncio.sleep(5)
