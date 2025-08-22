@@ -643,7 +643,7 @@ async def play(ctx, type: str, *, url: str):
     print(f"The bot has connected to {channel}\n")
     await ctx.send(f"Joined {channel}")
   await ctx.send("Getting everything ready now")
-  await ctx.senf(os.listdir())
+  await ctx.send(os.listdir())
   def downloader(string):
     global pkg_state
     if pkg_state == None:
