@@ -648,13 +648,13 @@ async def play(ctx, type: str, *, url: str):
     if pkg_state == None:
       pkg_state = True
       subprocess.run(["wget", "https://github.com/ytdl-org/ytdl-nightly/releases/download/2023.08.07/youtube-dl"])
-      await ctx.send(f'{os.listdir()}')
       subprocess.run(["chmod", "+x", "youtube-dl"])
     if type == "url":
       subprocess.run(['bash youtube-dl', '--extract-audio', '--audio-format', 'mp3', '--audio-quality', '0', f"{string}"])
     else:
       subprocess.run(['bash youtube-dl', '--extract-audio', '--audio-format', 'mp3', '--audio-quality', '0', f"ytsearch:{string}"])
   downloader(url)
+  await ctx.send(f'{os.listdir()}')
   asyncio.sleep(5)
   for file in os.listdir():
     if file.endswith(".mp3"):
