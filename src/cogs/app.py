@@ -34,7 +34,7 @@ async def deez(interaction):
 
 @bot.slash_command(name = 'echo', description = "Makes the bot say stuff")
 async def echo_slash(interaction, message: str):
-  bad_words = ["nigga", "nigger", "@everyone", "@here", "tranny", "fag", "faggot", "clanker"]
+  bad_words = ["nigga", "nigger", "@everyone", "@here", "tranny", "fag", "faggot", "clanker", "@"]
   for word in bad_words:
     if word in message.lower():
       message = message.replace(word, 'CENSORED')
