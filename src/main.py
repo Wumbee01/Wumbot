@@ -4,6 +4,9 @@ from cogs.message_edit import _message_edit
 import discord
 import os
 from cogs.vars import *
+import asyncio
+
+asyncio.set_event_loop_policy(asyncio.DefaultEventLoopPolicy())
 
 bot = command.bot
 
