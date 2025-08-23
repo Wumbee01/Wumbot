@@ -643,16 +643,6 @@ async def player(ctx, mode: str, *, url: str):
     await ctx.send("ERROR: Music playing")
     return
   await ctx.send("file downloaded")
-  if ctx.author.voice is None:
-    await ctx.send("You're not in a vc")
-    return
-  channel = ctx.author.voice.channel
-  voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
-  if voice and voice.is_connected():
-    await voice.disconnect()
-  voiceChannel = discord.utils.get(ctx.guild.voice_channels)
-  await voiceChannel.connect()
-  vc = discord.utils.get(bot.voice_clients, guild=ctx.guild)
   if not os.path.exists("song.mp3"):
     await ctx.send("Download failed: song.mp3 not found")
     return
