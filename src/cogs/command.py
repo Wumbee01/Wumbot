@@ -617,7 +617,7 @@ async def pjoin(ctx):
   if not discord.opus.is_loaded():
     await ctx.send('opus isnt loaded, trying to load opus')
     try:
-      discord.opus.load_opus('opus')
+      discord.opus.load_opus('/usr/lib/x86_64-linux-gnu/libopus.so.0')
     except Exception as e:
       await ctx.send('failed to load opus')
       await ctx.send(e)
