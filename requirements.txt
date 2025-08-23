@@ -1,3 +1,4 @@
+aiohttp
 py-cord
 PyNaCl
 urllib3
