@@ -10,6 +10,9 @@ import asyncio
 import sys
 import subprocess
 import urllib.request
+from discord import FFmpegPCMAudio
+from discord import FFmpegAudio
+from discord import FFmpegOpusAudio
 from discord import Option
 from datetime import timedelta
 from discord.ext import commands, tasks
