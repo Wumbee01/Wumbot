@@ -1,4 +1,5 @@
 import re
+import PyNaCl
 import shlex
 import discord
 import os
