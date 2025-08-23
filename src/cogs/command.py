@@ -611,6 +611,11 @@ async def killswitch(ctx):
 # End of utilities section
 
 # Music player (depreciated, ip flagged)
+@bot.command(pass_context=True)
+async def pjoin(ctx):
+  channel = ctx.author.voice.channel
+  channel.connect()
+
 @bot.command(pass_context=True, aliases=['l', 'lea','disconnect'])
 async def leave(ctx):
   channel = ctx.message.author.voice.channel
