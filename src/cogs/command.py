@@ -614,22 +614,22 @@ async def killswitch(ctx):
 # Music player (depreciated, ip flagged)
 @bot.command(pass_context=True)
 async def pjoin(ctx):
-if not discord.opus.is_loaded():
-  await ctx.send('opus isnt loaded, trying to load opus')
-  try:
-    discord.opus.load_opus('opus')
-  except Exception as e:
-    await ctx.send('failed to load opus')
-    await ctx.send(e)
-if discord.opus.is_loaded():
-  await ctx.send('opus was loaded, joining')
-  channel = ctx.author.voice.channel
-  try:
-    await channel.connect()
-  except Exception as e:
-    await ctx.send(e)
-else:
-  await ctx.send('nothing worked')
+  if not discord.opus.is_loaded():
+    await ctx.send('opus isnt loaded, trying to load opus')
+    try:
+      discord.opus.load_opus('opus')
+    except Exception as e:
+      await ctx.send('failed to load opus')
+      await ctx.send(e)
+  if discord.opus.is_loaded():
+    await ctx.send('opus was loaded, joining')
+    channel = ctx.author.voice.channel
+    try:
+      await channel.connect()
+    except Exception as e:
+      await ctx.send(e)
+  else:
+    await ctx.send('nothing worked')
 
 @bot.command(pass_context=True, aliases=['l', 'lea','disconnect'])
 async def leave(ctx):
