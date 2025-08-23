@@ -192,6 +192,7 @@ async def _message(message):
       for word in censored_words:
         if word in response.text:
           await message.reply('This message was censored :(')
+          return
       await message.reply(response.text)
       pass
 
