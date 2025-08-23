@@ -214,7 +214,7 @@ async def _message(message):
         file = await message.attachments[0].to_file()
         await ch_channel.send(file=file, content=message.content)
         return
-      await ch_channel.send(f'@<{chat_user_id}>: message.content')
+      await ch_channel.send(f'{chat_user.mention} message.content')
       return
     if isinstance(message.channel, discord.TextChannel) and message.channel.id == chat_user_id:
       if message.attachments:
