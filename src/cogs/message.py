@@ -147,6 +147,11 @@ async def _message(message):
     for word in censored_text:
       if word in cen_msg:
         cen_msg = cen_msg.replace(word, 'censored')
+    limit2 = 2000
+    if len(cen_msg) > limit2:
+      for i in range(0, len(cen_msg), limit2):
+        await message.channel.send(cen_msg[i:i+limit2])
+      return
     await message.reply(cen_msg)
     
      
@@ -198,6 +203,11 @@ async def _message(message):
       for word in censored_words:
         if word in response.text:
           cen_text = cen_text.replace(word, "censored")
+      limit = 2000
+      if len(cen_text) > limit:
+        for i in range(0, len(cen_text), limit):
+          await message.channel.send(cen_text[i:i+limit])
+        return
       await message.reply(cen_text)
       pass
 
