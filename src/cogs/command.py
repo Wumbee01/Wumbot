@@ -9,6 +9,7 @@ import aiohttp
 import asyncio
 import sys
 import subprocess
+import socket
 import urllib.request
 import discord.opus
 from discord import FFmpegPCMAudio
@@ -614,6 +615,9 @@ async def killswitch(ctx):
 # Music player (depreciated, ip flagged)
 @bot.command(pass_context=True)
 async def pjoin(ctx):
+  if ctx.voice_client:
+    await ctx.send('unclosed connection found')
+    await ctx.voice_client.disconnect()
   if not discord.opus.is_loaded():
     await ctx.send('opus isnt loaded, trying to load opus')
     try:
@@ -630,6 +634,12 @@ async def pjoin(ctx):
       await ctx.send(e)
   else:
     await ctx.send('nothing worked')
+  sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+  try:
+    sock.sendto(b'ping', ("8.8.8.8", 80))
+    await ctx.send("UDP works")
+  except Exception as e:
+    await ctx.send("UDP blocked:", e)
 
 @bot.command(pass_context=True, aliases=['l', 'lea','disconnect'])
 async def leave(ctx):
