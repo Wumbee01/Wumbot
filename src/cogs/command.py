@@ -647,6 +647,7 @@ async def player(ctx, mode: str, *, url: str):
     await ctx.send("Download failed: song.mp3 not found")
     return
   await ctx.send("about to play")
+  vc = discord.utils.get(bot.voice_clients, guild=ctx.guild)
   vc.play(discord.FFmpegPCMAudio("song.mp3"), after=lambda e: print("Song done!"))
   await ctx.senf("playing")
 
