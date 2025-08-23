@@ -614,7 +614,7 @@ async def killswitch(ctx):
 @bot.command(pass_context=True)
 async def pjoin(ctx):
   channel = ctx.author.voice.channel
-  channel.connect()
+  await channel.connect()
 
 @bot.command(pass_context=True, aliases=['l', 'lea','disconnect'])
 async def leave(ctx):
