@@ -464,6 +464,7 @@ def get_waifu(type, category):
     params = {
       'included_tags': [type],
       'is_nsfw': 'true'
+      'gif': True
     }
   else:
     params = {
@@ -525,7 +526,11 @@ async def totallysfwbomb(interaction, category: str):
   if waifu_category == "nsfw":
     if interaction.channel.is_nsfw():
       for i in range(5):
-        waifu_type = ["ass", "hentai", "milf", "oral", "paizuri", "ecchi", "ero"]
+        waifu_type = ["ass", "hentai", "milf", "oral", "paizuri", "ero"]
+        url_json = get_waifu(random.choice(waifu_type), "nsfw")        
+        await interaction.channel.send(url_json["images"][0]["url"])
+      for i in range(5):
+        waifu_type = ["hentai"]
         url_json = get_waifu(random.choice(waifu_type), "nsfw")        
         await interaction.channel.send(url_json["images"][0]["url"])
       return
