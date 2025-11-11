@@ -463,7 +463,7 @@ def get_waifu(type, category):
   if category == "nsfw":
     params = {
       'included_tags': [type],
-      'is_nsfw': 'true'
+      'is_nsfw': 'true',
       'gif': True
     }
   else:
