@@ -530,7 +530,7 @@ async def totallysfwbomb(interaction, category: str):
         url_json = get_waifu(random.choice(waifu_type), "nsfw")        
         await interaction.channel.send(url_json["images"][0]["url"])
       for i in range(5):
-        waifu_type = ["hentai"]
+        waifu_type = ["yuri"]
         url_json = get_waifu(random.choice(waifu_type), "nsfw")        
         await interaction.channel.send(url_json["images"][0]["url"])
       return
